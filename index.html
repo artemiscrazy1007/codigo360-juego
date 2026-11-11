@@ -1039,6 +1039,10 @@ const EL = {
     react:['💨 Tu mente se activó','💨 Ideas en movimiento','💨 Pensamiento encendido','💨 La mente busca el camino','💨 Sopla el viento']}
 };
 const MOODS = [
+  {k:'alegria',     emo:'😄', name:'Alegría',      el:'fuego',  pos:true, msg:'La alegría es Fuego en equilibrio: energía que se comparte y contagia.'},
+  {k:'creatividad', emo:'🎨', name:'Creatividad',  el:'aire',   pos:true, msg:'La creatividad es Aire en equilibrio: ideas que fluyen y quieren tomar forma.'},
+  {k:'felicidad',   emo:'😊', name:'Felicidad',    el:'agua',   pos:true, msg:'La felicidad es Agua en calma: el corazón está lleno y se siente en paz.'},
+  {k:'tranquilidad',emo:'😌', name:'Tranquilidad', el:'tierra', pos:true, msg:'La tranquilidad es Tierra firme: tu base te sostiene y te da seguridad.'},
   {k:'triste',    emo:'😢', name:'Tristeza',      el:'agua',   msg:'La tristeza es Agua estancada: necesita sentirse y fluir, no esconderse.'},
   {k:'sensible',  emo:'🥺', name:'Sensibilidad',  el:'agua',   msg:'Sentir de más es Agua desbordada: hoy estás absorbiendo emociones que no son tuyas.'},
   {k:'rabia',     emo:'😤', name:'Rabia',         el:'fuego',  msg:'La rabia es Fuego que quiere salir: necesita dirección, no explosión.'},
@@ -1452,9 +1456,13 @@ function showCard(){
   if(!S.msg){ const pole = sc>=5 ? 'exceso' : sc<=3 ? 'falta' : pick(['exceso','falta']);
     S.msg={pole, power:pick(E.power), shadow:pick(E[pole]), tip:pick(E.tips)}; }
   const M=S.mood, A=EL[E.ally];
-  const moodTxt = !M ? '' : M.el===res
-    ? `${M.msg} Y coincide con tu elemento: tu ${E.name} te está pidiendo equilibrio hoy.`
-    : `${M.msg} Tu base es ${E.name}, pero hoy se está moviendo tu ${EL[M.el].name}: ahí está tu trabajo de hoy.`;
+  const moodTxt = !M ? '' : M.pos
+    ? (M.el===res
+      ? `${M.msg} Coincide con tu elemento: hoy tu ${E.name} está en su mejor versión. Aprovecha este día para avanzar en lo que te importa.`
+      : `${M.msg} Tu base es ${E.name}, y hoy tu ${EL[M.el].name} está a tu favor: úsalo para equilibrar tu desequilibrio.`)
+    : (M.el===res
+      ? `${M.msg} Y coincide con tu elemento: tu ${E.name} te está pidiendo equilibrio hoy.`
+      : `${M.msg} Tu base es ${E.name}, pero hoy se está moviendo tu ${EL[M.el].name}: ahí está tu trabajo de hoy.`);
   const todayEl = M ? EL[M.el].name : E.name;
   sfx.pop(); setElVars(res);
   const stats=ELKEYS.map(e=>{ const p=Math.round((S.scores[e]||0)/8*100); return `<div class="stat"><span>${EL[e].emo} ${EL[e].name}</span><div class="bar"><i data-w="${p}" style="background:linear-gradient(90deg,${PAL[e].dark},${PAL[e].light})"></i></div><b class="pixel">${p}%</b></div>`; }).join('');
@@ -1482,7 +1490,7 @@ function showCard(){
         <div class="tile">📚<span>Lo que debes aprender</span><i>🔒</i></div>
         <div class="tile">👣<span>Lo que debes hacer</span><i>🔒</i></div>
       </div>
-      <p>Úsalo cada día según cómo te sientas. Hoy empieza por la sección de <b>${todayEl}</b> para construir lo contrario de tu desequilibrio.</p>
+      <p>${M&&M.pos ? `Úsalo cada día según cómo te sientas. Hoy es un buen día: abre la sección de <b>${todayEl}</b> para sostener esta energía y convertirla en hábito.` : `Úsalo cada día según cómo te sientas. Hoy empieza por la sección de <b>${todayEl}</b> para construir lo contrario de tu desequilibrio.`}</p>
     </div>
     <div class="sec"><h4>🔑 Tu clave de hoy</h4><p>${S.msg.tip}</p></div>
     <div class="ally-inv" style="--ac:${PAL[E.ally].main};--al:${PAL[E.ally].light}">
