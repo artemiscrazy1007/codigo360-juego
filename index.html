@@ -171,8 +171,8 @@ button,input,select{font-family:inherit;color:inherit}
 /* card */
 .card{position:relative;width:100%;border-radius:22px;padding:4px;background:linear-gradient(140deg,var(--el2),var(--el),var(--eld),var(--el));box-shadow:0 0 40px color-mix(in srgb,var(--el) 55%,transparent);margin-top:10px;overflow:hidden;flex-shrink:0}
 .card.gold{background:linear-gradient(140deg,#fff3c4,#ffd166,#b8860b,#ffd166)}
-.card::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.3) 50%,transparent 65%);background-size:250% 100%;animation:holo 3.5s linear infinite;pointer-events:none}
-@keyframes holo{from{background-position:150% 0}to{background-position:-100% 0}}
+.card::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.3) 50%,transparent 65%);background-size:250% 100%;animation:holo 30s ease-in-out 1.2s infinite;pointer-events:none}
+@keyframes holo{0%{background-position:150% 0}6%{background-position:-100% 0}100%{background-position:-100% 0}}
 .card-in{background:linear-gradient(180deg,#151036,#0c0a24);border-radius:18px;padding:14px}
 .card-top{display:flex;justify-content:space-between;align-items:center}
 .card-top .pixel{font-size:9px;color:var(--el2)}
