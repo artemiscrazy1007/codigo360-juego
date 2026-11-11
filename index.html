@@ -131,6 +131,18 @@ button,input,select{font-family:inherit;color:inherit}
 .ally-inv p{font-size:14.5px;line-height:1.45;color:rgba(243,241,255,.9)}
 .ally-inv .ally-cta{margin-top:10px;font-weight:600;color:#fff}
 .ally-inv b{color:#ffd166}
+/* acordeón de la carta */
+.acc-hint{font-size:13px;color:var(--mut);text-align:center;margin:4px 0 8px}
+.acc{margin-top:8px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.05);overflow:hidden}
+.acc-h{width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;padding:13px 14px;background:none;border:none;cursor:pointer;font-size:15.5px;font-weight:600;color:var(--el2);text-align:left}
+.acc-h i{font-style:normal;transition:transform .25s;color:var(--mut)}
+.acc.open .acc-h i{transform:rotate(180deg)}
+.acc.open{border-color:var(--el2)}
+.acc-b{max-height:0;overflow:hidden;transition:max-height .3s ease}
+.acc-b p{padding:0 14px 13px;font-size:14.5px;line-height:1.45;color:rgba(243,241,255,.88)}
+.clave{margin-top:12px;border-radius:16px;padding:15px;background:linear-gradient(160deg,rgba(255,209,102,.22),#140f35);border:2px solid #ffd166}
+.clave-h{font-size:21px;font-weight:700;color:#ffd166;margin-bottom:6px}
+.clave p{font-size:16px;line-height:1.45;color:#fff;font-weight:500}
 /* game */
 .hud{display:flex;align-items:center;gap:10px;width:calc(100% - 50px);align-self:flex-start;padding:8px 12px}
 .hud-av{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.08);overflow:hidden;flex-shrink:0;position:relative}
@@ -724,6 +736,1487 @@ const QB = {};
 for(const k in QB_RAW){
   QB[k] = QB_RAW[k].trim().split('\n').map(l=>{ const p=l.split('|').map(x=>x.trim()); return {t:p[0], o:{agua:p[1], fuego:p[2], tierra:p[3], aire:p[4]}}; });
 }
+// ═════════════ BANCO DE MENSAJES · 360 por categoría (90 por elemento) ═════════════
+const BANK_RAW = [];
+BANK_RAW.push(`
+#power.agua
+Sientes lo que el otro vive sin que te lo diga: eso es empatía pura.
+Tu intuición casi nunca se equivoca: aprende a escucharla.
+Tu sensibilidad te permite amar, acompañar y sanar profundo.
+Sabes cuándo alguien está mal aunque sonría.
+Tu presencia calma a quien está en crisis.
+Puedes llorar y levantarte con más sabiduría y más fuerza.
+Conviertes el dolor en comprensión.
+Tu ternura abre puertas que la fuerza no abre.
+Lees las emociones de un lugar apenas entras.
+Tienes memoria emocional: recuerdas cómo se sintió cada momento importante.
+Sabes escuchar sin juzgar.
+Tu corazón es refugio para tu familia.
+Creas vínculos profundos y duraderos.
+Tu compasión hace que otros se sientan vistos.
+Sientes la música, el arte y la belleza con todo el cuerpo.
+Tu creatividad nace de lo que sientes.
+Detectas una mentira por la energía, no por las palabras.
+Sabes acompañar el duelo de otros con respeto.
+Tu sensibilidad te avisa antes del peligro.
+Te adaptas como el agua a cualquier recipiente.
+Fluyes cuando otros se rompen.
+Tus abrazos sanan más que mil consejos.
+Entiendes a los niños porque recuerdas lo que se siente ser pequeño.
+Tu empatía te convierte en apoyo en los tiempos difíciles.
+Sabes perdonar cuando tu corazón está preparado.
+Tienes un radar para las necesidades que nadie dice.
+Tus sueños nocturnos te traen mensajes.
+Conectas con lo espiritual con facilidad.
+Tu suavidad desarma conflictos.
+Haces sentir en casa a quien llega.
+Cuidas los detalles emocionales que nadie más ve.
+Tu vulnerabilidad es valentía: muestras lo que otros esconden.
+Sabes cuidar sin pedir nada a cambio.
+Tu mirada transmite comprensión.
+El mar, la lluvia y la luna te recargan.
+Hablas desde el corazón y eso toca a otros.
+Tu intuición te guía hacia las personas correctas.
+Sabes cuándo callar y cuándo abrazar.
+Tu sensibilidad te hace una gran compañía para quienes amas.
+Sientes el estado de ánimo de tu casa apenas llegas.
+Transformas las lágrimas en aprendizaje.
+Tu empatía te permite servir y ayudar con amor.
+Sabes calmar a otros con tu voz.
+Tienes paciencia con los procesos emocionales de los demás.
+Te conmueves con facilidad y eso mantiene vivo tu corazón.
+Tu fluidez te permite empezar de nuevo.
+Sabes nutrir: con comida, con palabras, con tiempo.
+Tu sensibilidad artística embellece todo lo que tocas.
+Recuerdas fechas, gestos y detalles importantes para otros.
+Puedes ponerte en los zapatos de cualquiera.
+Tus emociones son una brújula que señala lo importante.
+Sanas tu historia cada vez que la miras con amor.
+Tu cariño hace crecer a quienes te rodean.
+Sabes leer entre líneas en una conversación.
+Tu energía es suave pero profunda, como el océano.
+Inspiras confianza: la gente te cuenta sus secretos.
+Tu intuición te ayuda a tomar decisiones del alma.
+Valoras las relaciones por encima de las cosas.
+Sabes reconciliar a quienes se han alejado.
+Tus palabras llegan al corazón cuando hablas desde lo que sientes.
+Captas la belleza en lo simple.
+Tienes un don natural para acompañar procesos de sanación.
+Disfrutas intensamente los momentos bonitos.
+Eres puerto seguro para tus amistades.
+Tu llanto limpia y renueva tu energía.
+Conectas con los animales y las plantas con facilidad.
+Tu intuición protege a tu familia.
+Sabes cuándo alguien necesita ayuda aunque no la pida.
+Tu ternura es tu fortaleza.
+Tienes la capacidad de amar sin condiciones.
+Sabes crear ambientes cálidos y acogedores.
+Tu empatía hace de ti una voz de consejo.
+Tus emociones te mantienen en contacto con lo que de verdad importa.
+Sabes pedir perdón de corazón.
+Tu capacidad de sentir te da profundidad.
+Te mueves con la marea de la vida sin perder tu esencia.
+Sabes sostener el silencio de alguien que sufre.
+Tu sensibilidad detecta lo que tu cuerpo necesita.
+Tus recuerdos guardan el amor de tu familia.
+Tienes un corazón generoso.
+Celebras los logros de otros como propios.
+Tu intuición te habla en el cuerpo: escúchala.
+Tu calma emocional, cuando la encuentras, contagia a todos.
+Sabes amar con detalles pequeños que lo dicen todo.
+Tus emociones despiertan tu creatividad.
+Conectas con personas de todas las edades.
+Reconoces el talento de otros antes que nadie.
+Sabes acompañar sin invadir.
+Tu fluidez emocional te hace resiliente.
+Tu corazón sabe el camino antes que tu mente.
+#power.fuego
+Cuando decides, lo haces: tu energía mueve a los demás.
+Dices lo que piensas y abres caminos con tu voz.
+Tienes el valor de empezar lo que otros solo imaginan.
+Sabes liderar en momentos de crisis.
+Tu entusiasmo contagia a cualquier grupo.
+Transformas la rabia en motivación.
+Defiendes a los tuyos con fuerza.
+Tomas la iniciativa cuando nadie se atreve.
+Tu pasión le da vida a todo lo que haces.
+Sabes motivar a otros a dar lo mejor.
+Tienes energía para levantar proyectos desde cero.
+Te recuperas rápido de las caídas.
+Comunicas con claridad lo que quieres.
+Tu valentía inspira a tu familia.
+Sabes poner límites con firmeza.
+Conviertes los retos en oportunidades.
+Tu presencia se siente cuando llegas a un lugar.
+Tienes facilidad para vender tus ideas.
+Actúas rápido en las emergencias.
+Tu fuego interior te mantiene en movimiento.
+Sabes celebrar en grande.
+Rompes patrones que otros aceptan sin cuestionar.
+Tu determinación te lleva a cumplir metas.
+Tienes el coraje de decir lo que otros callan.
+Encuentras soluciones prácticas en caliente.
+Tu energía te permite hacer mucho en poco tiempo.
+Sabes competir y superarte.
+Inspiras confianza por tu seguridad.
+Te atreves a cambiar de rumbo cuando algo no funciona.
+Tu risa llena los espacios.
+Sabes proteger a quienes amas.
+Empujas a otros a salir de su zona cómoda.
+Tienes una voz que se escucha.
+Tu pasión te hace brillar.
+Te levantas con ganas de conquistar el día.
+Sabes negociar con firmeza.
+Tu intensidad te permite amar con todo.
+No te quedas con la duda: preguntas y actúas.
+Conviertes ideas en acciones concretas.
+Tu fuerza de voluntad es enorme.
+Sabes animar una reunión o una fiesta.
+Enfrentas los miedos de frente.
+Tienes un instinto rápido para las oportunidades.
+Tu energía despierta a los que están dormidos.
+Sabes empezar de nuevo con más fuerza.
+Defiendes la justicia con convicción.
+Tu sinceridad te hace confiable.
+Te mueves rápido cuando hay que decidir.
+Tienes el poder de transformar tu vida con una decisión.
+Tu entusiasmo convierte lo aburrido en aventura.
+Sabes hablar en público con fuerza.
+Tienes facilidad para liderar equipos.
+Tu calor humano hace sentir acompañados a otros.
+No te rindes fácil.
+Sabes reconocer lo que quieres y vas por ello.
+Tu energía te permite emprender.
+Tienes un espíritu aventurero.
+Sabes moverte bajo presión.
+Tu fuego enciende la creatividad de otros.
+Hablas directo y sin rodeos.
+Tienes capacidad para hacer que las cosas pasen.
+Tu valentía te ha sacado de situaciones difíciles.
+Sabes cuidar tu territorio y tus sueños.
+Tu vitalidad es fuerza creadora.
+Te comprometes con pasión con lo que eliges.
+Sabes motivarte sin esperar a nadie.
+Tu impulso rompe la parálisis de otros.
+Tienes un carisma natural.
+Sabes ganar sin perderte.
+Tu fuerza se nota en tu mirada.
+Transformas la frustración en un nuevo plan.
+Tienes reflejos rápidos para resolver.
+Tu pasión por la vida es contagiosa.
+Sabes alzar la voz por quien no puede.
+Tu energía es el motor de tu familia.
+Haces que las metas se sientan posibles.
+Sabes arriesgarte con inteligencia cuando estás en equilibrio.
+Tienes la chispa para comenzar cualquier cambio.
+Tu calor ilumina los días grises de otros.
+Sabes decirle "sí" a la vida.
+Tu energía es medicina para el desánimo.
+Inspiras el cambio con tu ejemplo.
+Respondes rápido y con ingenio.
+Tienes fuerza para sostener grandes retos.
+Tu intensidad hace que nada te sea indiferente.
+Sabes empezar el día con propósito.
+Tu fuego purifica: quemas lo que ya no sirve.
+Tienes la valentía de mostrarte como eres.
+Tu energía abre puertas.
+Sabes transformar tu vida cuantas veces sea necesario.
+#power.tierra
+Pones orden donde hay caos: contigo las cosas funcionan.
+Eres constante: construyes paso a paso y no te rindes.
+Das seguridad: tu familia sabe que puede contar contigo.
+Tienes paciencia para los procesos largos.
+Sabes administrar el dinero y los recursos.
+Cumples lo que prometes.
+Tu rutina te da fuerza y estabilidad.
+Tu cuerpo es tu aliado: sabes cuidarlo.
+Construyes bases sólidas para tu futuro.
+Sabes cocinar, ordenar y crear un hogar.
+Tu lealtad es inquebrantable.
+Resuelves lo práctico mientras otros solo hablan.
+Tu calma sostiene a los demás en las crisis.
+Sabes ahorrar y planear.
+Eres confiable en el trabajo.
+Tus manos crean y reparan.
+Tienes los pies en la tierra.
+Sabes esperar el momento correcto.
+Tu disciplina te lleva lejos.
+Cuidas las tradiciones de tu familia.
+Sabes organizar eventos, viajes y agendas.
+Tu presencia da tranquilidad.
+Haces que los proyectos se terminen.
+Sabes cuidar las plantas, los animales y la naturaleza.
+Tu cuerpo te avisa lo que necesitas.
+Tienes sentido común.
+Sabes trabajar con lo que tienes.
+Tu fuerza es silenciosa pero firme.
+Construyes relaciones duraderas.
+Sabes sostener a tu familia en tiempos difíciles.
+Tu orden te ahorra tiempo y energía.
+Tienes habilidad para los negocios estables.
+Disfrutas los placeres simples: comida, descanso, naturaleza.
+Tu constancia vence al talento.
+Haces que tu casa sea un refugio.
+Sabes cuidar tu salud con hábitos.
+Tienes la capacidad de producir abundancia.
+Tus decisiones son prácticas y seguras.
+Sabes crear sistemas que funcionan.
+Tu paciencia te permite enseñar.
+Eres la raíz que mantiene unida a tu familia.
+Sabes guardar para los tiempos difíciles.
+Tu palabra tiene valor.
+Tienes resistencia física y emocional.
+Sabes administrar tu tiempo.
+Tu estabilidad atrae confianza.
+Transformas ideas en cosas reales.
+Tienes buen gusto para lo bello y lo útil.
+Tu presencia ancla a los que están dispersos.
+Sabes cuidar los detalles de la casa.
+Tienes habilidad para los trabajos manuales.
+Tus rutinas sanan tu mente.
+Sabes cuándo descansar para rendir mejor.
+Tu fuerza interior es firme como una montaña.
+Haces que los planes sean posibles.
+Sabes llevar las cuentas claras.
+Tu responsabilidad te convierte en un liderazgo confiable.
+Sostienes procesos largos sin rendirte.
+Sabes nutrir a tu familia con comida y cuidado.
+Tu calma frente al caos es un don.
+Sabes construir patrimonio.
+Tu cuerpo guarda sabiduría y lo escuchas.
+Tienes un ritmo propio que te protege.
+Sabes priorizar lo importante.
+Tus hábitos son tu superpoder.
+Sostienes a otros sin perder tu centro.
+Tu paciencia hace florecer lo que siembras.
+Resuelves los problemas del día a día con sentido práctico.
+Creas abundancia desde lo pequeño.
+Tu firmeza les da seguridad a los niños.
+Cumples horarios y compromisos.
+Tu orden externo refleja claridad interna.
+Tienes el don de hacer que todo dure.
+Sabes cuidar tu energía.
+Tu lealtad crea familias y equipos fuertes.
+Trabajas duro sin quejarte.
+Tu cuerpo es fuerte cuando lo cuidas.
+Tienes intuición para los negocios seguros.
+Sabes hacer mucho con poco.
+Tu presencia es raíz y sombra para los tuyos.
+Sabes planear el futuro.
+Tu tranquilidad es contagiosa.
+Creas hogar donde llegas.
+Mantienes la calma en lo práctico.
+Tu esfuerzo deja huella.
+Sabes reparar lo que se daña.
+Tu constancia construye confianza.
+Siembras hoy para cosechar mañana.
+Vives el presente con los pies firmes.
+Tu estabilidad es el lugar donde otros descansan.
+#power.aire
+Tu mente ve soluciones donde otros ven problemas.
+Tienes ideas que pueden cambiar tu vida y la de tu familia.
+Pones en palabras lo que otros no saben decir.
+Aprendes rápido cualquier cosa nueva.
+Tu curiosidad te abre mundos.
+Sabes comunicar con claridad.
+Tu creatividad no tiene límites.
+Ves el panorama completo.
+Haces preguntas que transforman.
+Sabes enseñar lo que aprendes.
+Tu mente analítica detecta errores rápido.
+Conectas personas e ideas.
+Tienes facilidad para los idiomas y las palabras.
+Tu humor hace livianos los momentos difíciles.
+Te adaptas a los cambios con la mente abierta.
+Imaginas futuros posibles.
+Tu pensamiento estratégico es un tesoro.
+Sabes escuchar distintas opiniones.
+Tienes facilidad para escribir.
+Tu mente es una fuente de proyectos.
+Aprendes por tu cuenta y encuentras la información que necesitas.
+Tu libertad interior te mantiene fiel a ti.
+Inspiras con tus ideas.
+Sabes mediar en los conflictos.
+Tienes una mente brillante para resolver acertijos.
+Tu ligereza le quita peso a los problemas.
+Sabes conversar con cualquier persona.
+Tu creatividad encuentra caminos nuevos.
+Tienes visión de futuro.
+Conviertes lo complejo en simple.
+Tu mente rápida te ayuda a resolver.
+Sabes crear redes de contactos.
+Tu imaginación crea historias y soluciones.
+Tienes facilidad para la tecnología.
+Ves los dos lados de una historia.
+Tu pensamiento crítico te protege de engaños.
+Inventas, propones, innovas.
+Inspiras conversaciones profundas.
+Tu mente curiosa nunca envejece.
+Tienes ideas para emprender.
+Ordenas pensamientos en palabras claras.
+Tu sentido del humor conecta.
+Aprendes de los errores entendiendo el porqué.
+Tienes una visión amplia de la vida.
+Tu mente vuela alto y trae ideas nuevas.
+Sabes dar consejos sabios.
+Tienes facilidad para planear estrategias.
+Tu comunicación abre puertas.
+Sabes respirar y volver a tu centro.
+Tienes una mente abierta a lo diferente.
+Tu creatividad puede ser tu negocio.
+Ves oportunidades donde otros no miran.
+Tu pensamiento claro guía a tu familia.
+Tienes el don de la palabra.
+Sabes explicar las cosas de forma sencilla.
+Tu mente encuentra patrones.
+Tienes facilidad para crear contenido.
+Sabes improvisar.
+Tu libertad inspira a otros a soñar.
+Cuestionas lo que no tiene sentido.
+Traes ideas frescas a cada conversación.
+Tu inteligencia es amplia y flexible.
+Conectas el pasado con el futuro.
+Cambias creencias con buenos argumentos.
+Tu ligereza te permite adaptarte a cualquier lugar.
+Sabes leer, investigar y profundizar.
+Tu mente puede soñar en grande.
+Tienes una visión creativa de la vida.
+Escuchas ideas y las mejoras.
+Tu curiosidad te mantiene joven.
+Encuentras las palabras exactas.
+Tienes talento para planear viajes y aventuras.
+Tu mente une piezas que parecen sueltas.
+Le das sentido a lo que vives.
+Inspiras con tus historias.
+Tu claridad mental es luz para otros.
+Piensas antes de reaccionar.
+Tienes el don de la diplomacia.
+Tu imaginación sana y crea.
+Sabes calmar tu mente con la respiración.
+Tienes ideas que pueden ayudar a muchas personas.
+Tu mente es tu laboratorio de sueños.
+Ves el lado positivo con lógica.
+Tienes oído para la música y el ritmo de las palabras.
+Tu pensamiento es libre como el viento.
+Generas conversaciones que cambian vidas.
+Sabes visualizar lo que quieres.
+Tu mente ordena el caos cuando estás en calma.
+Compartes conocimiento con generosidad.
+Tu aire lleva tus ideas lejos.
+`);
+BANK_RAW.push(`
+#exceso.agua
+Sientes de más: cargas el dolor de los demás como si fuera tuyo.
+Te sientes vulnerable y una palabra puede afectarte por días.
+Absorbes las emociones de tu casa y de noche aparecen el llanto o la culpa.
+Te cuesta comunicar lo que sientes y lo guardas hasta que se desborda.
+Lloras con facilidad y luego te juzgas por llorar.
+Te preocupas tanto por los demás que te olvidas de ti.
+Sientes culpa por cosas que no dependen de ti.
+Te apegas a personas que ya no te hacen bien.
+Dices "sí" para no herir, aunque quieras decir "no".
+Cualquier crítica la sientes como un rechazo.
+Te quedas en el pasado reviviendo lo que dolió.
+Tu ánimo cambia según el ánimo de quienes te rodean.
+Necesitas que te confirmen que te quieren.
+Te cuesta poner límites a tu familia.
+Sientes que nadie te entiende de verdad.
+Te ahogas en preocupaciones por tus hijos o tu familia.
+Esperas que los demás adivinen lo que sientes.
+Las despedidas te duelen demasiado.
+Te refugias en la comida, el celular o la cama cuando estás triste.
+Te cuesta soltar recuerdos y objetos.
+Sientes miedo a que te abandonen.
+Te pones en el lugar de víctima sin darte cuenta.
+Te cuesta expresar enojo y lo conviertes en tristeza.
+Das tanto que te quedas sin energía.
+Dependes emocionalmente de una persona.
+Te cuesta tomar decisiones sin sentir culpa.
+La nostalgia te quita fuerza en el presente.
+Sientes ansiedad cuando alguien está molesto contigo.
+Hablas con rodeos por miedo a lastimar.
+Guardas resentimientos en silencio.
+Tus emociones te desbordan en los momentos importantes.
+Te comparas con otros y te sientes menos.
+Te cuesta recibir ayuda.
+Te quedas en relaciones por lástima.
+Sientes que tienes que salvar a todos.
+Tu cuerpo retiene lo que no lloras: pesadez, inflamación, cansancio.
+Cambias tus planes para complacer.
+Te cuesta dormir pensando en cómo se sienten otros.
+Te afecta demasiado lo que ves en noticias y redes.
+No dices lo que necesitas por miedo a molestar.
+Sientes que si no cuidas a todos, algo malo va a pasar.
+Te pierdes en la emoción y olvidas actuar.
+Llevas la carga emocional de tu familia.
+Sientes soledad aunque tengas gente alrededor.
+Tus emociones deciden por ti y luego te arrepientes.
+#falta.agua
+Para no sufrir, te endureces y dejas de sentir.
+Guardas tanto lo que sientes que el agua se estanca: cansancio y tristeza sin nombre.
+No sabes qué sientes: solo notas un vacío.
+Te cuesta llorar aunque lo necesites.
+Te desconectas de tus emociones para seguir funcionando.
+Te cuesta conectar desde el corazón con tu pareja o tus hijos.
+Tu intuición está apagada y dudas de todo.
+Sientes que tu vida perdió sabor.
+Te cuesta mostrar cariño con palabras o abrazos.
+Evitas las conversaciones profundas.
+Callas lo que sientes y lo comunicas tarde o nunca.
+Te cuesta perdonar porque no te permites sentir el dolor.
+Te aíslas cuando algo te duele.
+Sientes sequía por dentro: sin creatividad ni inspiración.
+Ya no disfrutas la música, el arte o la naturaleza como antes.
+Tu cuerpo se pone rígido porque no dejas fluir.
+Te cuesta pedir apoyo emocional.
+Le restas importancia a lo que te pasa.
+Ayudas a todos, pero no te dejas ayudar.
+Te cuesta recibir amor.
+Racionalizas lo que sientes para no sentirlo.
+Tus relaciones se sienten frías o distantes.
+Te cuesta mirar tu propia historia.
+Tus sueños e ilusiones se apagaron.
+Cuando el cansancio te gana, dejas de ponerte en el lugar del otro.
+Sientes que no tienes tiempo para sentir.
+Postergas tu duelo.
+Te muestras fuerte para que nadie vea lo que te duele.
+Te cuesta expresar ternura.
+Tienes emociones atrapadas que salen como irritación.
+Te desconectas con series o redes para no sentir.
+Te cuesta llorar delante de otros.
+Sientes indiferencia ante cosas que antes te importaban.
+Tu sensibilidad se convirtió en coraza.
+No te das permiso de estar triste.
+Te cuesta entender qué necesitas.
+Te cuesta conectar con tu lado suave.
+Sientes que nadie te escucha, así que dejaste de hablar.
+Evitas recordar tu infancia.
+No te permites descansar emocionalmente.
+Te cuesta abrirte con alguien nuevo.
+Tus lágrimas guardadas se convirtieron en dolores en el cuerpo.
+No disfrutas los momentos bonitos porque esperas lo malo.
+Sientes que tu corazón está cerrado.
+Te cuesta conectar con lo espiritual.
+#exceso.fuego
+Tu fuego se vuelve explosión: reaccionas fuerte y luego te arrepientes.
+La impaciencia te quema: quieres todo ya y te frustras cuando no sale.
+Hablas desde el enojo y lo que querías comunicar se pierde.
+Gritas cuando la situación te desborda.
+Quieres controlar todo y a todos.
+Te frustras cuando otros no van a tu ritmo.
+Tomas decisiones impulsivas que luego pagas.
+Compites incluso con quienes amas.
+Te cuesta escuchar sin interrumpir.
+Tu intensidad asusta a otros.
+Te agotas por hacer demasiado.
+Dices cosas hirientes en caliente.
+Te cuesta pedir perdón.
+Tu mandíbula y tu cuello viven tensos.
+Te irritas por cosas pequeñas.
+Sientes que si no lo haces tú, nadie lo hará.
+Empiezas peleas que no querías.
+Te cuesta descansar sin sentir culpa.
+Tu cuerpo arde: acidez, dolor de cabeza, calor.
+Quieres tener siempre la razón.
+Te enojas cuando te dicen que pares.
+Trabajas sin pausa hasta quemarte.
+Te cuesta tolerar la lentitud de tu familia.
+Reaccionas antes de entender.
+Tu energía se dispersa en mil proyectos.
+Exiges demasiado a los demás.
+Te cuesta mostrar tu lado vulnerable.
+Te pones a la defensiva ante cualquier comentario.
+Tu orgullo te aleja de quienes amas.
+Gastas dinero por impulso.
+Te frustras cuando no ves resultados rápidos.
+Tu rabia se queda encendida por horas.
+Te cuesta delegar.
+Hablas con dureza aunque no quieras.
+Sientes que tienes que demostrar tu valor todo el tiempo.
+Te aburres rápido y abandonas.
+Tu mente no te deja dormir por los pendientes.
+Te cuesta aceptar un "no".
+Tus palabras queman relaciones.
+Vives en modo urgencia.
+No disfrutas porque siempre piensas en lo siguiente.
+Te molestas cuando otros no reaccionan como tú.
+Quieres resolver los problemas de todos a tu manera.
+Sientes que la vida es una batalla.
+Tu fuego no deja espacio para sentir.
+#falta.fuego
+Tu fuego se bloquea: sabes lo que tienes que hacer pero no arrancas.
+Te guardas lo que quieres decir y la rabia se queda adentro.
+Empiezas con fuerza y te apagas a mitad de camino.
+Postergas tus sueños para "algún día".
+Te cuesta decir lo que piensas en voz alta.
+Sientes que no tienes energía para nada.
+El miedo a fallar te paraliza.
+Te cuesta defenderte cuando te faltan el respeto.
+Dejas que otros decidan por ti.
+Te falta motivación en las mañanas.
+Te cuesta comunicar tus necesidades.
+Sientes que perdiste la pasión por la vida.
+Callas para evitar conflictos y luego explotas.
+Te cuesta liderar tu propia vida.
+Te comparas y sientes que no eres suficiente para intentarlo.
+Aplazas conversaciones importantes.
+Tu cuerpo se siente sin fuerza.
+Te cuesta tomar la iniciativa.
+Esperas el momento perfecto que nunca llega.
+Te escondes para que no te vean.
+Te cuesta cobrar lo que vales.
+Sientes vergüenza de mostrar lo que haces.
+Te cuesta terminar lo que empiezas.
+Te dejas llevar por la corriente.
+Tienes ideas pero no las ejecutas.
+Te apagas frente a personas con más carácter.
+Te cuesta celebrar tus logros.
+Sientes que tu voz no importa.
+Te falta valor para cambiar lo que no te gusta.
+Te quedas en lugares que ya no te hacen crecer.
+Te cuesta poner límites firmes.
+La procrastinación se volvió costumbre.
+Sientes que la vida pasa y no la estás viviendo.
+Te frena el qué dirán.
+Te cuesta arriesgarte.
+Tu rabia reprimida se convierte en tristeza o cansancio.
+Te cuesta hablar en público.
+Dudas de tu capacidad de lograr cosas.
+Necesitas que alguien te empuje para moverte.
+Te cuesta mover el cuerpo y hacer ejercicio.
+Tu creatividad está dormida.
+Dejas tus proyectos personales de últimos.
+Te cuesta pedir lo que quieres.
+Sientes que no tienes derecho a brillar.
+Tu chispa está ahí, pero cubierta de miedo.
+#exceso.tierra
+Tanto orden se vuelve rigidez: si algo cambia, te desestabilizas.
+Controlas todo para sentir seguridad y terminas cargando con todo.
+Te cuesta soltar una rutina aunque ya no te sirva.
+Te obsesionas con que todo esté perfecto.
+Te cuesta delegar porque nadie lo hace como tú.
+Te aferras a lo conocido aunque no te haga feliz.
+Trabajas sin descanso y te olvidas de disfrutar.
+Te cuesta improvisar.
+Te preocupas demasiado por el dinero.
+Acumulas cosas "por si acaso".
+Te cuesta cambiar de opinión.
+Juzgas a quienes no son tan ordenados.
+Tu cuerpo se pone rígido: espalda y cuello cargados.
+Te cuesta descansar si hay pendientes.
+Cargas responsabilidades que no te corresponden.
+Te cuesta expresar emociones porque "hay cosas más importantes".
+Sientes que tienes que ser fuerte siempre.
+Te cuesta probar cosas nuevas.
+Tu vida se volvió repetitiva.
+Te estresas cuando otros desordenan tu espacio.
+Te cuesta gastar en ti.
+Sientes que si te detienes, todo se cae.
+Exiges orden a tu familia todo el tiempo.
+Te cuesta soñar porque solo piensas en lo práctico.
+Te quedas en un trabajo seguro aunque no te guste.
+Te cuesta perdonar errores.
+Planeas tanto que no vives el momento.
+Sientes pesadez en el cuerpo y en el ánimo.
+Comes por ansiedad y sientes el cuerpo pesado.
+Te cuesta aceptar ayuda.
+Sientes que nadie hace las cosas bien.
+Te cuesta adaptarte a los cambios de tus hijos o tu pareja.
+Te enfocas tanto en lo material que olvidas lo emocional.
+Te cuesta relajarte en vacaciones.
+Tu sentido del deber te quita alegría.
+Te cuesta mostrarte vulnerable.
+Te cuesta soltar el control del dinero.
+Crees que descansar es perder el tiempo.
+Repites los patrones de tus padres sin cuestionarlos.
+Te cuesta aceptar otras formas de hacer las cosas.
+Sientes que todo depende de tu esfuerzo.
+Te cuesta dejar ir personas o etapas.
+Te frustras cuando algo no sale como lo planeaste.
+Tu rutina te protege, pero también te encierra.
+Te cuesta escuchar tu intuición porque solo crees en lo que ves.
+#falta.tierra
+Te falta estructura: hay mucho desorden en tu casa, tu agenda o tu dinero.
+Empiezas rutinas que no sostienes y el desorden te roba energía.
+Sin una base firme, todo se siente pesado y no sabes por dónde empezar.
+Tus finanzas están desordenadas y no sabes en qué se va el dinero.
+Te cuesta cumplir horarios.
+Tu casa refleja el caos que sientes por dentro.
+Comes a deshoras y duermes mal.
+Te cuesta terminar los proyectos.
+Pierdes cosas con frecuencia.
+Te cuesta mantener un hábito más de una semana.
+Sientes que vives apagando incendios.
+No tienes claro qué es prioridad.
+Te cuesta ahorrar.
+Llegas tarde aunque no quieras.
+Tu cuerpo está descuidado y lo sientes.
+Tienes muchos pendientes acumulados.
+Sientes desconexión con tu cuerpo.
+Te cuesta organizar tu semana.
+Tus papeles y documentos están en desorden.
+Te cuesta decir que no y tu agenda explota.
+Sientes inseguridad económica constante.
+Te falta constancia en el ejercicio.
+Te cuesta sostener tus compromisos.
+Vives en el "mañana lo hago".
+No tienes un espacio propio en tu casa.
+Te cuesta poner reglas claras en tu familia.
+El desorden te genera culpa.
+Te sientes sin raíz, como si no pertenecieras a ningún lugar.
+Te cuesta planear a largo plazo.
+Tus comidas son improvisadas y poco nutritivas.
+Duermes a horas diferentes cada día.
+Tu celular y tus correos están llenos de cosas sin revisar.
+Te cuesta materializar tus ideas.
+No sabes cuánto ganas ni cuánto gastas al mes.
+Sientes cansancio todo el tiempo sin saber por qué.
+Te cuesta cuidar tus plantas, tu espacio o tus cosas.
+Tus horarios cambian según lo que piden otros.
+Te cuesta tener rutinas con tus hijos.
+Te quedas sin piso cuando algo cambia.
+Te cuesta sostener tus metas de salud.
+Tus días no tienen un ritmo.
+Te dispersas y nada se concreta.
+Te cuesta empezar el día con orden.
+Tu entorno no te ayuda a concentrarte.
+Te falta un plan claro para tu futuro.
+#exceso.aire
+Piensas tanto que no aterrizas: das vueltas a lo mismo y a las 3 a. m. tu mente sigue encendida.
+Tu cabeza va más rápido que tu vida: muchas ideas empezadas y pocas terminadas.
+Analizas cada detalle hasta cansarte; la duda te frena más que el miedo.
+Te cuesta dormir porque tu mente no se apaga.
+Imaginas escenarios negativos que nunca pasan.
+Racionalizas lo que sientes para no sentirlo.
+Hablas mucho y haces poco.
+Te dispersas en redes sociales y se te va el día.
+Te cuesta estar en el presente.
+Comparas tu vida con la de otros todo el tiempo.
+Sientes ansiedad sin saber por qué.
+Te cuesta concentrarte en una sola cosa.
+Buscas información sin parar y no decides.
+Sientes la respiración corta y el pecho apretado.
+Saltas de un proyecto a otro.
+Te cuesta conectar con tu cuerpo.
+Ensayas en tu cabeza conversaciones que nunca tienes.
+Te preocupa demasiado lo que otros piensan de ti.
+Repasas una y otra vez lo que dijiste.
+Te cuesta tomar decisiones simples.
+Te cansas mentalmente aunque no hayas hecho nada físico.
+Cambias de opinión con mucha facilidad.
+Te cuesta comprometerte.
+Te pierdes en teorías y no actúas.
+Sientes la mente llena de ruido.
+Te cuesta descansar sin pensar en pendientes.
+Hablas rápido para no sentir.
+Quieres entenderlo todo antes de vivirlo.
+La ansiedad te hace comer o mover las manos sin parar.
+No disfrutas porque vives en el futuro.
+Criticas mentalmente todo lo que haces.
+Te cuesta escuchar porque ya estás pensando la respuesta.
+Tu mente te convence de no intentarlo.
+Te enredas en el "¿y si...?".
+Sientes que necesitas más información para empezar.
+Te cuesta el silencio.
+Tu creatividad se vuelve caos.
+Te desconectas de las personas por estar en tu cabeza.
+Te cuesta sostener rutinas porque te aburres.
+Tus pensamientos te roban el sueño.
+Hablas de tus problemas una y otra vez sin resolverlos.
+Te cuesta sentir: todo pasa por la cabeza.
+Te sobrecargas de cursos, libros y consejos.
+Desconfías de tu intuición porque la analizas.
+Vives en las nubes y olvidas lo práctico.
+#falta.aire
+Cuando el Aire se apaga llega la confusión: no sabes qué quieres ni por dónde empezar.
+Sientes la mente nublada, en blanco, como si las ideas no llegaran.
+Te cuesta expresar lo que piensas con claridad.
+Te quedas sin palabras en los momentos importantes.
+Sientes que no tienes ideas propias.
+Te cuesta aprender cosas nuevas.
+Dependes de la opinión de otros para pensar.
+Te sientes sin inspiración.
+Te cuesta imaginar un futuro mejor.
+Evitas conversaciones porque no sabes qué decir.
+Tu vida se volvió una rutina sin sentido.
+Te cuesta concentrarte por cansancio mental.
+Olvidas cosas con frecuencia.
+Te cuesta ver alternativas cuando hay un problema.
+Te encierras en una sola forma de pensar.
+Te cuesta soñar.
+Sientes que nadie te escucha, así que ya no opinas.
+Te cuesta respirar profundo.
+Te alejas de amistades y conversaciones.
+Te cuesta ver el lado positivo.
+Tu creatividad se siente bloqueada.
+Te cuesta preguntar cuando no entiendes.
+Repites lo que te enseñaron sin cuestionarlo.
+Te cuesta planear.
+Sientes que perdiste la curiosidad.
+Te cuesta tomar distancia de tus problemas.
+Sientes que no tienes salida.
+Tu mente se queda en blanco bajo presión.
+Te cuesta escribir o explicar lo que sientes.
+No encuentras sentido a lo que haces.
+Te cuesta hablar de ti.
+Sientes que el mundo avanza y tú no.
+Te cuesta decidir porque no ves opciones.
+Tus días se sienten grises y sin novedad.
+Te cuesta encontrar soluciones creativas.
+Sientes que tu voz no tiene valor.
+No aprendes de tus errores porque evitas mirarlos.
+Evitas leer o informarte.
+Te cuesta conectar con gente nueva.
+Te sientes sin dirección.
+Te cuesta visualizar tus metas.
+Tu mente está agotada de tanto cargar.
+Te cuesta expresarte en redes o en público.
+Sientes que no tienes nada interesante que decir.
+Te cuesta respirar con calma cuando algo te asusta.
+`);
+BANK_RAW.push(`
+#dexceso.agua
+Decides desde lo que sientes en el momento: si estás triste, todo se ve oscuro.
+Decides pensando en cómo se sentirán los demás, no en lo que tú necesitas.
+Si alguien sufre, decides por esa persona y no por ti.
+Cambias una decisión si sientes que alguien se molestó.
+Decides según tu estado de ánimo y luego te arrepientes.
+Eliges quedarte por miedo a lastimar.
+Tus decisiones dependen de si sientes cariño a tu alrededor.
+Decides con el corazón aunque la razón te diga otra cosa.
+Postergas decisiones para no causar dolor.
+Decides para evitar conflictos emocionales.
+La culpa pesa más que tu deseo al elegir.
+Decides desde la nostalgia y vuelves a lo que te dolía.
+Eliges lo que te da consuelo inmediato.
+Decides después de llorar, cuando ves las cosas más claras.
+Consultas tu intuición, pero dudas cuando otros opinan.
+Decides según lo que siente tu familia.
+Te cuesta decidir si alguien que amas no está de acuerdo.
+Decides con miedo a que te dejen de querer.
+Eliges complacer antes que elegirte.
+Decides desde la compasión aunque te perjudique.
+Tus decisiones cambian con tus emociones.
+Decides rápido cuando algo te conmueve.
+Eliges a las personas por cómo te hacen sentir, no por lo que hacen.
+Te quedas en relaciones por lo que sentiste al principio.
+Tomas decisiones de dinero por emoción.
+Decides ayudar aunque no tengas fuerzas.
+Te cuesta decidir sin apoyo emocional.
+Decides cuando sientes que "es el momento", aunque no tengas un plan.
+El miedo al rechazo pesa en tus elecciones.
+Decides callar para mantener la paz.
+Eliges desde la herida y no desde lo que sueñas.
+Decides según los recuerdos del pasado.
+Si una decisión te duele, la cambias aunque sea correcta.
+Decides con el estómago: si se aprieta, dices que no.
+Eliges cuidar a otros antes que cuidarte.
+Decides perdonar rápido para no sentir distancia.
+Te cuesta decidir cuando estás sensible.
+Decides por intuición y aciertas, pero luego dudas de ti.
+Tomas decisiones importantes de noche, cuando todo se siente más intenso.
+Decides para que nadie se sienta mal.
+Eliges lo que te da seguridad emocional.
+Decides esperando que otros lo noten y lo agradezcan.
+Cambias de rumbo cuando alguien llora.
+Decides desde la empatía y olvidas tus límites.
+Tus emociones deciden y tu mente justifica después.
+#dfalta.agua
+Para no sentir, decides en automático y tapas la emoción.
+Decides con la cabeza fría y luego te pesa en el cuerpo.
+Ignoras tu intuición y eliges lo "correcto" aunque no te haga feliz.
+Decides sin preguntarte qué sientes.
+Postergas las decisiones del corazón.
+Decides lo que se espera de ti, no lo que sientes.
+Eliges no involucrarte para no sufrir.
+Decides alejarte en vez de hablar.
+Tomas decisiones con el cuerpo desconectado.
+Decides quedarte en silencio cuando necesitas expresar.
+Eliges el trabajo antes que tus emociones.
+Decides "estar bien" aunque no lo estés.
+No sabes qué quieres porque no sabes qué sientes.
+Decides cortar vínculos antes de que te hieran.
+Eliges no pedir ayuda.
+Decides sin tener en cuenta tu cansancio emocional.
+Eliges endurecerte para seguir adelante.
+Decides por obligación, no por deseo.
+Ignoras las señales de tu corazón hasta que es tarde.
+Decides no llorar y seguir.
+Eliges la distracción en vez de la emoción.
+Decides lo práctico y olvidas lo que te hace feliz.
+Tus decisiones se sienten vacías aunque sean lógicas.
+Decides sin escuchar tus sueños.
+Te cuesta decidir en el amor.
+Eliges proteger tu corazón cerrándolo.
+Decides tarde porque no te escuchas.
+Cierras etapas sin despedirte de ellas.
+Eliges no confiar.
+Decides desde la coraza y no desde la verdad.
+Te cuesta saber qué te hace bien.
+Decides según la rutina, sin sentir.
+Eliges no mostrar lo que te importa.
+Decides alejarte de lo espiritual.
+Postergas decisiones de perdón.
+Decides sin incluir tu intuición.
+Te cuesta decidir con quién abrirte.
+Decides no vivir el duelo.
+Eliges resolver todo por tu cuenta sin compartir lo que sientes.
+Decides sin hacer una pausa emocional.
+Tus decisiones cuidan a otros, pero no a tu corazón.
+Decides por cansancio, no por claridad.
+Eliges no expresar tu cariño.
+Decides tapar la tristeza con ocupaciones.
+Eliges lo que no duele, aunque tampoco te llene.
+#dexceso.fuego
+Decides desde la rabia o la urgencia: actúas antes de sentir y después te toca reparar.
+Decides rápido para no sentir la incomodidad de esperar.
+Eliges lo que te da adrenalina.
+Decides sin consultar a nadie y luego enfrentas las consecuencias.
+Tomas decisiones en medio de una discusión.
+Decides para ganar, no para estar en paz.
+Cambias todo de un día para otro cuando algo te molesta.
+Decides con orgullo.
+Renuncias en caliente.
+Gastas cuando la emoción te sube.
+Eliges el camino más rápido aunque no sea el mejor.
+Decides por impulso y luego buscas justificarlo.
+Tomas decisiones para demostrar algo.
+Decides sin escuchar a tu cuerpo cansado.
+Eliges pelear antes que negociar.
+Decides con la presión de tener resultados ya.
+Decides por competencia.
+Te lanzas sin plan.
+Decides controlar lo que no depende de ti.
+Eliges hacer todo tú para que salga rápido.
+Cortas relaciones en un mal momento.
+Decides con irritación y luego cambias de idea.
+Eliges el reto más grande aunque no tengas energía.
+Decides para no aburrirte.
+Tomas decisiones de dinero con el corazón acelerado.
+Decides hablar fuerte cuando tocaba escuchar.
+Eliges la acción para no sentir tristeza.
+Decides desde el ego herido.
+Te comprometes con demasiadas cosas a la vez.
+Decides sin medir el impacto en tu familia.
+Eliges avanzar aunque otros no estén listos.
+Decides de noche con el fuego encendido y en la mañana lo cuestionas.
+Tomas decisiones para recuperar el control.
+Decides romper antes de que te rompan.
+Eliges la confrontación como primera opción.
+Decides sobre la vida de otros.
+Por orgullo, no pides consejo.
+Eliges correr cuando tocaba hacer una pausa.
+Decides con la idea de "ahora o nunca".
+Decides según tu nivel de enojo.
+Te cuesta esperar a tener información.
+Decides para que te vean fuerte.
+Eliges trabajar más en vez de descansar.
+Decides sin pausa y te agotas.
+Tu impulso decide y tu cuerpo paga.
+#dfalta.fuego
+Sabes lo que quieres, pero el miedo a explotar o a fallar te frena y la decisión se queda congelada.
+Esperas a que otros decidan por ti.
+Postergas la decisión hasta que la vida decide sola.
+Decides no decir lo que piensas para evitar problemas.
+Eliges no moverte por miedo al error.
+Te cuesta dar el primer paso.
+Decides según lo que dirán.
+Eliges lo cómodo aunque te apague.
+Cuidas tu tranquilidad aunque te cueste tus sueños.
+Dices "sí" cuando quieres decir "no".
+Te cuesta decidir porque no confías en tu fuerza.
+Decides esperar el momento perfecto.
+Eliges no competir para no perder.
+Decides callar tu rabia.
+Te frena el miedo a equivocarte.
+Decides seguir en lo mismo aunque te aburra.
+Eliges no pedir lo que mereces.
+Abandonas cuando aparece la primera dificultad.
+Necesitas que alguien te motive para decidir.
+Decides no mostrar tu talento.
+Eliges no liderar aunque puedas.
+Te retiras antes de intentar.
+Te cuesta decidir cuando hay conflicto.
+Decides sin energía, desde el agotamiento.
+Eliges lo que otros esperan para no incomodar.
+Decides aplazar tus metas personales.
+Te cuesta decidir rápido en momentos importantes.
+Decides sin entusiasmo.
+Eliges no cobrar lo justo.
+Decides con miedo al rechazo.
+Te cuesta decidir comenzar algo nuevo.
+Eliges el silencio en vez de la acción.
+Decides no defenderte.
+La duda apaga tu impulso.
+Decides tarde y pierdes oportunidades.
+Eliges no confrontar lo que te molesta.
+Decides desde la inseguridad.
+Te quedas en "lo voy a pensar".
+Decides según tu cansancio.
+Eliges proyectos pequeños por miedo a los grandes.
+Decides no expresar tus deseos.
+Te cuesta elegirte.
+Decides esperar permiso.
+Eliges no hacer ruido.
+Te apagas para encajar.
+#dexceso.tierra
+Decides desde el miedo a perder la seguridad: eliges lo conocido aunque ya no te haga feliz.
+Decides solo cuando tienes todo planeado.
+Eliges lo que garantiza estabilidad, no lo que te ilusiona.
+Te cuesta decidir cambios.
+Decides según lo que siempre se ha hecho.
+Eliges ahorrar aunque necesites invertir en ti.
+Decides con la cabeza puesta en el dinero.
+Te tardas meses en decidir algo nuevo.
+Eliges el control antes que la confianza.
+Decides según la rutina.
+Decides por deber y no por deseo.
+Eliges cargar con todo antes que delegar.
+Decides con base en la experiencia pasada, sin abrirte a lo nuevo.
+Te cuesta decidir soltar.
+Eliges la seguridad aunque te quite libertad.
+Decides con prudencia excesiva.
+Eliges quedarte en el trabajo seguro.
+Decides no gastar en experiencias.
+Te cuesta decidir improvisar.
+Decides por tu familia y no por ti.
+Eliges lo práctico aunque no te emocione.
+Decides según lo que es "correcto".
+Tus decisiones lentas te hacen perder oportunidades.
+Decides resistir en vez de adaptarte.
+Eliges lo que te da estabilidad material.
+Decides con desconfianza hacia lo nuevo.
+Te cuesta decidir cuando faltan datos concretos.
+Decides por costumbre.
+Eliges trabajar más para sentir seguridad.
+Decides no arriesgar.
+Te aferras a decisiones viejas.
+Decides según el presupuesto, aunque se trate de tu salud.
+Eliges el orden antes que la alegría.
+Decides con rigidez.
+Te cuesta decidir descansar.
+Decides con miedo a la escasez.
+Postergas tus sueños por lo urgente.
+Decides sostener lo que ya no da frutos.
+Esperas a que todo esté perfecto para decidir.
+Eliges lo que otros consideran estable.
+Decides con el peso del deber familiar.
+Te cuesta decidir cambiar de casa o de ciudad.
+Decides controlando cada detalle.
+Eliges lo seguro aunque te aburra.
+Decides construir, pero olvidas disfrutar.
+#dfalta.tierra
+Sin una estructura, decides según cómo amaneciste y el desorden termina decidiendo por ti.
+Decides sin plan y luego no sabes cómo sostenerlo.
+Eliges lo urgente y olvidas lo importante.
+Decides gastar sin revisar tus cuentas.
+Te comprometes sin mirar tu agenda.
+Decides empezar rutinas que abandonas.
+Tomas decisiones sin pensar en el futuro.
+Decides según la presión del momento.
+Eliges lo fácil aunque no construya nada.
+Decides sin tener en cuenta tu cuerpo.
+Postergas las decisiones prácticas: papeles, salud y dinero.
+Decides con desorden y pierdes tiempo.
+Eliges improvisar siempre.
+Decides sin prioridades claras.
+Te cuesta decidir porque todo parece igual de importante.
+Decides sin medir tu energía.
+Eliges cosas que no puedes sostener.
+Decides comer o dormir según el día.
+Te cuesta decidir un horario.
+Decides gastar para sentirte mejor.
+Decides sin escribir ni planear.
+Eliges lo que otros te piden, aunque desordene tu vida.
+Decides empezar algo sin terminar lo anterior.
+Te cuesta decidir en qué invertir tu tiempo.
+Decides sin bases firmes.
+Eliges muchas cosas a la vez.
+Decides según tu cansancio del día.
+Te cuesta decidir y sostener una meta.
+Decides con la sensación de que nada es seguro.
+Eliges sin pensar en las consecuencias prácticas.
+Cambias de planes a cada rato.
+Te cuesta decidir qué soltar del desorden.
+Decides sin escuchar tus necesidades básicas.
+Eliges el caos porque es lo conocido.
+Decides aplazar tu salud.
+Decides sin estructura y luego te culpas.
+Te cuesta decidir rutinas para tu familia.
+Eliges sin presupuesto.
+Decides sin raíces, como si nada te sostuviera.
+Te cuesta decidir con constancia.
+Decides según el impulso de otros.
+Eliges sin un "para qué".
+Decides llenar tu agenda sin pausa.
+Te cuesta decidir cuidar tu espacio.
+Decides sin tierra bajo los pies.
+#dexceso.aire
+Decides desde la cabeza: analizas tanto cada opción que la ansiedad no te deja elegir.
+Haces listas de pros y contras que nunca terminan.
+Buscas una opinión más antes de decidir.
+Cambias de decisión varias veces en el mismo día.
+Decides en teoría, pero no lo llevas a la práctica.
+Te paraliza tener demasiadas opciones.
+Decides lo más lógico aunque tu corazón diga otra cosa.
+Investigas tanto que pierdes la oportunidad.
+Decides según lo último que leíste o escuchaste.
+Imaginas todos los escenarios posibles antes de elegir.
+Decides de noche, con la mente acelerada.
+Eliges una idea y saltas a otra.
+Te cuesta decidir por miedo a equivocarte.
+Decides con la mente y te olvidas del cuerpo.
+Te comprometes con muchas ideas a la vez.
+Decides después de hablarlo con muchas personas.
+Racionalizas tus decisiones para no sentirlas.
+Te cuesta elegir porque siempre ves otra posibilidad.
+Decides según lo que otros piensan de ti.
+Te enredas en el "¿y si...?".
+Decides tarde por exceso de análisis.
+Eliges lo interesante aunque no sea práctico.
+Decides con ansiedad.
+Planeas tanto que olvidas actuar.
+Decides lo que suena bien, no lo que se siente bien.
+Te cuesta sostener una decisión.
+Decides desde la comparación.
+Eliges proyectos nuevos antes de terminar los viejos.
+Decides cambiar para no aburrirte.
+Te cuesta decidir sin tener toda la información.
+Decides con la mente dispersa.
+Eliges escapar mentalmente de lo difícil.
+Decides con base en suposiciones.
+Hablas de tu decisión más de lo que la vives.
+Decides sin escuchar tu intuición.
+Te cuesta decidir porque todo tiene un "pero".
+Cambias de rumbo por una idea nueva.
+Eliges sin comprometerte.
+Decides y te arrepientes al pensarlo de nuevo.
+Te cuesta elegir en silencio.
+Decides con la mente cansada.
+Eliges pensar en vez de sentir.
+Decides según la última información que recibiste.
+Te pierdes entre opciones.
+Decides en tu cabeza mil veces antes de decidir en la vida.
+#dfalta.aire
+La confusión te lleva a preguntarle a todo el mundo y terminas decidiendo por lo que dicen otros.
+Decides sin entender bien qué quieres.
+Eliges lo primero que aparece para no pensar.
+Te cuesta ver opciones distintas.
+Decides según lo que te enseñaron, sin cuestionarlo.
+Te bloqueas cuando tienes que decidir rápido.
+Decides sin informarte.
+Te cuesta explicar por qué decides algo.
+Eliges lo que otros eligen.
+Decides con la mente nublada.
+Te cuesta imaginar las consecuencias.
+Decides sin un plan claro.
+Te quedas sin palabras para negociar.
+Decides lo mismo de siempre por falta de ideas.
+Eliges no preguntar.
+Decides sin visión de futuro.
+Te cuesta decidir porque no encuentras sentido.
+Decides cuando ya no puedes pensar más.
+Eliges no opinar.
+Decides sin escuchar otras perspectivas.
+Te cuesta tomar decisiones creativas.
+Decides desde el miedo, sin pensarlo.
+Eliges sin comunicar lo que decides.
+Te cuesta decidir con claridad.
+Decides lo que alguien más te sugiere.
+Te cuesta tomar distancia para decidir.
+Decides en blanco, sin inspiración.
+Eliges lo conocido porque no logras imaginar algo nuevo.
+Decides sin pedir la información que necesitas.
+Te cuesta decidir cuando hay que hablar.
+Decides sin aire, con el pecho apretado.
+Eliges no aprender algo nuevo.
+Decides sin sueños.
+Te cuesta decidir sobre tu crecimiento.
+Decides sin preguntarte "¿para qué?".
+Eliges por inercia.
+Decides sin poner en palabras lo que sientes.
+Te cuesta decidir en grupo.
+Dejas que el tiempo pase y decida por ti.
+No cambias de opinión aunque haya razones.
+Decides sin claridad sobre tus prioridades.
+Te cuesta decidir porque no confías en tu mente.
+Decides sin hacer las preguntas importantes.
+Eliges lo que menos te exige pensar.
+Decides con confusión y luego dudas.
+`);
+BANK_RAW.push(`
+#tip.agua
+Pregúntate: ¿esto que siento es mío o es del otro?
+Ponle nombre a una emoción hoy: lo que se nombra, se ordena.
+Date una ducha consciente al final del día para soltar lo que cargaste.
+Puedes acompañar sin cargar: escucha, pero no te lleves el peso.
+Escribe tres cosas que sentiste hoy y qué te enseñaron.
+Toma un vaso de agua con intención: "suelto lo que no es mío".
+Di "no" una vez hoy sin dar explicaciones.
+Llora si lo necesitas: las lágrimas también limpian.
+Envía un mensaje diciendo cómo te sientes de verdad.
+Pon tu mano en el pecho y respira 5 veces lento.
+Escucha una canción que te haga sentir en paz.
+Antes de responder a alguien, pregúntate qué necesitas tú.
+Camina cerca del agua o imagina el mar 3 minutos.
+Escríbele una carta a tu niño interior.
+Haz algo bonito solo para ti hoy.
+Limita a 30 minutos las noticias y redes que te cargan.
+Abraza a alguien durante 20 segundos.
+Dile a alguien "esto me dolió", con calma.
+Date permiso de descansar sin culpa.
+Pon un límite amoroso: "te quiero, y hoy no puedo".
+Mira la luna esta noche y suelta una preocupación.
+Prepara una bebida caliente y tómala en silencio.
+Pregúntate: ¿qué necesito hoy para sentir paz?
+Haz una lista de lo que sí depende de ti.
+Agradece tres cosas antes de dormir.
+Habla de lo que sientes con frases cortas: "me siento...", "necesito...".
+Suelta un objeto que te ate a un recuerdo doloroso.
+Baila una canción lenta con los ojos cerrados.
+Escribe lo que no te atreves a decir y luego rompe el papel.
+Dedica 10 minutos a cuidarte solo a ti.
+Pon los pies en agua tibia con sal.
+Cuando sientas culpa, pregúntate: ¿qué parte es realmente mía?
+Comparte una alegría con alguien que quieres.
+Mira una foto tuya de la infancia y háblale con cariño.
+Inhala por la nariz contando 4 y suelta por la boca contando 6.
+Riega una planta y piensa en lo que quieres que crezca en ti.
+Pide un abrazo cuando lo necesites.
+Haz una pausa antes de decir "sí".
+Escribe un mensaje de perdón, aunque no lo envíes.
+Cambia una queja por una petición clara.
+Acuéstate 30 minutos más temprano hoy.
+Escucha sin intentar arreglar.
+Recuerda: no tienes que salvar a nadie.
+Mira el cielo 2 minutos y suelta lo que sientes.
+Date un baño con hierbas o flores.
+Pregúntate: ¿qué emoción estoy evitando?
+Llama a alguien que te haga reír.
+Convierte lo que sientes en algo creativo: dibuja, canta o escribe.
+Dile a tu cuerpo "gracias" por sostenerte.
+Elige una persona con quien hablar sin máscaras.
+Repite: "puedo sentir y seguir avanzando".
+Antes de dormir, deja tus preocupaciones escritas en un papel.
+No revises el celular en la primera hora del día.
+Ten con suavidad esa conversación pendiente.
+Haz una lista de las personas que te cuidan.
+Siente tu respiración cada vez que tomes agua.
+Pon música suave mientras haces tus tareas.
+Pregúntate: ¿cómo puedo ayudar sin cargarme?
+Recuerda un momento en que tu intuición acertó.
+Escribe qué te gustaría recibir de los demás y dátelo tú primero.
+Mira una película que te inspire.
+Comparte lo que sientes con una sola persona de confianza.
+Haz algo lento: cocinar, pintar, caminar.
+Repite: "lo que siento es válido".
+Observa cuándo se te contagia el ánimo de otros.
+Despídete de algo que ya terminó.
+Usa colores suaves hoy para recordarte tu calma.
+Escucha tu intuición en una decisión pequeña.
+Pon tus manos en el abdomen y respira hacia ahí.
+Dale 10 minutos a la tristeza y luego sal a caminar.
+Haz una lista de tus emociones de la semana.
+Agradece a alguien por algo pequeño.
+Practica decir "lo voy a pensar" en vez de un "sí" inmediato.
+Visualiza una cascada limpiando tu cuerpo.
+Escríbete una carta con palabras amables.
+Acuéstate 5 minutos sin hacer nada.
+Si sientes que te desbordas, sal al aire libre.
+Organiza un rincón que te dé paz.
+Expresa tu cariño con una acción concreta.
+Repite: "puedo amar y poner límites".
+Recuerda que también mereces recibir.
+Haz 3 respiraciones antes de reaccionar.
+Escucha sonidos de lluvia o de mar.
+Deja de explicarte cuando ya dijiste lo importante.
+Pregúntate: ¿qué me quiere decir esta emoción?
+Haz algo que te recuerde una infancia feliz.
+Comparte una comida con alguien que amas.
+Cuida tu energía: elige con quién hablas hoy.
+Repite: "lo que siento me guía, no me controla".
+Cierra el día con un ritual de agua: lava tu cara, tus manos y suelta.
+#tip.fuego
+Antes de responder, cuenta hasta 10 y respira: el fuego que espera, ilumina.
+Haz hoy una acción pequeña de eso que vienes aplazando.
+Mueve el cuerpo 10 minutos: el fuego bloqueado necesita salir.
+Di lo que sientes empezando con "yo siento…" en lugar de "tú siempre…".
+Elige una sola meta para hoy y termínala.
+Toma el sol 10 minutos.
+Escribe en un papel lo que te enoja y luego rómpelo.
+Haz 20 respiraciones rápidas y luego 5 lentas.
+Dile "sí" a algo que te dé miedo y te haga crecer.
+Pide lo que necesitas de forma directa.
+Baila una canción con mucha energía.
+Antes de una conversación difícil, camina 5 minutos.
+Celebra un logro, por pequeño que sea.
+Pon una alarma para empezar ese proyecto.
+Habla en voz alta frente al espejo sobre lo que quieres.
+Descansa 15 minutos sin culpa: el fuego también necesita brasas.
+Delega una tarea hoy.
+Bebe agua fresca cuando sientas calor en el pecho.
+Hazle una pregunta a alguien antes de dar tu opinión.
+Escribe tres razones por las que eres capaz.
+Haz ejercicio intenso durante 15 minutos.
+Envía ese mensaje que vienes aplazando.
+Ponle fecha a un sueño.
+Pide perdón si hoy hablaste con dureza.
+Antes de decidir algo grande, duerme una noche.
+Enciende una vela y escribe tu intención del día.
+Practica escuchar sin interrumpir en una conversación.
+Haz algo nuevo hoy, aunque sea pequeño.
+Si lo necesitas, grita en una almohada y suelta.
+Defiende con calma algo que te importa.
+Ordena tus prioridades: ¿qué es urgente y qué es importante?
+Inspira a alguien con tu ejemplo hoy.
+Apaga el celular 30 minutos y haz algo con las manos.
+Haz una lista de tus victorias del año.
+Comparte una idea en voz alta en tu familia o tu trabajo.
+Respira hondo antes de enviar un mensaje molesto.
+Sube escaleras o camina rápido para soltar la tensión.
+Pon un límite firme sin gritar.
+Dedícale tu energía a una sola cosa durante una hora.
+Cobra lo justo por tu trabajo.
+Agradece a tu cuerpo su fuerza.
+Escribe qué te apasiona y cómo traerlo a tu semana.
+Habla con alguien que admire tu fuerza.
+Cuando sientas impaciencia, mira todo lo que ya avanzaste.
+Estira el cuello y relaja la mandíbula.
+Toma una decisión que llevas días aplazando.
+Haz algo que te haga reír a carcajadas.
+Practica decir "necesito un momento" antes de reaccionar.
+Ponle música a tu tarea más aburrida.
+Elige una batalla y suelta las demás.
+Escribe tu "para qué" y léelo en la mañana.
+Muestra tu trabajo o tu talento a alguien.
+Respira largo con la boca en forma de "o" para enfriar.
+Termina algo que empezaste.
+Toma una ducha fría corta para activar tu energía.
+Pide ayuda en algo que siempre haces por tu cuenta.
+Dile a alguien lo que admiras de su forma de ser.
+Haz un plan de tres pasos para tu meta.
+Celebra el avance, no solo el resultado.
+Sal a caminar cuando sientas que vas a explotar.
+Haz una cosa a la vez durante una hora.
+Recuerda una vez en que tu valentía te salvó.
+Antes de dormir, escribe lo que lograste hoy.
+Elige una palabra poderosa para tu día.
+Cambia "tengo que" por "elijo".
+Ayuda a alguien a dar su primer paso.
+Haz una pausa cuando sientas calor en la cara.
+Practica un deporte que te guste esta semana.
+Habla con firmeza y suavidad al mismo tiempo.
+Toma la iniciativa en un plan con tu familia.
+Visualiza tu meta cumplida durante 2 minutos.
+Ríete de un error en vez de castigarte.
+Pide una opinión sincera y escúchala sin defenderte.
+Arriésgate un poco: propón algo nuevo.
+Usa hoy un color que te dé energía.
+No tomes decisiones grandes cuando sientas rabia.
+Agenda tu descanso como agendas tu trabajo.
+Reconoce en voz alta algo que hiciste bien.
+Haz respiraciones rápidas por la nariz durante 1 minuto y luego descansa.
+Escribe qué te frena y qué harías sin ese miedo.
+Mueve las caderas y los brazos al ritmo de la música.
+Dile que no a un compromiso que te quita energía.
+Enciende tu fuego con una lista de sueños.
+Termina una conversación antes de que se convierta en pelea.
+Practica la paciencia con alguien de tu familia.
+Comparte tu entusiasmo con alguien que lo necesite.
+Planea una pequeña aventura este mes.
+Cierra el día agradeciendo tu fuerza.
+Repite: "mi fuego ilumina, no quema".
+Elige actuar desde el amor, no desde la urgencia.
+#tip.tierra
+Ordena un solo espacio hoy: un cajón en orden ordena la mente.
+Crea una rutina de 3 pasos para tu mañana y repítela 7 días.
+Pon los pies en la tierra o el pasto 5 minutos: el cuerpo se centra.
+Escribe tus 3 prioridades del día antes de abrir el celular.
+Revisa en qué gastaste dinero esta semana.
+Cocina algo nutritivo con calma.
+Acuéstate a la misma hora hoy y mañana.
+Haz una lista de pendientes y tacha uno.
+Camina sin zapatos dentro de casa unos minutos.
+Toma agua cada dos horas.
+Organiza tu agenda de la semana.
+Bota o regala algo que no uses.
+Estira la espalda al despertar.
+Siembra una semilla y cuídala.
+Ahorra hoy una pequeña cantidad.
+Deja lista tu ropa de mañana esta noche.
+Resuelve un documento o trámite pendiente.
+Dale a tu cuerpo una comida a tiempo.
+Haz una pausa activa cada hora de trabajo.
+Cambia una rutina que ya no te sirve.
+Pregúntate: ¿qué control puedo soltar hoy?
+Toma un camino diferente al de siempre.
+Disfruta una comida sin pantallas.
+Haz una lista de lo que ya construiste.
+Ordena tu celular: borra fotos o apps que no usas.
+Abraza un árbol o toca una planta.
+Escribe un presupuesto simple del mes.
+Duerme una siesta corta si tu cuerpo lo pide.
+Pon música tranquila mientras ordenas.
+Cumple una promesa pequeña contigo.
+Elige un día de la semana para planear.
+Deja que alguien te ayude con una tarea.
+Haz algo lento y manual: tejer, cocinar, pintar.
+Revisa tu postura y relaja los hombros.
+Sal a caminar 20 minutos.
+Pon un horario fijo para revisar el celular.
+Agradece tu casa y tu cuerpo antes de dormir.
+Limpia tu espacio de trabajo.
+Termina una tarea antes de empezar otra.
+Planea tus comidas de los próximos tres días.
+Toma un té caliente y siente tus pies.
+Celebra tu constancia: mira cuánto has avanzado.
+Haz una actividad nueva este fin de semana.
+Agenda esa cita médica que vienes aplazando.
+Escribe qué te da seguridad además del dinero.
+Masajea tus pies antes de dormir.
+Elige un solo hábito saludable y sosténlo 21 días.
+Organiza tus papeles en una carpeta.
+Pon tus metas del mes en un lugar visible.
+Respira lento sintiendo el peso de tu cuerpo en la silla.
+Date un gusto sin culpa.
+Pregúntale a tu cuerpo qué necesita hoy.
+Arregla algo que esté dañado en casa.
+Planea un ahorro para algo que te ilusione.
+Dedica 10 minutos al jardín o a tus plantas.
+Come algo de la tierra: frutas, verduras, raíces.
+Haz una caminata en la naturaleza este mes.
+Suelta la perfección: hecho es mejor que perfecto.
+Pon una hora para terminar de trabajar.
+Escucha tu cansancio antes de que se vuelva enfermedad.
+Haz una rutina nocturna de 3 pasos.
+Rompe la rutina con algo divertido.
+Pide ayuda en casa y repartan las tareas.
+Revisa tus suscripciones y cancela las que no usas.
+Siéntate en el suelo 5 minutos y respira.
+Escribe tu plan de vida en una página.
+Haz algo por tu salud hoy, aunque sea pequeño.
+Comparte una comida casera con alguien.
+Regala tu tiempo con presencia, no con cansancio.
+Practica decir "esto puede esperar".
+Ordena tu clóset durante 15 minutos.
+Agenda un día de descanso real.
+Haz una lista de lo que sí controlas.
+Duerme con el celular lejos de la cama.
+Prepara tus comidas con amor y sin prisa.
+Recuerda: descansar también es construir.
+Revisa tus metas y ajusta una.
+Haz yoga o estiramientos durante 10 minutos.
+Ponle una hora fija a tu desayuno.
+Escribe tres cosas que te dan estabilidad.
+Antes de decidir, respira sintiendo tus pies en el piso.
+Termina tu día dejando la cocina en orden.
+Ten un lugar fijo para tus llaves y documentos.
+Prueba una receta nueva.
+Toma sol en la mañana para regular tu sueño.
+Agradece lo que tienes antes de pedir más.
+Anota tus ingresos y gastos de hoy.
+Cambia de lugar un mueble para renovar la energía.
+Sostén a otros, pero sostente también a ti.
+Repite: "estoy a salvo en mi cuerpo y en mi casa".
+#tip.aire
+Escribe 3 pensamientos en papel antes de dormir: lo que sale de la cabeza deja de dar vueltas.
+Elige UNA idea esta semana y llévala hasta el final.
+Respira 4 segundos, sostén 4, suelta 6: el cuerpo calma a la mente.
+Antes de analizar, pregúntate: ¿qué siento con esto?
+Haz una lista de ideas y elige solo una para hoy.
+Apaga las notificaciones durante una hora.
+Sal a tomar aire fresco 10 minutos.
+Escribe tus preocupaciones y al lado lo que sí puedes hacer.
+Lee 10 páginas de algo que te inspire.
+Ten una conversación profunda con alguien.
+Deja las pantallas una hora antes de dormir.
+Medita 5 minutos enfocándote en tu respiración.
+Pregúntate: ¿esto es un hecho o una suposición?
+Termina una tarea antes de abrir otra pestaña.
+Escribe tu día ideal en un párrafo.
+Habla en voz alta para ordenar tus ideas.
+Elige una decisión pequeña y tómala en 2 minutos.
+Aprende algo nuevo en 15 minutos.
+Ordena tu escritorio para ordenar tu mente.
+Haz un mapa mental de tu semana.
+Comparte una idea con alguien que te inspire.
+Camina sin audífonos y observa.
+Limita las opiniones: pide consejo a una sola persona.
+Escribe lo que agradeces de tu mente.
+Haz una lista de lo que ya sabes hacer bien.
+Pon un temporizador de 25 minutos para concentrarte.
+Respira lento cuando sientas el pecho apretado.
+Deja descansar una idea un día antes de decidir.
+Escríbele una carta a tu yo del futuro.
+Juega algo que active tu mente: crucigrama, ajedrez, adivinanzas.
+Haz silencio durante 10 minutos.
+Desconéctate de las redes una tarde.
+Pregúntate: ¿qué es lo peor que puede pasar y cómo lo resolvería?
+Ponle fecha y hora a una idea.
+Escucha un podcast que te enseñe algo útil.
+Comparte lo que aprendiste con alguien.
+Abre una ventana y respira profundo.
+Escribe sin parar durante 5 minutos todo lo que piensas.
+Cambia "¿y si sale mal?" por "¿y si sale bien?".
+Elige tres tareas y olvida el resto por hoy.
+Haz algo con las manos para bajar de la cabeza al cuerpo.
+Mira las nubes durante 3 minutos.
+Ten una libreta de ideas y vacía tu mente ahí.
+Duerme sin el celular en la cama.
+Habla hoy con alguien nuevo.
+Revisa una creencia que ya no te sirve.
+Practica escuchar sin preparar tu respuesta.
+Haz una lista de preguntas que te gustaría responder este año.
+Respira contando hasta 10 sin perder la cuenta.
+Termina un curso o un libro que dejaste a medias.
+Escribe tus pensamientos repetidos y ponles un nombre gracioso.
+Visualiza tu meta con todos los detalles.
+Planea tu semana en 10 minutos.
+Elige un día sin noticias.
+Haz una lluvia de ideas y luego elige con el corazón.
+Pide la opinión de alguien diferente a ti.
+Canta en voz alta.
+Agradece un pensamiento que te ayudó.
+Escribe lo que quieres decir antes de una conversación importante.
+Deja de comparar: mira tu propio avance.
+Cuando tu mente se acelere, nombra 5 cosas que ves.
+Organiza tus notas y archivos.
+Practica decir "no sé" sin miedo.
+Haz algo creativo sin buscar que sea perfecto.
+Toma una decisión y no la revises durante 24 horas.
+Usa una frase guía: "un paso a la vez".
+Comparte una idea en tus redes.
+Sal a caminar cuando haya brisa.
+Deja tus pendientes escritos antes de dormir.
+Pon música instrumental para concentrarte.
+Haz una lista de lo que te hace sentir en paz.
+Pregúntate: ¿esto me importará dentro de un año?
+Explícale algo que sabes a un niño.
+Escoge una fuente de información confiable y deja las demás.
+Respira alternando las fosas nasales para calmar la mente.
+Imagina tu mente como un cielo despejado.
+Termina hoy algo que lleva meses pendiente.
+Habla de tus sueños con alguien que te apoye.
+Convierte una preocupación en una pregunta útil.
+Dibuja lo que sientes.
+Mira un solo capítulo de tu serie y luego descansa.
+Pasa tiempo con personas que te hagan reír.
+Escribe tres soluciones para un problema.
+Haz una pausa cada vez que cambies de tarea.
+Usa la escritura para decidir, no solo la cabeza.
+Recuerda: no tienes que entenderlo todo para avanzar.
+Respira y repite: "mi mente es mi aliada".
+Ordena tus ideas: primero, segundo, tercero.
+Cierra el día con una frase que te inspire.
+Repite: "pienso con claridad y actúo con calma".
+`);
+const BANK = {};
+BANK_RAW.join('\n').split('\n').forEach((l, _, a) => {
+  l = l.trim(); if (!l) return;
+  if (l[0] === '#') { BANK._cur = l.slice(1); BANK[BANK._cur] = BANK[BANK._cur] || []; return; }
+  BANK[BANK._cur].push(l);
+});
+delete BANK._cur;
 // ═════════════ PERSONAJES (SVG generados) ═════════════
 const PAL = {
   agua:  {main:'#2f80ed', light:'#8fd0ff', dark:'#16357a', hair:'#3f86e0', glow:'#4aa8ff', eye:'#1b78e6'},
@@ -1465,10 +2958,20 @@ function finishReveal(){
 }
 
 // ═════════════ 7. CARTA ═════════════
+function pickNR(key){
+  const pool=BANK[key]||[]; if(!pool.length) return '';
+  let seen={}; try{ seen=JSON.parse(localStorage.getItem('c360_msgs')||'{}'); }catch(e){}
+  let used=(seen[key]||[]).filter(i=>i<pool.length); if(used.length>=pool.length) used=[];
+  const free=pool.map((_,i)=>i).filter(i=>!used.includes(i)), i=pick(free);
+  used.push(i); seen[key]=used; try{ localStorage.setItem('c360_msgs',JSON.stringify(seen)); }catch(e){}
+  return pool[i];
+}
+function acc(title,body){ return `<div class="acc"><button class="acc-h" onclick="toggleAcc(this)"><span>${title}</span><i>▾</i></button><div class="acc-b"><p>${body}</p></div></div>`; }
+function toggleAcc(b){ sfx.click(); const a=b.parentElement, open=a.classList.toggle('open'); const body=a.querySelector('.acc-b'); body.style.maxHeight = open ? body.scrollHeight+'px' : '0px'; }
 function showCard(){
   const res=S.result, E=EL[res], q=QUADS[S.quad], gold=true, sc=S.scores[res]||0;
   if(!S.msg){ const pole = sc>=5 ? 'exceso' : sc<=3 ? 'falta' : pick(['exceso','falta']);
-    S.msg={pole, power:pick(E.power), shadow:pick(E[pole]), tip:pick(E.tips)}; }
+    S.msg={pole, power:pickNR('power.'+res), shadow:pickNR(pole+'.'+res), decide:pickNR('d'+pole+'.'+res), tip:pickNR('tip.'+res)}; }
   const M=S.mood, A=EL[E.ally];
   const moodTxt = !M ? '' : M.pos
     ? (M.el===res
@@ -1489,12 +2992,13 @@ function showCard(){
     <div class="card-el pixel">ELEMENTO ${E.name.toUpperCase()}</div>
     ${gold?`<div class="gold-badge pixel" style="margin:-4px 0 12px">✦ EDICION DORADA · ${esc(S.ig||'SEGUIDOR OFICIAL')} ✦</div>`:''}
     <div class="stats">${stats}</div>
-    <div class="sec"><h4>${E.emo} ¿Qué es el ${E.name}?</h4><p>${E.def}</p></div>
-    ${M?`<div class="sec"><h4>${M.emo} Hoy llegaste con ${M.name.toLowerCase()}</h4><p>${moodTxt}</p></div>`:''}
-    <div class="sec"><h4>⚡ Tu superpoder</h4><p>${S.msg.power}</p></div>
-    <div class="sec"><h4>🧭 Cómo decides desde tus emociones</h4><p>${E.decide[S.msg.pole]}</p></div>
-    <div class="sec"><h4>⚠️ Tu desequilibrio</h4><p>${S.msg.shadow}</p></div>
-    <div class="sec"><h4>🎯 Tu misión en el ${q.name}</h4><p>${q.lesson} ${MISSION[res][q.k]}</p></div>
+    <div class="acc-hint">👇 Toca cada botón para descubrir tu información</div>
+    ${acc(`${E.emo} ¿Qué es el ${E.name}?`, E.def)}
+    ${M?acc(`${M.emo} Hoy llegaste con ${M.name.toLowerCase()}`, moodTxt):''}
+    ${acc('⚡ Tu superpoder', S.msg.power)}
+    ${acc('🧭 Cómo decides desde tus emociones', S.msg.decide)}
+    ${acc('⚠️ Tu desequilibrio', S.msg.shadow)}
+    ${acc(`🎯 Tu misión en el ${q.name}`, `${q.lesson} ${MISSION[res][q.k]}`)}
     <div class="bridge">
       <div class="bridge-h">🔓 Tu código ${S.deg}° en el ebook</div>
       <p>En el ebook <b>Código 360°</b>, tu grado tiene 4 partes para resolver lo que estás viviendo hoy:</p>
@@ -1504,9 +3008,8 @@ function showCard(){
         <div class="tile">📚<span>Lo que debes aprender</span><i>🔒</i></div>
         <div class="tile">👣<span>Lo que debes hacer</span><i>🔒</i></div>
       </div>
-      <p>${M&&M.pos ? `Úsalo cada día según cómo te sientas. Hoy es un buen día: abre la sección de <b>${todayEl}</b> para sostener esta energía y convertirla en hábito.` : `Úsalo cada día según cómo te sientas. Hoy empieza por la sección de <b>${todayEl}</b> para construir lo contrario de tu desequilibrio.`}</p>
     </div>
-    <div class="sec"><h4>🔑 Tu clave de hoy</h4><p>${S.msg.tip}</p></div>
+    <div class="clave"><div class="clave-h">🔑 Tu clave de hoy</div><p>${S.msg.tip}</p></div>
     <div class="ally-inv" style="--ac:${PAL[E.ally].main};--al:${PAL[E.ally].light}">
       <div class="ally-h">${A.emo} Activa tu ${A.name}</div>
       <p>${E.allyTxt.replace(/^Activa tu \S+: /,'').replace(/^./,c=>c.toUpperCase())}</p>
