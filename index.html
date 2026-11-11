@@ -15,8 +15,9 @@ button,input,select{font-family:inherit;color:inherit}
 #bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 15% 8%,rgba(124,108,255,.28),transparent 55%),radial-gradient(ellipse at 90% 30%,rgba(34,195,238,.16),transparent 50%),radial-gradient(ellipse at 50% 105%,rgba(255,138,61,.2),transparent 60%)}
 .star{position:absolute;border-radius:50%;background:#fff;animation:twk var(--d) var(--dl) infinite}
 @keyframes twk{0%,100%{opacity:.15}50%{opacity:1}}
-.floor{position:fixed;left:-50%;right:-50%;bottom:-8%;height:42%;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(139,124,246,.32) 1px,transparent 1px),linear-gradient(90deg,rgba(139,124,246,.32) 1px,transparent 1px);background-size:44px 44px;transform:perspective(320px) rotateX(62deg);transform-origin:bottom;animation:floor 3s linear infinite;-webkit-mask-image:linear-gradient(to top,#000 10%,transparent 85%);mask-image:linear-gradient(to top,#000 10%,transparent 85%)}
-@keyframes floor{to{background-position:0 44px}}
+.floor{position:fixed;left:-50%;right:-50%;bottom:-8%;height:42%;z-index:0;pointer-events:none;overflow:hidden;transform:perspective(320px) rotateX(62deg);transform-origin:bottom;-webkit-mask-image:linear-gradient(to top,#000 10%,transparent 85%);mask-image:linear-gradient(to top,#000 10%,transparent 85%)}
+.floor i{position:absolute;left:0;right:0;top:-44px;bottom:0;background-image:linear-gradient(rgba(139,124,246,.32) 1px,transparent 1px),linear-gradient(90deg,rgba(139,124,246,.32) 1px,transparent 1px);background-size:44px 44px;animation:floor 3s linear infinite;will-change:transform}
+@keyframes floor{to{transform:translateY(44px)}}
 #app{position:fixed;inset:0;z-index:1}
 .screen{display:none;position:absolute;top:0;bottom:0;left:50%;width:100%;max-width:460px;transform:translateX(-50%);flex-direction:column;align-items:center;overflow-y:auto;overflow-x:hidden;padding:18px 18px 44px}
 .screen.active{display:flex;animation:scrIn .45s ease}
@@ -31,7 +32,7 @@ button,input,select{font-family:inherit;color:inherit}
 .sub b{color:var(--txt)}
 .small{font-size:12.5px;color:var(--mut);text-align:center}
 .step{font-size:8px;color:var(--el2);background:rgba(139,124,246,.16);border:1px solid rgba(139,124,246,.4);padding:7px 11px;border-radius:20px;margin:4px 0 6px}
-.panel{background:var(--panel);border:2px solid var(--line);border-radius:18px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.panel{background:rgba(22,19,54,.94);border:2px solid var(--line);border-radius:18px}
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px 18px;border:none;border-radius:16px;cursor:pointer;font-size:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;background:linear-gradient(180deg,#a594ff,#7c6cff);box-shadow:0 6px 0 #4636a6,0 10px 24px rgba(124,108,255,.45);transition:transform .08s,box-shadow .08s;margin-top:14px;flex-shrink:0;text-decoration:none;text-align:center}
 .btn:active{transform:translateY(5px);box-shadow:0 1px 0 #4636a6}
 .btn.gold{background:linear-gradient(180deg,#ffe08a,#ffb020);color:#3a2300;box-shadow:0 6px 0 #a8650a,0 10px 24px rgba(255,176,32,.45)}
@@ -95,7 +96,7 @@ button,input,select{font-family:inherit;color:inherit}
 .quad:hover{fill-opacity:.42}
 .seg.cur{animation:segP 1s ease-in-out infinite}
 @keyframes segP{50%{fill-opacity:.5}}
-.w-hero{position:absolute;width:29%;transform:translate(-50%,-50%);transition:left .7s cubic-bezier(.34,1.56,.64,1),top .7s cubic-bezier(.34,1.56,.64,1),filter .5s;pointer-events:none;z-index:3;opacity:0}
+.w-hero{position:absolute;width:29%;transform:translate(-50%,-50%);transition:left .7s cubic-bezier(.34,1.56,.64,1),top .7s cubic-bezier(.34,1.56,.64,1),opacity .25s;pointer-events:none;z-index:3;opacity:0;will-change:left,top}
 .w-hero.on{opacity:1}
 .w-hero .inner{animation:bob 2.2s ease-in-out infinite;border-radius:50%;overflow:hidden;border:3px solid #ffd166;background:radial-gradient(circle,#2f2675,#110e30 75%);box-shadow:0 6px 18px rgba(0,0,0,.5)}
 .w-hero svg{width:100%;height:auto;display:block}
@@ -169,9 +170,9 @@ button,input,select{font-family:inherit;color:inherit}
 .pop{animation:popIn .5s cubic-bezier(.34,1.56,.64,1)}
 @keyframes popIn{from{transform:scale(.3);opacity:0}}
 /* card */
-.card{position:relative;width:100%;border-radius:22px;padding:4px;background:linear-gradient(140deg,var(--el2),var(--el),var(--eld),var(--el));box-shadow:0 0 40px color-mix(in srgb,var(--el) 55%,transparent);margin-top:10px;overflow:hidden;flex-shrink:0}
+.card{position:relative;width:100%;border-radius:22px;padding:4px;background:linear-gradient(140deg,var(--el2),var(--el),var(--eld),var(--el));margin-top:10px;overflow:hidden;flex-shrink:0}
 .card.gold{background:linear-gradient(140deg,#fff3c4,#ffd166,#b8860b,#ffd166)}
-.card::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.3) 50%,transparent 65%);background-size:250% 100%;animation:holo 30s ease-in-out 1.2s infinite;pointer-events:none}
+.card::after{content:none}
 @keyframes holo{0%{background-position:150% 0}6%{background-position:-100% 0}100%{background-position:-100% 0}}
 .card-in{background:linear-gradient(180deg,#151036,#0c0a24);border-radius:18px;padding:14px}
 .card-top{display:flex;justify-content:space-between;align-items:center}
@@ -202,7 +203,7 @@ button,input,select{font-family:inherit;color:inherit}
 </head>
 <body>
 <div id="bg"></div>
-<div class="floor"></div>
+<div class="floor"><i></i></div>
 <button class="snd" id="snd" onclick="toggleSound()" aria-label="Sonido">🔊</button>
 
 <div id="app">
@@ -1177,34 +1178,47 @@ function arc(a1,a2,ro,ri){
   return `M${f(x1)},${f(y1)}A${ro},${ro} 0 ${lg} 1 ${f(x2)},${f(y2)}L${f(x3)},${f(y3)}A${ri},${ri} 0 ${lg} 0 ${f(x4)},${f(y4)}Z`;
 }
 function wheelSVG(mode){
-  const n=S.answers.length;
   let s=`<svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="wcg-${mode}"><stop offset="0" stop-color="#3a2f8a"/><stop offset="1" stop-color="#120f33"/></radialGradient></defs>`;
   s+=`<circle cx="170" cy="170" r="168" fill="rgba(10,8,30,.8)" stroke="rgba(255,209,102,.4)" stroke-width="2"/>`;
   if(mode!=='title'){
     for(let i=0;i<8;i++){
-      const a=S.answers[i], cur=mode==='game'&&i===n, [x,y]=pt(153.5,i*45+22.5);
-      s+=`<path class="seg${cur?' cur':''}" d="${arc(i*45+1.5,(i+1)*45-1.5,164,143)}" fill="${a?PAL[a].main:'#fff'}" fill-opacity="${a?1:.07}" stroke="${cur?'#ffd166':'none'}" stroke-width="2"/>`;
-      s+= a ? `<text x="${x}" y="${y+4.5}" text-anchor="middle" font-size="12">${EL[a].emo}</text>`
-            : `<text x="${x}" y="${y+4}" text-anchor="middle" font-size="9" font-family="'Press Start 2P',monospace" fill="#fff" fill-opacity="${cur?.95:.35}">${i+1}</text>`;
+      s+=`<path class="seg" data-i="${i}" d="${arc(i*45+1.5,(i+1)*45-1.5,164,143)}" fill="#fff" fill-opacity=".07" stroke="none" stroke-width="2"/>`;
+      s+=`<text class="segt" data-i="${i}" text-anchor="middle"></text>`;
     }
   }
   for(let d=0; d<360; d+=10){ const [x1,y1]=pt(140,d), [x2,y2]=pt(d%90===0?131:136,d); s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#fff" stroke-opacity=".3" stroke-width="${d%90?1:2}"/>`; }
   QUADS.forEach((q,qi)=>{
-    const on=S.quad===qi && mode!=='title';
-    const fo = on ? .5 : (mode==='game' ? .1 : .22);
-    s+=`<path class="quad" d="${arc(qi*90+1,(qi+1)*90-1,130,38)}" fill="${q.color}" fill-opacity="${fo}" stroke="${q.color}" stroke-width="${on?3:1.5}"${mode==='age'?` onclick="pickQuad(${qi})"`:''}/>`;
-    if(!on && mode!=='title'){
+    s+=`<path class="quad" data-q="${qi}" d="${arc(qi*90+1,(qi+1)*90-1,130,38)}" fill="${q.color}" fill-opacity=".22" stroke="${q.color}" stroke-width="1.5"${mode==='age'?` onclick="pickQuad(${qi})"`:''}/>`;
+    if(mode!=='title'){
       const [x,y]=pt(84,qi*90+45);
-      s+=`<text x="${x}" y="${y-1}" text-anchor="middle" font-size="18" font-weight="700" font-family="Fredoka,sans-serif" fill="#fff" fill-opacity="${mode==='game'?.45:1}" pointer-events="none">${q.age.replace(/ /g,'')}</text>`+
-         `<text x="${x}" y="${y+15}" text-anchor="middle" font-size="10" font-weight="600" letter-spacing="1" font-family="Fredoka,sans-serif" fill="${q.color}" fill-opacity="${mode==='game'?.6:1}" pointer-events="none">${q.short}</text>`;
+      s+=`<g class="ql" data-q="${qi}" pointer-events="none"><text x="${x}" y="${y-1}" text-anchor="middle" font-size="18" font-weight="700" font-family="Fredoka,sans-serif" fill="#fff">${q.age.replace(/ /g,'')}</text>`+
+         `<text x="${x}" y="${y+15}" text-anchor="middle" font-size="10" font-weight="600" letter-spacing="1" font-family="Fredoka,sans-serif" fill="${q.color}">${q.short}</text></g>`;
     }
   });
   s+=`<circle cx="170" cy="170" r="34" fill="url(#wcg-${mode})" stroke="#ffd166" stroke-width="2"/>`;
-  s+= mode==='game'
-    ? `<text x="170" y="172" text-anchor="middle" font-size="18" font-weight="700" fill="#ffd166" font-family="Fredoka,sans-serif">${n*45}°</text><text x="170" y="188" text-anchor="middle" font-size="7" fill="#fff" fill-opacity=".6" font-family="'Press Start 2P',monospace">${n}/8</text>`
-    : (mode==='age' ? `<text x="170" y="176" text-anchor="middle" font-size="17" font-weight="700" fill="#fff" font-family="Fredoka,sans-serif">360°</text>` : '');
+  if(mode==='game') s+=`<text class="cdeg" x="170" y="172" text-anchor="middle" font-size="18" font-weight="700" fill="#ffd166" font-family="Fredoka,sans-serif">0°</text><text class="cn" x="170" y="188" text-anchor="middle" font-size="7" fill="#fff" fill-opacity=".6" font-family="'Press Start 2P',monospace">0/8</text>`;
+  if(mode==='age') s+=`<text x="170" y="176" text-anchor="middle" font-size="17" font-weight="700" fill="#fff" font-family="Fredoka,sans-serif">360°</text>`;
   return s+'</svg>';
 }
+// Actualiza la rueda sin redibujarla (evita parpadeos en el celular)
+function updateWheel(box,mode){
+  const svg=box.querySelector('svg'); if(!svg) return;
+  const n=S.answers.length;
+  svg.querySelectorAll('.seg').forEach(p=>{ const i=+p.dataset.i, a=S.answers[i], cur=mode==='game'&&i===n;
+    p.setAttribute('fill', a?PAL[a].main:'#fff'); p.setAttribute('fill-opacity', a?1:.07); p.setAttribute('stroke', cur?'#ffd166':'none'); p.classList.toggle('cur',cur); });
+  svg.querySelectorAll('.segt').forEach(t=>{ const i=+t.dataset.i, a=S.answers[i], cur=mode==='game'&&i===n, [x,y]=pt(153.5,i*45+22.5);
+    t.setAttribute('x',x);
+    if(a){ t.setAttribute('y',y+4.5); t.setAttribute('font-size',12); t.removeAttribute('font-family'); t.setAttribute('fill-opacity',1); t.textContent=EL[a].emo; }
+    else { t.setAttribute('y',y+4); t.setAttribute('font-size',9); t.setAttribute('font-family',"'Press Start 2P',monospace"); t.setAttribute('fill','#fff'); t.setAttribute('fill-opacity',cur?.95:.35); t.textContent=i+1; } });
+  svg.querySelectorAll('.quad').forEach(p=>{ const on=S.quad===+p.dataset.q;
+    p.setAttribute('fill-opacity', on?.5:(mode==='game'?.1:.22)); p.setAttribute('stroke-width', on?3:1.5); });
+  svg.querySelectorAll('.ql').forEach(g=>{ g.style.display = S.quad===+g.dataset.q ? 'none' : ''; g.setAttribute('opacity', mode==='game'?.5:1); });
+  const d=svg.querySelector('.cdeg'); if(d) d.textContent=n*45+'°';
+  const c=svg.querySelector('.cn'); if(c) c.textContent=n+'/8';
+}
+function drawWheel(id,mode){ const box=$(id); box.innerHTML=wheelSVG(mode); updateWheel(box,mode); }
+// Cambia solo la cara del personaje, sin reiniciar su animación
+function setHero(h,html){ let f=h.querySelector('.face'); if(!f){ h.innerHTML='<div class="inner"><div class="face"></div></div>'; f=h.querySelector('.face'); } f.innerHTML=html; }
 function heroPos(qi){ const a=(qi*90+45)*Math.PI/180; return {left:(170+84*Math.sin(a))/3.4+'%', top:(170-84*Math.cos(a))/3.4+'%'}; }
 function puffAt(box,pos){ const p=document.createElement('div'); p.className='puff'; p.style.left=pos.left; p.style.top=pos.top; box.appendChild(p); setTimeout(()=>p.remove(),650); }
 
@@ -1310,7 +1324,7 @@ async function verifyCode(){
 function goAge(){
   S.quad=null; S.answers=[]; S.scores={}; S.result=null; S.mood=null;
   setElVars('aire');
-  $('age-svg').innerHTML=wheelSVG('age');
+  drawWheel('age-svg','age');
   const h=$('age-hero'); h.classList.remove('on'); h.innerHTML='';
   $('qinfo').classList.add('hidden'); $('age-go').classList.add('hidden');
   $('age-sub').textContent='Toca tu etapa en la rueda y aparecerá tu personaje 👇';
@@ -1320,7 +1334,7 @@ function pickQuad(qi){
   if(S.timers.shufOn) return;
   sfx.click(); S.quad=qi;
   const q=QUADS[qi], h=$('age-hero'), pos=heroPos(qi);
-  $('age-svg').innerHTML=wheelSVG('age');
+  updateWheel($('age-svg'),'age');
   h.style.left=pos.left; h.style.top=pos.top; h.classList.add('on');
   S.skin=pick(SKINS); S.hairN=pick(HAIRS);
   puffAt($('age-box'),pos);
@@ -1328,16 +1342,16 @@ function pickQuad(qi){
   clearInterval(S.timers.shuf);
   S.timers.shuf=setInterval(()=>{
     k++;
-    h.innerHTML=`<div class="inner">${hero({face:true,el:pick(ELKEYS),g:S.gender,ph:q.k,skin:pick(SKINS)})}</div>`;
+    setHero(h, hero({face:true,el:pick(ELKEYS),g:S.gender,ph:q.k,skin:pick(SKINS)}));
     sfx.tick();
-    if(k>=10){
+    if(k>=8){
       clearInterval(S.timers.shuf); S.timers.shufOn=false;
-      h.innerHTML=`<div class="inner">${hero({face:true,el:'neutro',g:S.gender,ph:q.k,skin:S.skin,hairN:S.hairN})}</div>`;
+      setHero(h, hero({face:true,el:'neutro',g:S.gender,ph:q.k,skin:S.skin,hairN:S.hairN}));
       puffAt($('age-box'),pos); sfx.pop();
       const r=$('age-box').getBoundingClientRect();
       burst(r.left+r.width*parseFloat(pos.left)/100, r.top+r.height*parseFloat(pos.top)/100, q.color, 14);
     }
-  },85);
+  },120);
   $('age-sub').textContent='¿Otra etapa? Toca otro cuadrante.';
   const info=$('qinfo');
   info.innerHTML=`<div class="age" style="color:${q.color}">${q.age} años</div><div class="qn pixel">${q.name.toUpperCase().replace('Á','A')}</div><p>${q.lesson}</p>`;
@@ -1364,10 +1378,10 @@ function beginMissions(){
   S.answers=[]; S.scores={agua:0,fuego:0,tierra:0,aire:0}; S.lock=false; pickQuestions();
   const q=QUADS[S.quad], pos=heroPos(S.quad), h=$('game-hero');
   h.style.left=pos.left; h.style.top=pos.top; h.style.filter='';
-  h.innerHTML=`<div class="inner">${hero({face:true,el:'neutro',g:S.gender,ph:q.k,skin:S.skin,hairN:S.hairN})}</div>`;
+  setHero(h, hero({face:true,el:'neutro',g:S.gender,ph:q.k,skin:S.skin,hairN:S.hairN}));
   $('hud-av').innerHTML=hero({face:true,el:'neutro',g:S.gender,ph:q.k,skin:S.skin,hairN:S.hairN});
   $('hud-name').textContent=S.name; $('hud-deg').textContent='0°';
-  $('game-svg').innerHTML=wheelSVG('game');
+  drawWheel('game-svg','game');
   show('s-game'); renderQuestion();
 }
 function pickQuestions(){
@@ -1405,7 +1419,7 @@ function answer(btn){
   sfx.ok(); burstFrom(btn,PAL[e].light,14);
   setTimeout(()=>{
     const n=S.answers.length;
-    $('game-svg').innerHTML=wheelSVG('game');
+    updateWheel($('game-svg'),'game');
     $('hud-deg').textContent=`${n*45}°`;
     const f=document.createElement('div'); f.className='float'; f.textContent=n===8?'360° !':'+45°'; $('fx').appendChild(f); setTimeout(()=>f.remove(),1150);
     const rc=$('react'); rc.textContent=pick(EL[e].react); rc.style.color=PAL[e].light; rc.classList.remove('show'); void rc.offsetWidth; rc.classList.add('show');
