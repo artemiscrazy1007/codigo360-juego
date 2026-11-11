@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Código 360° · El Juego</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{--bg:#07061a;--panel:rgba(22,19,54,.84);--line:rgba(255,255,255,.13);--txt:#f3f1ff;--mut:rgba(243,241,255,.64);--gold:#ffd166;--el:#8b7cf6;--el2:#e3ddff;--eld:#4636a6}
+html,body{height:100%;background:var(--bg);color:var(--txt);font-family:'Fredoka',system-ui,sans-serif;overflow:hidden}
+button,input,select{font-family:inherit;color:inherit}
+.pixel{font-family:'Press Start 2P',monospace;letter-spacing:.5px}
+#bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse at 15% 8%,rgba(124,108,255,.28),transparent 55%),radial-gradient(ellipse at 90% 30%,rgba(34,195,238,.16),transparent 50%),radial-gradient(ellipse at 50% 105%,rgba(255,138,61,.2),transparent 60%)}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twk var(--d) var(--dl) infinite}
+@keyframes twk{0%,100%{opacity:.15}50%{opacity:1}}
+.floor{position:fixed;left:-50%;right:-50%;bottom:-8%;height:42%;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(139,124,246,.32) 1px,transparent 1px),linear-gradient(90deg,rgba(139,124,246,.32) 1px,transparent 1px);background-size:44px 44px;transform:perspective(320px) rotateX(62deg);transform-origin:bottom;animation:floor 3s linear infinite;-webkit-mask-image:linear-gradient(to top,#000 10%,transparent 85%);mask-image:linear-gradient(to top,#000 10%,transparent 85%)}
+@keyframes floor{to{background-position:0 44px}}
+#app{position:fixed;inset:0;z-index:1}
+.screen{display:none;position:absolute;top:0;bottom:0;left:50%;width:100%;max-width:460px;transform:translateX(-50%);flex-direction:column;align-items:center;overflow-y:auto;overflow-x:hidden;padding:18px 18px 44px}
+.screen.active{display:flex;animation:scrIn .45s ease}
+@keyframes scrIn{from{opacity:0;transform:translateX(-50%) scale(.96)}to{opacity:1;transform:translateX(-50%) scale(1)}}
+.screen::-webkit-scrollbar{display:none}
+.center{justify-content:center}
+.tag{font-size:9px;color:var(--gold);text-align:center;line-height:1.8}
+.logo{font-weight:700;text-align:center;line-height:.95;font-size:44px;letter-spacing:3px;color:#fff;text-shadow:0 4px 0 #4636a6,0 8px 26px rgba(139,124,246,.65);margin:8px 0 6px}
+.logo span{display:block;font-size:78px;text-shadow:none;background:linear-gradient(180deg,#fff 8%,#ffd166 52%,#ff8a3d 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 5px 0 #8a3a12)}
+.h2{font-size:26px;font-weight:700;text-align:center;line-height:1.15;margin:6px 0}
+.sub{font-size:15.5px;color:var(--mut);text-align:center;line-height:1.45}
+.sub b{color:var(--txt)}
+.small{font-size:12.5px;color:var(--mut);text-align:center}
+.step{font-size:8px;color:var(--el2);background:rgba(139,124,246,.16);border:1px solid rgba(139,124,246,.4);padding:7px 11px;border-radius:20px;margin:4px 0 6px}
+.panel{background:var(--panel);border:2px solid var(--line);border-radius:18px;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px 18px;border:none;border-radius:16px;cursor:pointer;font-size:18px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#fff;background:linear-gradient(180deg,#a594ff,#7c6cff);box-shadow:0 6px 0 #4636a6,0 10px 24px rgba(124,108,255,.45);transition:transform .08s,box-shadow .08s;margin-top:14px;flex-shrink:0;text-decoration:none;text-align:center}
+.btn:active{transform:translateY(5px);box-shadow:0 1px 0 #4636a6}
+.btn.gold{background:linear-gradient(180deg,#ffe08a,#ffb020);color:#3a2300;box-shadow:0 6px 0 #a8650a,0 10px 24px rgba(255,176,32,.45)}
+.btn.gold:active{box-shadow:0 1px 0 #a8650a}
+.btn.green{background:linear-gradient(180deg,#4ee38a,#1fb85d);box-shadow:0 6px 0 #0f7a3b,0 10px 24px rgba(31,184,93,.4)}
+.btn.green:active{box-shadow:0 1px 0 #0f7a3b}
+.btn.ghost{background:rgba(255,255,255,.04);border:2px solid var(--line);box-shadow:none;font-size:14px;padding:13px}
+.btn.ghost:active{transform:scale(.98)}
+.btn[disabled]{opacity:.6;pointer-events:none}
+.pulse{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.04)}}
+.hidden{display:none!important}
+.linkbtn{background:none;border:none;color:var(--mut);text-decoration:underline;font-size:13.5px;margin-top:12px;cursor:pointer;padding:6px}
+.linkbtn[disabled]{opacity:.5;text-decoration:none}
+.snd{position:fixed;top:12px;right:12px;z-index:60;width:40px;height:40px;border-radius:12px;border:2px solid var(--line);background:rgba(20,17,50,.8);font-size:18px;cursor:pointer}
+/* title */
+.orbit{position:relative;width:min(74vw,290px);aspect-ratio:1;margin:40px auto 30px;flex-shrink:0}
+.orbit .spin{position:absolute;inset:6%;width:88%;height:88%;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orbit .core{position:absolute;inset:39%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:var(--gold);background:radial-gradient(circle,#2f2675,#120f33);border:2px solid rgba(255,209,102,.7);box-shadow:0 0 30px rgba(255,209,102,.35)}
+.oh{position:absolute;width:30%;animation:bob 2.4s ease-in-out infinite}
+.oh svg,.g-prev svg,.medal svg{width:100%;height:auto;display:block;border-radius:50%;background:radial-gradient(circle,#2f2675,#110e30 75%);border:3px solid #ffd166;box-shadow:0 0 18px rgba(255,209,102,.35)}
+.oh.p1{left:35%;top:-6%}.oh.p2{left:71%;top:35%;animation-delay:.5s}.oh.p3{left:35%;top:76%;animation-delay:1s}.oh.p4{left:-1%;top:35%;animation-delay:1.5s}
+@keyframes bob{50%{transform:translateY(-8px)}}
+/* player */
+.g-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin:10px 0 4px}
+.g-card{position:relative;border:3px solid var(--line);border-radius:18px;background:var(--panel);padding:6px 6px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;transition:all .2s}
+.g-prev{width:84%;aspect-ratio:1;margin:4px 0 6px}
+.g-card span{font-weight:700;letter-spacing:2px;font-size:15px;margin-top:2px}
+.g-card.sel{border-color:var(--gold);box-shadow:0 0 0 3px rgba(255,209,102,.22),0 0 30px rgba(255,209,102,.3);transform:translateY(-3px)}
+.g-card.sel::after{content:'✓';position:absolute;top:6px;right:8px;width:24px;height:24px;border-radius:50%;background:var(--gold);color:#3a2300;font-weight:700;display:flex;align-items:center;justify-content:center;font-size:14px}
+.field{width:100%;margin-top:12px}
+.lbl{display:block;font-size:12px;font-weight:600;color:var(--mut);margin:0 0 6px 4px;text-transform:uppercase;letter-spacing:1px}
+.inp{width:100%;padding:14px 16px;border-radius:14px;border:2px solid var(--line);background:rgba(10,8,30,.75);color:var(--txt);font-size:17px;outline:none;transition:border-color .2s}
+.inp:focus{border-color:var(--el)}
+.inp.ok{border-color:#3ddc84}.inp.bad{border-color:#ff5c7a}
+.inp::placeholder{color:rgba(243,241,255,.3)}
+.phone{display:flex;gap:8px}
+.phone select{flex:0 0 118px;min-width:0;padding:14px 6px;border-radius:14px;border:2px solid var(--line);background:#0e0b28;color:var(--txt);font-size:15px;outline:none}
+.hint{font-size:12.5px;color:var(--mut);margin:6px 0 0 4px;min-height:16px}
+.hint.ok{color:#3ddc84}.hint.bad{color:#ff7a90}
+.follow{width:100%;margin-top:14px;padding:13px 14px}
+.follow p{font-size:14.5px;line-height:1.35;margin-bottom:10px}
+.follow b{color:var(--gold)}
+.yn{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.yn button{padding:11px 6px;border-radius:12px;border:2px solid var(--line);background:rgba(10,8,30,.6);font-size:14px;font-weight:600;cursor:pointer}
+.yn button.sel{border-color:var(--gold);background:rgba(255,209,102,.15)}
+.ig-go{display:block;text-align:center;margin-top:10px;padding:11px;border-radius:12px;background:linear-gradient(90deg,#f58529,#dd2a7b,#8134af);color:#fff;font-weight:700;text-decoration:none;font-size:14px}
+.consent{display:flex;gap:10px;align-items:flex-start;width:100%;margin-top:14px;font-size:12.5px;color:var(--mut);line-height:1.4;cursor:pointer}
+.consent input{width:20px;height:20px;accent-color:#ffd166;flex-shrink:0;margin-top:1px}
+.err{color:#ff7a90;font-size:14px;text-align:center;margin-top:10px;min-height:18px}
+.otp{text-align:center;font-size:30px;letter-spacing:12px;font-weight:700;max-width:290px;margin:16px auto 0;display:block}
+.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.big-ico{font-size:58px;margin:18px 0 6px;animation:bob 2s ease-in-out infinite}
+/* wheel */
+.wheel-box{position:relative;width:min(88vw,340px);aspect-ratio:1;margin:8px auto 6px;flex-shrink:0}
+.wsvg{position:absolute;inset:0}
+.wsvg svg{width:100%;height:100%;display:block;overflow:visible}
+.quad{cursor:pointer;transition:fill-opacity .25s}
+.quad:hover{fill-opacity:.42}
+.seg.cur{animation:segP 1s ease-in-out infinite}
+@keyframes segP{50%{fill-opacity:.5}}
+.w-hero{position:absolute;width:29%;transform:translate(-50%,-50%);transition:left .7s cubic-bezier(.34,1.56,.64,1),top .7s cubic-bezier(.34,1.56,.64,1),filter .5s;pointer-events:none;z-index:3;opacity:0}
+.w-hero.on{opacity:1}
+.w-hero .inner{animation:bob 2.2s ease-in-out infinite;border-radius:50%;overflow:hidden;border:3px solid #ffd166;background:radial-gradient(circle,#2f2675,#110e30 75%);box-shadow:0 6px 18px rgba(0,0,0,.5)}
+.w-hero svg{width:100%;height:auto;display:block}
+.w-hero.hop .inner{animation:hop .5s ease}
+@keyframes hop{40%{transform:translateY(-22px) scale(1.1)}}
+.puff{position:absolute;width:34%;aspect-ratio:1;border-radius:50%;border:5px solid #fff;animation:puff .6s ease-out forwards;pointer-events:none;z-index:4}
+@keyframes puff{from{opacity:1;transform:translate(-50%,-50%) scale(.2)}to{opacity:0;transform:translate(-50%,-50%) scale(1.7)}}
+.fx{position:absolute;inset:0;pointer-events:none;z-index:5}
+.float{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:'Press Start 2P',monospace;font-size:17px;color:var(--gold);text-shadow:0 3px 0 #7a4a00;animation:flt 1.1s ease-out forwards;white-space:nowrap}
+@keyframes flt{to{transform:translate(-50%,-170%);opacity:0}}
+.qinfo{width:100%;padding:14px 16px;text-align:center;animation:popIn .45s cubic-bezier(.34,1.56,.64,1)}
+.qinfo .age{font-size:32px;font-weight:700;line-height:1}
+.qinfo .qn{font-size:10px;margin:9px 0;color:var(--gold);line-height:1.6}
+.qinfo p{font-size:14.5px;color:var(--mut);line-height:1.45}
+/* mood */
+.moods{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-top:18px}
+.mood{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 8px;border-radius:16px;border:2px solid var(--line);background:var(--panel);font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.4);animation:ansIn .35s ease backwards}
+.mood .me{font-size:38px;line-height:1}
+.mood:active{transform:translateY(3px)}
+.mood.sel{border-color:var(--gold);background:rgba(255,209,102,.15);transform:scale(1.05)}
+/* bridge ebook */
+.bridge{margin-top:12px;border-radius:16px;padding:14px;border:2px dashed #ffd166;background:rgba(255,209,102,.07)}
+.bridge-h{font-size:17px;font-weight:700;color:#ffd166;margin-bottom:6px}
+.bridge p{font-size:14px;line-height:1.45;color:rgba(243,241,255,.85)}
+.bridge b{color:#ffd166}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.tile{position:relative;display:flex;flex-direction:column;gap:4px;padding:10px;border-radius:12px;background:rgba(0,0,0,.35);border:1px solid var(--line);font-size:20px}
+.tile span{font-size:12.5px;font-weight:600;line-height:1.2}
+.tile i{position:absolute;top:6px;right:8px;font-style:normal;font-size:13px}
+.ally-inv{margin-top:12px;border-radius:16px;padding:15px;background:linear-gradient(160deg,color-mix(in srgb,var(--ac) 35%,#140f35),#140f35);border:2px solid var(--al);box-shadow:0 0 24px color-mix(in srgb,var(--ac) 45%,transparent)}
+.ally-h{font-size:21px;font-weight:700;color:var(--al);margin-bottom:6px}
+.ally-inv p{font-size:14.5px;line-height:1.45;color:rgba(243,241,255,.9)}
+.ally-inv .ally-cta{margin-top:10px;font-weight:600;color:#fff}
+.ally-inv b{color:#ffd166}
+/* game */
+.hud{display:flex;align-items:center;gap:10px;width:calc(100% - 50px);align-self:flex-start;padding:8px 12px}
+.hud-av{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.08);overflow:hidden;flex-shrink:0;position:relative}
+.hud-av svg{width:100%;height:100%;display:block}
+.hud-lbl{font-size:7px;color:var(--mut)}
+.hud-name{font-weight:700;font-size:16px;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:3px}
+.hud-deg{margin-left:auto;text-align:right}
+.hud-val{font-size:13px;color:var(--gold);margin-top:5px}
+.q-card{width:100%;padding:13px 15px;text-align:center}
+.q-num{font-size:9px;color:var(--gold);margin-bottom:8px}
+.react{font-weight:700;font-size:15px;height:0;opacity:0;overflow:hidden;transition:none}
+.react.show{animation:react 2.2s ease forwards}
+@keyframes react{0%{height:0;opacity:0;transform:scale(.6)}12%{height:22px;opacity:1;transform:scale(1.12)}22%{transform:scale(1)}80%{height:22px;opacity:1}100%{height:22px;opacity:.55}}
+.q-text{font-size:19px;font-weight:600;line-height:1.28}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-top:11px}
+.ans{position:relative;padding:12px 10px;min-height:70px;border-radius:16px;border:2px solid var(--line);background:var(--panel);font-size:14.5px;font-weight:500;line-height:1.22;text-align:left;cursor:pointer;display:flex;align-items:center;gap:9px;box-shadow:0 4px 0 rgba(0,0,0,.4);transition:transform .1s,opacity .3s;animation:ansIn .35s ease backwards}
+.ans:nth-child(2){animation-delay:.06s}.ans:nth-child(3){animation-delay:.12s}.ans:nth-child(4){animation-delay:.18s}
+@keyframes ansIn{from{opacity:0;transform:translateY(14px)}}
+.ans:active{transform:translateY(3px)}
+.ans .k{flex-shrink:0;width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.1);font-family:'Press Start 2P',monospace;font-size:10px;display:flex;align-items:center;justify-content:center}
+.ans.pick{border-color:var(--c);background:color-mix(in srgb,var(--c) 32%,#140f35);transform:scale(1.04)}
+.ans.pick .k{background:var(--c)}
+.answers.lock .ans:not(.pick){opacity:.3}
+.pt{position:fixed;width:9px;height:9px;margin:-4px 0 0 -4px;border-radius:50%;pointer-events:none;z-index:99;animation:pt .75s ease-out forwards}
+@keyframes pt{to{transform:translate(var(--dx),var(--dy)) scale(.2);opacity:0}}
+/* reveal */
+.rv-stage{position:relative;width:min(66vw,250px);aspect-ratio:1;margin:24px auto 14px}
+.rv-stage .halo{position:absolute;inset:-14%;border-radius:50%;background:radial-gradient(circle,var(--el) 0%,transparent 66%);opacity:.6}
+.rv-stage .ring{position:absolute;inset:-4%;border-radius:50%;border:3px dashed rgba(255,255,255,.35);animation:spin 6s linear infinite}
+#rv-hero{position:relative;z-index:2}
+#rv-hero svg{width:100%;height:auto;display:block;border-radius:50%;border:4px solid var(--el2);background:radial-gradient(circle,var(--eld),#0c0a24 78%);box-shadow:0 0 40px var(--el)}
+.rv-name{font-size:36px;font-weight:700;text-align:center;color:var(--el2);text-shadow:0 4px 0 var(--eld),0 0 30px var(--el);min-height:44px}
+.rv-sub{font-size:18px;text-align:center;color:var(--txt);min-height:24px;margin-top:4px}
+.flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:80}
+.flash.go{animation:flash .8s ease-out}
+@keyframes flash{0%{opacity:0}12%{opacity:.95}100%{opacity:0}}
+.pop{animation:popIn .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes popIn{from{transform:scale(.3);opacity:0}}
+/* card */
+.card{position:relative;width:100%;border-radius:22px;padding:4px;background:linear-gradient(140deg,var(--el2),var(--el),var(--eld),var(--el));box-shadow:0 0 40px color-mix(in srgb,var(--el) 55%,transparent);margin-top:10px;overflow:hidden;flex-shrink:0}
+.card.gold{background:linear-gradient(140deg,#fff3c4,#ffd166,#b8860b,#ffd166)}
+.card::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.3) 50%,transparent 65%);background-size:250% 100%;animation:holo 3.5s linear infinite;pointer-events:none}
+@keyframes holo{from{background-position:150% 0}to{background-position:-100% 0}}
+.card-in{background:linear-gradient(180deg,#151036,#0c0a24);border-radius:18px;padding:14px}
+.card-top{display:flex;justify-content:space-between;align-items:center}
+.card-top .pixel{font-size:9px;color:var(--el2)}
+.card-deg{font-size:15px;color:var(--gold)}
+.card-art{position:relative;margin:10px 0;border-radius:14px;overflow:hidden;background:radial-gradient(circle at 50% 42%,var(--el) 0%,var(--eld) 58%,#0c0a24 100%);display:flex;justify-content:center;padding-top:6px}
+.card-art{padding:16px 0 34px}.card-art svg{width:72%;height:auto;position:relative;z-index:1;display:block;border-radius:50%;border:4px solid var(--el2);box-shadow:0 0 30px var(--el)}
+.card-quad{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:22px 8px 9px;text-align:center;font-size:9px;line-height:1.7;background:linear-gradient(transparent,rgba(0,0,0,.8) 45%);color:#fff}
+.card-name{font-size:30px;font-weight:700;text-align:center;line-height:1.1;word-break:break-word}
+.card-title{font-size:17px;text-align:center;color:var(--el2);font-weight:600;margin-top:3px}
+.card-el{font-size:8px;text-align:center;color:var(--gold);margin:9px 0 13px}
+.stats{display:grid;gap:8px;margin-bottom:10px}
+.stat{display:grid;grid-template-columns:82px 1fr 40px;align-items:center;gap:8px;font-size:13.5px}
+.bar{height:11px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden}
+.bar i{display:block;height:100%;width:0;border-radius:6px;transition:width 1.3s cubic-bezier(.25,.8,.3,1)}
+.stat b{font-size:8px;text-align:right}
+.sec{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:14px;padding:11px 13px;margin-top:8px}
+.sec h4{font-size:15px;margin-bottom:4px;color:var(--el2)}
+.sec p{font-size:14.5px;line-height:1.45;color:rgba(243,241,255,.85)}
+.gold-badge{margin-top:10px;text-align:center;font-size:8px;line-height:1.7;color:#3a2300;background:linear-gradient(90deg,#ffe08a,#ffb020);border-radius:10px;padding:8px}
+.cta-note{font-size:14.5px;color:var(--mut);text-align:center;margin-top:18px;line-height:1.45}
+.cta-note b{color:var(--gold)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(140px);background:#1b1640;border:2px solid var(--gold);border-radius:14px;padding:12px 18px;font-size:14.5px;z-index:100;transition:transform .35s;max-width:90vw;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.hero-svg .eyes{animation:blinkE 4.5s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes blinkE{0%,93%,100%{transform:scaleY(1)}96%{transform:scaleY(.1)}}
+</style>
+</head>
+<body>
+<div id="bg"></div>
+<div class="floor"></div>
+<button class="snd" id="snd" onclick="toggleSound()" aria-label="Sonido">🔊</button>
+
+<div id="app">
+
+<!-- 1. TÍTULO -->
+<section class="screen active" id="s-title">
+  <div style="height:22px;flex-shrink:0"></div>
+  <div class="tag pixel">ANA SOFIA PRESENTA</div>
+  <h1 class="logo">CÓDIGO<span>360°</span></h1>
+  <div class="tag pixel" style="color:var(--el2)">EL JUEGO DE TU ELEMENTO</div>
+  <div class="orbit" id="orbit"></div>
+  <p class="sub">Descubre cómo tomas decisiones desde tus emociones. Elige tu etapa, supera <b>8 misiones</b> y conoce tu elemento: <b style="color:#8fd0ff">Agua</b>, <b style="color:#ffc04d">Fuego</b>, <b style="color:#b5e06a">Tierra</b> o <b style="color:#e3ddff">Aire</b>.</p>
+  <button class="btn gold pulse" onclick="startGame()">▶ Iniciar juego</button>
+  <div class="small" style="margin-top:14px">⏱ 2 minutos · 360 preguntas · 🎴 Carta para compartir</div>
+</section>
+
+
+<!-- 1b. ACCESO SOLO SEGUIDORES -->
+<section class="screen" id="s-lock">
+  <div class="big-ico">🔒</div>
+  <h2 class="h2">Juego exclusivo para seguidores</h2>
+  <p class="sub">Solo pueden jugar quienes siguen a <b>@anasofia_claridadydireccion</b>. Así recibes tu acceso:</p>
+  <div class="panel" style="width:100%;padding:14px 16px;margin-top:16px;text-align:left;font-size:15.5px;line-height:1.5">
+    <div>1️⃣ Sigue a <b style="color:var(--gold)">@anasofia_claridadydireccion</b></div>
+    <div style="margin-top:8px">2️⃣ Escríbele por mensaje directo la palabra <b style="color:var(--gold)" id="kw"></b></div>
+    <div style="margin-top:8px">3️⃣ Si ya la sigues, te llega al instante tu link de acceso 🎮</div>
+  </div>
+  <a class="btn gold" id="dm-go" target="_blank" rel="noopener">📸 Ir a Instagram y escribir <span id="kw2"></span></a>
+  <div class="field" style="margin-top:22px">
+    <label class="lbl" for="acc">¿Te llegó un código de acceso?</label>
+    <div class="phone"><input class="inp" id="acc" type="text" placeholder="Pega tu código" autocapitalize="characters" autocomplete="off"><button class="btn" style="margin:0;width:auto;padding:0 18px;font-size:15px" onclick="tryCode()">Entrar</button></div>
+  </div>
+  <div class="err" id="acc-err"></div>
+</section>
+
+<!-- 2. CREA TU JUGADOR -->
+<section class="screen" id="s-player">
+  <div class="step pixel">PASO 1 · CREA TU JUGADOR</div>
+  <h2 class="h2">¿Quién va a jugar?</h2>
+  <div class="g-row">
+    <button class="g-card" data-g="F" onclick="pickGender('F')"><div class="g-prev" id="prev-F"></div><span>MUJER</span></button>
+    <button class="g-card" data-g="M" onclick="pickGender('M')"><div class="g-prev" id="prev-M"></div><span>HOMBRE</span></button>
+  </div>
+  <div class="field">
+    <label class="lbl" for="name">Tu nombre de jugador</label>
+    <input class="inp" id="name" type="text" maxlength="24" placeholder="¿Cómo te llamas?" autocomplete="given-name">
+  </div>
+  <div class="field">
+    <label class="lbl" for="phone">Tu WhatsApp</label>
+    <div class="phone">
+      <select id="country" onchange="onCountry()" aria-label="País"></select>
+      <input class="inp" id="phone" type="tel" inputmode="tel" placeholder="300 123 4567" autocomplete="tel-national" oninput="checkPhone()">
+    </div>
+    <div class="hint" id="phone-hint"></div>
+  </div>
+  <div class="follow panel" style="text-align:center"><p style="margin:0">✅ Seguidor verificado <b id="ver-ig"></b></p></div>
+  <label class="consent"><input type="checkbox" id="consent"> <span>Acepto que Ana Sofía guarde mis datos y me escriba por WhatsApp con mi resultado y contenido de bienestar.</span></label>
+  <div class="err" id="p-err"></div>
+  <button class="btn" id="p-go" onclick="submitPlayer()">Continuar ▶</button>
+</section>
+
+<!-- 3. VERIFICAR WHATSAPP -->
+<section class="screen" id="s-verify">
+  <div class="step pixel">PASO 2 · VERIFICA TU WHATSAPP</div>
+  <div class="big-ico">📲</div>
+  <h2 class="h2">Revisa tu WhatsApp</h2>
+  <p class="sub">Te enviamos un código de 6 dígitos a<br><b id="v-num"></b></p>
+  <input class="inp otp" id="otp" type="text" inputmode="numeric" maxlength="6" placeholder="······" autocomplete="one-time-code">
+  <div class="err" id="v-err"></div>
+  <button class="btn green" id="v-go" onclick="verifyCode()">Verificar ✓</button>
+  <button class="linkbtn" id="v-resend" onclick="resendCode()">Reenviar código</button>
+  <button class="linkbtn" onclick="show('s-player')">Cambiar número</button>
+</section>
+
+<!-- 4. ELIGE CUADRANTE -->
+<section class="screen" id="s-age">
+  <div class="step pixel">PASO 3 · ELIGE TU CUADRANTE</div>
+  <h2 class="h2">¿Cuántos años tienes?</h2>
+  <p class="sub" id="age-sub">Toca tu etapa en la rueda y aparecerá tu personaje 👇</p>
+  <div class="wheel-box" id="age-box">
+    <div class="wsvg" id="age-svg"></div>
+    <div class="w-hero" id="age-hero"></div>
+  </div>
+  <div class="qinfo panel hidden" id="qinfo"></div>
+  <button class="btn gold hidden" id="age-go" onclick="goMood()">Continuar ▶</button>
+</section>
+
+<!-- 4b. EMOCIÓN DE HOY -->
+<section class="screen" id="s-mood">
+  <div class="step pixel">ESTADO DEL JUGADOR</div>
+  <h2 class="h2">¿Cómo te sientes hoy?</h2>
+  <p class="sub">Tu emoción de hoy también es información. Elige la que más se parezca a lo que sientes 👇</p>
+  <div class="moods" id="moods"></div>
+</section>
+
+<!-- 5. JUEGO -->
+<section class="screen" id="s-game">
+  <div class="hud panel">
+    <div class="hud-av" id="hud-av"></div>
+    <div><div class="pixel hud-lbl">JUGADOR</div><div class="hud-name" id="hud-name"></div></div>
+    <div class="hud-deg"><div class="pixel hud-lbl">GRADOS</div><div class="pixel hud-val" id="hud-deg">0°</div></div>
+  </div>
+  <div class="wheel-box" id="game-box">
+    <div class="wsvg" id="game-svg"></div>
+    <div class="w-hero on" id="game-hero"></div>
+    <div class="fx" id="fx"></div>
+  </div>
+  <div class="q-card panel"><div class="react" id="react"></div><div class="pixel q-num" id="q-num"></div><div class="q-text" id="q-text"></div></div>
+  <div class="answers" id="answers"></div>
+</section>
+
+<!-- 6. REVELACIÓN -->
+<section class="screen center" id="s-reveal">
+  <div class="pixel tag" id="rv-tag">ANALIZANDO TU ENERGIA...</div>
+  <div class="rv-stage" id="rv-stage"><div class="halo"></div><div class="ring"></div><div id="rv-hero"></div></div>
+  <div class="rv-name" id="rv-name"></div>
+  <div class="rv-sub" id="rv-sub"></div>
+  <button class="btn gold hidden" id="rv-go" onclick="showCard()">🎴 Ver mi carta</button>
+</section>
+
+<!-- 7. CARTA -->
+<section class="screen" id="s-card">
+  <div class="pixel tag" style="margin-top:4px">TU CARTA DE JUGADOR</div>
+  <div class="card" id="card"></div>
+  <a class="btn gold pulse" id="cta-ebook" target="_blank" rel="noopener" style="margin-top:18px">🔓 Activar mi código</a>
+  <button class="btn" onclick="shareImage()" style="background:linear-gradient(90deg,#f58529,#dd2a7b,#8134af);box-shadow:0 6px 0 #5a1f7a">📸 Compartir mi carta en Instagram</button>
+  <button class="btn green" onclick="shareWA()">💬 Compartir por WhatsApp</button>
+  <a class="btn ghost hidden" id="cta-wa" target="_blank" rel="noopener">📲 Enviar mi carta a Ana Sofía</a>
+  <button class="linkbtn" onclick="replay()">↺ Jugar de nuevo</button>
+</section>
+
+</div>
+<div class="flash" id="flash"></div>
+<div class="toast" id="toast"></div>
+<script>
+// ═════════════ BANCO DE 360 PREGUNTAS · 8 misiones × 45 ═════════════
+// Formato de cada línea:  pregunta | agua | fuego | tierra | aire
+const MISSIONS = [
+  {k:'mente',      name:'MENTE',            ico:'🌙'},
+  {k:'emociones',  name:'EMOCIONES',        ico:'💗'},
+  {k:'familia',    name:'FAMILIA',          ico:'🏠'},
+  {k:'relaciones', name:'RELACIONES',       ico:'💞'},
+  {k:'trabajo',    name:'TRABAJO Y DINERO', ico:'💼'},
+  {k:'cuerpo',     name:'CUERPO Y ENERGIA', ico:'🫀'},
+  {k:'decisiones', name:'DECISIONES',       ico:'🧭'},
+  {k:'proposito',  name:'PROPOSITO',        ico:'✨'}
+];
+const QB_RAW = {};
+QB_RAW.mente = `
+Son las 3:07 a. m. y no puedes dormir. ¿Qué da vueltas en tu mente?|Una conversación y lo que sentí|Todo lo que tengo que lograr mañana|Cuentas, pendientes y la casa|Mil ideas al mismo tiempo
+¿Qué haces cuando un pensamiento no te deja en paz?|Lloro o lo hablo con alguien|Me pongo a hacer algo para olvidarlo|Hago una lista y lo ordeno|Lo analizo hasta entenderlo
+Tu mente se acelera más cuando...|Alguien que quiero está mal|Las cosas no avanzan rápido|Hay desorden o imprevistos|Tengo demasiadas opciones
+¿Qué te preocupa más del futuro?|Que las personas que amo sufran|No lograr lo que me propuse|No tener estabilidad|No saber qué camino tomar
+Al despertar, lo primero que piensas es...|Cómo me siento hoy|Qué tengo que conquistar|Mi rutina y mis tareas|Una idea nueva
+Si tu mente fuera un clima, sería...|Lluvia suave|Sol intenso|Un día nublado y quieto|Viento fuerte
+¿Cómo te concentras mejor?|Con música que me emocione|Con un reto y poco tiempo|Con todo ordenado alrededor|Con silencio total
+Un recuerdo del pasado aparece de repente. ¿Qué haces?|Lo siento como si fuera hoy|Lo saco rápido de mi mente|Lo guardo y sigo con lo mío|Le busco el significado
+Cuando alguien te critica, tu mente...|Se queda con el dolor|Responde de inmediato|Se cierra|Repite la frase mil veces
+¿Qué pensamiento se repite más en ti?|¿Y si me dejan de querer?|Tengo que hacerlo ya|Tengo que tenerlo todo bajo control|¿Y si me equivoco?
+Antes de dormir, tu mente...|Repasa lo que sentí en el día|Planea lo que voy a hacer|Revisa si todo quedó listo|Salta de tema en tema
+Cuando estás en silencio, ¿qué aparece?|Emociones guardadas|Ganas de moverme|Calma|Pensamientos sin parar
+Tu peor enemigo mental es...|La culpa|La impaciencia|El miedo al cambio|La duda
+¿Cómo te hablas cuando te equivocas?|Me siento mal por días|Me regaño fuerte|Me exijo hacerlo perfecto|Me pregunto mil veces por qué pasó
+Si pudieras apagar algo de tu mente, sería...|La tristeza|El enojo|La preocupación por el dinero|El ruido mental
+Cuando algo que ves o lees te impacta...|Me conmueve hasta llorar|Me dan ganas de actuar|Pienso cómo aplicarlo|Me quedo pensando días
+¿Qué te quita el sueño con más frecuencia?|Una pelea o un mal momento|Algo que no logré|Pendientes sin terminar|Preguntas sin respuesta
+Tu mente funciona mejor...|Cuando me siento en paz|Bajo presión|Con horarios fijos|Cuando tengo libertad
+Imaginar el futuro te hace sentir...|Ilusión y algo de miedo|Ganas de ir por todo|Necesidad de planearlo|Mil posibilidades a la vez
+Cuando algo te preocupa, tus manos...|Buscan un abrazo|Se aprietan|Limpian u ordenan algo|Juegan con algo sin darme cuenta
+¿Con qué frase te identificas más?|"Lo siento todo"|"Lo hago ya"|"Paso a paso"|"Déjame pensarlo"
+Esperas una respuesta importante...|Me angustio en silencio|Me desespero|Me ocupo en otras cosas|Imagino todos los escenarios
+Si tu mente tuviera un color hoy, sería...|Azul|Rojo|Verde|Blanco
+¿Qué haces cuando no entiendes algo de tu vida?|Lo siento hasta que se aclara|Tomo una decisión y sigo|Me agarro de mi rutina|Leo e investigo todo
+Llega un pensamiento negativo. Tú...|Me hundo un rato en él|Lo peleo|Lo ignoro y sigo|Lo analizo desde todos los ángulos
+¿Qué ruido mental es más común en ti?|"¿Le habré hecho daño a alguien?"|"¿Por qué todo va tan lento?"|"¿Y si algo sale mal?"|"¿Y si hubiera hecho otra cosa?"
+Para despejar tu mente prefieres...|Llorar o escribir lo que siento|Hacer ejercicio|Arreglar la casa|Caminar sin rumbo
+Ante un problema, piensas primero en...|Cómo afecta a los que quiero|Cómo resolverlo rápido|Qué es lo más seguro|Todas las opciones posibles
+Tu imaginación se va más hacia...|Historias de amor y reencuentro|Logros y victorias|Una casa en paz|Mundos e ideas nuevas
+¿Qué tan seguido piensas en el pasado?|Mucho, todavía me duele|Poco, prefiero avanzar|Solo para aprender|Mucho, intento entenderlo
+¿Qué te pasa cuando hay mucho ruido alrededor?|Me cargo de emociones|Me irrito|Me desorganizo|Me disperso
+Cuando algo te sale bien, piensas...|Qué bonito se siente|¿Qué sigue?|Lo logré con constancia|¿Cómo lo puedo mejorar?
+La mayor trampa de tu mente es...|Creer que todo es mi culpa|Creer que todo depende de mí|Creer que cambiar es peligroso|Creer que debo saberlo todo
+Escuchas una canción del pasado. Tú...|Me transporto y me emociono|Subo el volumen y bailo|Recuerdo con calma|Analizo la letra
+¿Qué te ayuda a tomar distancia de un problema?|El mar, el agua, una ducha|El deporte|La naturaleza|Una buena conversación
+Cuando alguien no responde tus mensajes...|Siento que hice algo mal|Me molesto|Sigo con mis cosas|Invento mil razones
+Tu mente se calma cuando...|Alguien me escucha|Termino algo pendiente|Todo está en su lugar|Entiendo lo que pasa
+¿Qué tipo de pensamientos te cansan más?|Los que me ponen triste|Los que me frustran|Los que me preocupan|Los que no terminan nunca
+Si tu cabeza fuera una casa, estaría...|Llena de recuerdos|Con todas las luces encendidas|Ordenada pero cerrada|Con todas las ventanas abiertas
+Cuando no sabes qué hacer...|Espero a sentir la respuesta|Hago algo antes que quedarme sin hacer nada|Hago lo de siempre|Pido opiniones a todo el mundo
+Lo que más te distrae es...|Lo que sienten los demás|Mis ganas de hacer mil cosas|Los pendientes de la casa|Mis propias ideas
+En un día libre, tu mente...|Se pone nostálgica|Busca un plan emocionante|Organiza la semana|Se va a soñar despierta
+¿Qué tan fácil es para ti "no pensar en nada"?|Difícil, siempre siento algo|Imposible, necesito moverme|Fácil si todo está en orden|Casi imposible
+Cuando recuerdas tu infancia, piensas en...|Cómo me sentía|Lo que me hacía falta|Mi casa y mis rutinas|Lo que imaginaba
+Tu mente te dice "no puedes". Tú...|Me pongo triste|Lo hago para demostrar que sí|Busco un plan seguro|Pienso si tiene razón`;
+QB_RAW.emociones = `
+Alguien que quieres te hiere. ¿Qué haces primero?|Me lo guardo y lo siento por días|Lo digo en el momento, aunque sea fuerte|Me alejo y pongo un muro|Lo analizo y le busco explicación
+Cuando estás triste, ¿qué necesitas?|Un abrazo|Moverme y distraerme|Mi espacio y mi rutina|Entender por qué estoy así
+La emoción que más sientes en la semana es...|Nostalgia|Rabia|Cansancio|Ansiedad
+Alguien llora frente a ti...|Lloro con esa persona|Quiero solucionarle el problema|Le ofrezco algo práctico|Le doy consejos
+¿Cómo muestras el amor?|Con detalles y palabras dulces|Con acción y protección|Con cuidados y presencia|Con conversaciones profundas
+Cuando sientes rabia...|Termino llorando|Exploto|Me la trago|Me quedo pensando en lo que pasó
+Lo que más te cuesta expresar es...|Mi enojo|Mi tristeza|Mis necesidades|Lo que siento en general
+Llega una buena noticia. Tú...|Me emociono hasta las lágrimas|Grito y celebro|Lo disfruto con calma|Se lo cuento a todos
+Cuando sientes miedo...|Me paralizo|Lo enfrento de frente|Busco seguridad|Pienso en todo lo que puede pasar
+Alguien está de mal humor cerca de ti...|Me contagio|Me molesta|Me alejo|Trato de entender qué le pasa
+¿Qué emoción escondes más?|La tristeza|La vulnerabilidad|El cansancio|La confusión
+Cuando te piden perdón...|Perdono rápido, pero me queda la herida|Perdono si veo cambios|Necesito tiempo y hechos|Necesito hablarlo y entender
+La culpa para ti es...|Una compañera frecuente|Algo que no me dejo sentir|Un peso en el cuerpo|Algo que analizo mucho
+Cuando sientes soledad...|Busco a alguien que me abrace|Salgo y hago algo|Me ocupo en la casa|Me pongo a leer o pensar
+¿Qué te hace llorar más fácil?|Una película o una canción|La frustración|El agotamiento|Que no me entiendan
+Cuando una emoción te supera, tu cuerpo...|Siente un nudo en la garganta|Se calienta|Se pone pesado|Respira corto
+¿Qué haces con lo que sientes y no dices?|Lo lloro a solas|Se me sale después|Lo guardo y sigo|Lo escribo o lo pienso
+La alegría para ti se siente como...|Ternura|Energía|Tranquilidad|Libertad
+Cuando alguien te decepciona...|Me duele mucho|Me enojo y lo digo|Corto y me protejo|Trato de entender por qué
+¿Cómo pides ayuda?|Me cuesta, espero que se den cuenta|La pido directo|Casi nunca la pido|Pregunto opiniones
+¿Qué tanto te afectan los comentarios?|Mucho, me quedo con ellos|Me encienden|Poco, sigo con lo mío|Los repaso una y otra vez
+Cuando ves una injusticia...|Me duele en el alma|La enfrento|Ayudo de forma práctica|Explico por qué está mal
+La emoción más fuerte de tu infancia fue...|Tristeza|Rabia|Miedo|Curiosidad
+Cuando estás feliz, se nota porque...|Abrazo a todos|No paro de hacer cosas|Estoy en paz|Hablo sin parar
+¿Qué haces cuando te sientes vulnerable?|Me encierro a sentir|Me pongo una coraza fuerte|Me lleno de tareas|Lo racionalizo
+La emoción que menos te permites sentir es...|La rabia|La tristeza|El miedo|El placer de descansar
+¿Cómo reaccionas a una sorpresa?|Me emociono|Me lleno de energía|Me desacomoda un poco|Me da curiosidad
+Alguien que quieres está lejos...|Lo extraño mucho|Busco cómo verlo|Me organizo para llamarlo|Le escribo largos mensajes
+Lo que más te duele es...|Que no me quieran|Que no me respeten|Que me fallen|Que no me entiendan
+Si tu corazón hablara hoy, diría...|"Necesito cariño"|"Necesito avanzar"|"Necesito descanso"|"Necesito claridad"
+Ante un conflicto en grupo, tú...|Siento la tensión de todos|Digo lo que nadie se atreve|Busco una solución práctica|Hago de mediador
+Cuando llega la ansiedad...|Busco contención|Me muevo sin parar|Como o limpio|Pienso más rápido
+¿Qué haces con un mal recuerdo?|Lo vuelvo a sentir|Lo empujo lejos|Lo guardo bajo llave|Le doy vueltas
+Tu sensibilidad es...|Mi mayor don|Algo que escondo|Mi forma de cuidar a otros|Algo que intento entender
+Cuando alguien te agradece...|Me conmueve|Me impulsa a dar más|Me alegra en silencio|Lo comento con alegría
+La envidia en ti aparece como...|Tristeza por lo que no tengo|Ganas de superar|Inseguridad|Comparación mental
+Después de discutir, tú...|Lloro y busco reconciliarme|Ya se me pasó|Necesito días|Repaso lo que dije
+¿Qué emoción te da más energía?|El amor|La pasión|La gratitud|La curiosidad
+Cuando alguien te ignora...|Me duele en silencio|Le reclamo|Me alejo|Pienso qué hice
+¿Cómo celebras un logro?|Con las personas que amo|Con fiesta y movimiento|Con una comida en casa|Contándolo a todos
+La tristeza en ti dura...|Mucho tiempo|Poco, se vuelve rabia|Se queda en el cuerpo|Hasta que la entiendo
+Lo que más necesitas que te digan es...|"Te quiero"|"Confío en ti"|"Aquí estoy"|"Te entiendo"
+Cuando te emocionas mucho...|Se me aguan los ojos|Me acelero|Me quedo en silencio|Hablo rápido
+¿Qué haces cuando nadie nota cómo te sientes?|Me siento invisible|Lo digo fuerte|Sigo funcionando|Lo explico con palabras
+Si tus emociones fueran agua, serían...|Un océano profundo|Agua hirviendo|Un lago quieto|Un río que no para`;
+QB_RAW.familia = `
+En tu familia eres quien...|Siente por todos|Empuja y toma decisiones|Sostiene y resuelve|Media y da ideas
+En una reunión familiar, tú...|Estoy pendiente de cómo se sienten todos|Animo y propongo actividades|Cocino y atiendo|Converso con todos
+Lo que heredaste de tu mamá es...|Su sensibilidad|Su carácter|Su forma de cuidar|Su forma de pensar
+Lo que heredaste de tu papá es...|Su silencio emocional|Su fuerza|Su sentido del deber|Sus ideas
+Cuando hay pelea en casa...|Me afecta mucho|Intervengo fuerte|Pongo orden|Busco que hablen
+De niña o niño, en casa eras...|El corazón sensible|La rebeldía|La responsabilidad|La imaginación
+¿Qué frase escuchabas mucho en casa?|"No llores"|"Hazlo ya"|"Primero el deber"|"Piensa antes de hablar"
+Lo que más te preocupa de tu familia es...|Que alguien sufra|Que no avancen|Que no haya estabilidad|Que no se entiendan
+Con los niños de tu familia eres...|Pura ternura|Exigencia y motivación|Protección y rutina|Juego e imaginación
+Un familiar te pide ayuda...|Me involucro emocionalmente|Lo resuelvo yo|Ayudo con lo práctico|Le doy consejos
+¿Qué patrón familiar quieres romper?|Callar lo que siento|Explotar con rabia|Cargar con todo|Pensar demasiado
+En las fechas especiales, tú...|Me llega la nostalgia|Organizo la fiesta|Preparo la comida|Pienso en el sentido de la fecha
+Tu casa ideal sería...|Llena de abrazos|Llena de vida y movimiento|Ordenada y segura|Llena de libros y conversaciones
+Alguien de tu familia se equivoca...|Sufro con esa persona|Le digo las cosas claras|Lo ayudo a arreglarlo|Le explico qué pasó
+Lo que más extrañas de tu infancia es...|El cariño|La libertad|La seguridad|La imaginación
+Si pudieras sanar algo de tu familia, sería...|Las heridas emocionales|Los conflictos|La falta de estabilidad|La falta de comunicación
+Tu familia te describe como...|Sensible|Fuerte|Responsable|Inteligente
+Llegan visitas a tu casa...|Me preocupo de que se sientan bien|Armo un plan|Todo tiene que estar impecable|Hablamos durante horas
+Lo que más te enoja en familia es...|Que no me tengan en cuenta|Que nadie haga nada|El desorden|Que no escuchen
+En las decisiones familiares...|Pienso en cómo se sienten todos|Decido yo|Hago lo que se ha hecho siempre|Propongo opciones
+¿Qué cargas que no es tuyo?|El dolor de otros|Las peleas de otros|Las responsabilidades de otros|Las preocupaciones de otros
+Tu forma de cuidar a la familia es...|Escuchando|Defendiendo|Proveyendo|Aconsejando
+Cuando recuerdas la casa de tu infancia...|Siento mucho|Recuerdo lo que quería cambiar|Recuerdo los olores y las rutinas|Recuerdo lo que imaginaba
+En casa siempre te toca...|Consolar|Resolver urgencias|Mantener el orden|Explicar y mediar
+¿Qué te cuesta decirle a tu familia?|Que algo me duele|Que necesito ayuda|Que no puedo con todo|Lo que realmente pienso
+Un familiar está enfermo. Tú...|Siento su dolor|Me muevo a buscar soluciones|Me encargo de todo lo práctico|Investigo todo sobre su enfermedad
+¿Qué aprendiste en casa sobre las emociones?|Que se lloran a escondidas|Que se gritan|Que se aguantan|Que se piensan
+Si tu familia fuera un paisaje, sería...|Un río|Un volcán|Una montaña|Un cielo con nubes
+Hay un problema de dinero en casa...|Me angustio por todos|Busco cómo ganar más|Recorto y organizo|Pienso estrategias
+Lo que más agradeces a tu familia es...|El amor|La fuerza|El techo y la estabilidad|La educación
+Tus hermanos o primos te buscan para...|Desahogarse|Que los defiendas|Que les ayudes|Pedirte consejo
+Alguien en casa no te entiende...|Me duele|Me enojo|Me callo|Lo vuelvo a explicar
+La tradición familiar que más valoras es...|Las reuniones con cariño|Las celebraciones|Las comidas juntos|Las historias de los abuelos
+¿Te cuesta poner límites a tu familia?|Mucho, no quiero herir|No, los pongo fuerte|Sí, siento que debo cumplir|A veces, lo pienso demasiado
+Si pudieras hablarle a tu niño interior, le dirías...|"Tus emociones importan"|"Eres valiente"|"No tienes que cargar con todo"|"Está bien no saberlo todo"
+Tu momento favorito en familia es...|Una charla profunda|Un viaje o aventura|Una comida juntos|Una tertulia de ideas
+Llegas a casa después de un día difícil...|Necesito que me abracen|Necesito descargar|Necesito que todo esté en orden|Necesito silencio
+Lo que repites de tus padres sin querer es...|Su forma de sufrir|Su mal genio|Su exigencia|Su preocupación
+Alguien critica a tu familia...|Me duele|La defiendo con fuerza|Me alejo de esa persona|Argumento
+La frase que más se oye en tu casa es...|"Te quiero"|"¡Rápido!"|"Ordena"|"¿Por qué?"
+Cuando tu familia está en paz, tú...|Por fin respiro|Busco el siguiente plan|Disfruto la rutina|Aprovecho para pensar en mí
+¿Qué te gustaría que tu familia aprendiera de ti?|A sentir sin miedo|A ir por lo que quieren|A ser constantes|A comunicarse
+Si en tu familia hay un secreto...|Lo siento aunque no lo digan|Quiero que salga a la luz|Lo guardo|Intento descifrarlo
+Tu lugar favorito de la casa es...|La ducha|La cocina con música|El patio o el jardín|El rincón para leer
+Para ti, la familia es...|Amor|Fuerza|Raíz|Conversación`;
+QB_RAW.relaciones = `
+En una pareja, lo más importante para ti es...|La conexión emocional|La pasión|La estabilidad|La comunicación
+Tu pareja o una amistad está distante...|Siento que algo hice|Le reclamo|Espero y sigo con lo mío|Analizo qué cambió
+Tus amistades te buscan porque...|Las escucho|Las animo|Soy confiable|Doy buenos consejos
+En una discusión de pareja...|Lloro|Subo el tono|Me cierro|Argumento
+El gesto romántico que más te llega es...|Una carta|Una sorpresa|Que me cuiden|Una conversación de horas
+¿Qué te cuesta en las relaciones?|Soltar|Ceder|Abrirme|Dejar de analizar
+Conoces a alguien nuevo...|Siento su energía|Tomo la iniciativa|Observo antes de confiar|Hago muchas preguntas
+Si una relación termina...|Me duele por mucho tiempo|Paso rápido la página|Me cuesta adaptarme|Necesito entender qué pasó
+Los celos en ti se ven como...|Tristeza|Reclamo|Control|Pensamientos que no paran
+Tu forma de pedir perdón es...|Con lágrimas|Directa y rápida|Con hechos|Con explicaciones
+Te atrae una persona...|Sensible|Apasionada|Estable|Inteligente
+¿Qué no soportas en una relación?|La frialdad|La lentitud|La inestabilidad|La falta de diálogo
+Alguien te cuenta un problema...|Lo siento como propio|Le digo qué hacer|Lo ayudo con algo concreto|Lo analizo con esa persona
+En tu grupo de amigos eres...|Quien acompaña|Quien propone el plan|Quien siempre está|Quien conversa de todo
+Alguien te pone un límite...|Me duele|Me molesta|Lo respeto y me ajusto|Pregunto por qué
+La mayor prueba de amor para ti es...|Que me entiendan sin hablar|Que me defiendan|Que se queden|Que me escuchen
+Tu cita ideal es...|Una cena íntima|Una aventura|Un plan tranquilo en casa|Un paseo con buena charla
+Alguien no cumple su palabra...|Me decepciono|Lo confronto|Dejo de confiar|Me pregunto qué pasó
+Tu miedo en el amor es...|Que me abandonen|Perder mi libertad|Que todo se derrumbe|Equivocarme de persona
+¿Cómo eres cuando te enamoras?|Me entrego por completo|Voy con todo|Voy despacio|Lo pienso mucho
+Ante una mentira...|Me rompe|Exploto|Me cierro para siempre|Busco la verdad
+¿Qué necesitas en una amistad?|Lealtad emocional|Aventura|Constancia|Buenas conversaciones
+Tienes que decirle "no" a alguien que quieres...|Me siento culpable|Lo digo directo|Lo pospongo|Lo explico demasiado
+En un grupo de amigos sueles...|Notar quién está mal|Animar la fiesta|Organizar|Hablar de todo
+Sientes amor cuando...|Me abrazan|Me admiran|Me cuidan|Me escuchan
+Si alguien te hace daño...|Lo perdono, pero me duele|Me defiendo|Pongo distancia|Intento entenderlo
+¿Qué das de más en las relaciones?|Mis emociones|Mi energía|Mi tiempo|Mis consejos
+Tu pareja ideal te diría...|"Te siento"|"Vamos por todo"|"Aquí estoy siempre"|"Hablemos"
+Una amistad se aleja...|La extraño mucho|La busco o la suelto rápido|Lo acepto|Me pregunto por qué
+¿Qué te cuesta recibir?|Críticas|Órdenes|Cambios de planes|Silencios
+En una relación tú das...|Ternura|Pasión|Seguridad|Ideas
+Alguien llega tarde a una cita contigo...|Me preocupo|Me molesto|Me desorganiza|Imagino qué pasó
+La frase que te define en el amor es...|"Siento profundo"|"Amo con intensidad"|"Amo con constancia"|"Amo con la mente abierta"
+¿Qué te hace sentir lejos de alguien?|Su indiferencia|Su pasividad|Su desorden|Su silencio
+Alguien te admira...|Me emociono|Me motiva|Me da pena|Me da curiosidad
+En tus relaciones repites...|Dar de más|Querer tener la razón|Aguantar demasiado|Pensar demasiado
+Empieza una nueva amistad...|Me encariño rápido|Me lanzo|Voy con cuidado|Busco temas en común
+¿Qué necesitas después de una discusión?|Un abrazo|Espacio para bajar la rabia|Tiempo|Hablarlo
+Si pudieras mejorar algo en tus relaciones sería...|No absorber tanto|No reaccionar tan rápido|Abrirme más|Pensar menos y sentir más
+¿Cómo sabes que alguien es para ti?|Lo siento|Me enciende|Me da paz|Me inspira
+Tus amigos dicen que tienes...|Un corazón enorme|Mucha intensidad|Mucha responsabilidad|Una mente brillante
+Alguien te pide un favor...|No sé decir que no|Lo hago rápido|Lo agendo y cumplo|Le doy una idea mejor
+La traición para ti es...|Una herida profunda|Una guerra|Un cierre definitivo|Algo que necesito entender
+Tu lenguaje del amor es...|El contacto físico|Las acciones valientes|Los actos de servicio|Las palabras
+Para ti, una relación sana es donde...|Puedo sentir|Puedo ser libre|Hay estabilidad|Hay diálogo`;
+QB_RAW.trabajo = `
+En el trabajo eres quien...|Cuida el ambiente|Lidera y empuja|Organiza y cumple|Propone ideas
+Cuando tienes mucho trabajo...|Me estreso emocionalmente|Acelero|Hago listas|Me disperso
+El dinero para ti es...|Tranquilidad para los míos|Libertad para hacer|Seguridad|Oportunidad
+Recibes dinero extra...|Consiento a alguien|Lo invierto en un proyecto|Lo ahorro|Pienso en mil usos
+Tu mayor reto con el dinero es...|Gastar por emoción|Gastar por impulso|Controlarlo demasiado|No tener un plan claro
+Un jefe o cliente te critica. Tú...|Me lo tomo personal|Respondo|Corrijo en silencio|Analizo si tiene razón
+Te motiva más un trabajo que...|Ayude a las personas|Sea un reto|Sea estable|Sea creativo
+Ante una meta difícil...|Necesito sentirla mía|Voy con todo|Hago un plan|La pienso mucho antes
+¿Qué te frena para emprender?|Miedo a fallarle a otros|Nada, me lanzo|Perder estabilidad|Tener demasiadas ideas
+Tu escritorio está...|Con fotos y detalles|Lleno de cosas a medias|Impecable|Con notas por todos lados
+Un compañero está mal...|Lo noto primero|Lo animo|Le ayudo con su trabajo|Le doy consejos
+¿Qué te agota en el trabajo?|Los malos ambientes|La lentitud|El caos|La rutina repetitiva
+Tu forma de vender o convencer es...|Conectando emocionalmente|Con entusiasmo|Con datos y confianza|Con argumentos
+Ganas menos de lo esperado...|Me desanimo|Me pongo a buscar más|Recorto gastos|Pienso estrategias
+¿Qué haces con las deudas?|Me angustian|Las ataco rápido|Hago un plan de pago|Pienso mucho en ellas
+Tu talento profesional es...|La empatía|La iniciativa|La disciplina|La creatividad
+Te ofrecen un trabajo nuevo...|Pienso cómo me voy a sentir|Lo tomo si es un reto|Comparo la estabilidad|Analizo pros y contras
+Un error en el trabajo te hace...|Sentir culpa|Querer arreglarlo ya|Revisar todo dos veces|Pensar en él toda la noche
+Tu horario ideal es...|Flexible según cómo me siento|Intenso y productivo|Fijo y ordenado|Libre
+Llega una crisis económica...|Me preocupo por mi familia|Busco oportunidades|Me ajusto y aguanto|Planeo escenarios
+Lo que más valoras de un trabajo es...|El ambiente humano|El crecimiento|La seguridad|El aprendizaje
+¿Qué te pasa los lunes?|Me cuesta emocionalmente|Arranco con todo|Sigo mi rutina|Mi mente ya va por el viernes
+Cuando delegas...|Me preocupa que se sientan mal|Me cuesta, prefiero hacerlo yo|Doy instrucciones claras|Explico todo el contexto
+Gastas más en...|Regalos|Experiencias|Cosas para la casa|Cursos y libros
+Tu frase en el trabajo es...|"¿Cómo te sientes?"|"¡Vamos!"|"Paso a paso"|"¿Y si probamos esto?"
+Empieza un proyecto nuevo...|Me ilusiono|Empiezo ya|Planifico|Investigo
+¿Qué te cuesta en el trabajo?|No llevarme las emociones a casa|Tener paciencia con otros|Adaptarme a cambios|Terminar lo que empiezo
+Ahorrar para ti es...|Difícil, gasto en otros|Aburrido|Natural|Algo que planeo y a veces no cumplo
+Si tu negocio fuera un paisaje, sería...|Un río que conecta|Un incendio que crece|Una montaña firme|Un cielo lleno de cometas
+Cuando te va bien económicamente...|Comparto|Me arriesgo más|Me aseguro|Pienso en el siguiente paso
+En las reuniones de trabajo...|Siento la energía del grupo|Hablo primero|Tomo nota|Propongo ideas
+Lo que te quita productividad es...|Una preocupación emocional|El aburrimiento|Un espacio desordenado|Las distracciones
+El éxito para ti es...|Que los míos estén bien|Ir siempre por más|El fruto de la constancia|Seguir aprendiendo
+No te pagan a tiempo...|Me da pena cobrar|Cobro firme|Lo anoto y hago seguimiento|Pienso cómo plantearlo
+Un cliente difícil...|Me afecta|Me reta|Lo manejo con paciencia|Lo estudio
+¿Cuál sería tu trabajo soñado?|Sanar o acompañar|Liderar o emprender|Construir algo duradero|Crear, enseñar o comunicar
+Te cuesta cobrar lo que vales porque...|Siento culpa|No me cuesta|Prefiero lo seguro|Dudo de mi valor
+Al final de la jornada...|Cargo las emociones del día|Sigo con energía|Reviso lo que quedó listo|Mi mente sigue trabajando
+Cuando te estancas...|Me pongo triste|Hago un cambio radical|Sigo aunque no avance|Busco nuevas ideas
+Una compra impulsiva es...|Un gusto emocional|Algo que me pasa mucho|Rara en mí|Algo que pienso durante días
+En equipo prefieres...|Que todos estén bien|Ganar|Que cada uno cumpla|Crear juntos
+Tu mayor logro laboral vino de...|Conectar con personas|Arriesgarme|Ser constante|Una idea
+Si te quedas sin trabajo...|Me angustio|Salgo a buscar de inmediato|Uso mis ahorros y me organizo|Pienso nuevas posibilidades
+El dinero te hace sentir...|Culpa o miedo|Poder|Calma|Curiosidad
+Tu meta financiera es...|Ayudar a mi familia|Libertad|Una base sólida|Invertir en mis ideas`;
+QB_RAW.cuerpo = `
+Cuando algo te supera, tu cuerpo avisa con...|Un nudo en la garganta|Calor y mandíbula apretada|Pesadez y cansancio|Respiración corta y mente acelerada
+¿Cómo recargas tu energía?|Música, agua, llorar si hace falta|Moviéndome: entrenar, bailar, un reto|Cocinar, ordenar o estar en la naturaleza|Conversar, leer, aprender algo nuevo
+Tu energía es más alta...|Al atardecer|En la mañana|Estable todo el día|En la noche
+¿Dónde guardas la tensión?|En el pecho|En la mandíbula|En la espalda|En los hombros y el cuello
+Cuando llega el cansancio...|Me pongo sensible|Me pongo irritable|Todo me pesa|Me desconcentro
+Tu ejercicio ideal es...|Nadar|Bailar o un deporte intenso|Caminar o hacer yoga|Correr al aire libre
+Con la comida, tú...|Como por emoción|Como rápido|Como a mis horas|Se me olvida comer
+¿Cómo duermes?|Sueño mucho y despierto sensible|Poco y rápido|Bien si tengo rutina|Me cuesta apagar la mente
+Tu cuerpo te pide más...|Agua y abrazos|Movimiento|Descanso|Aire y respiración
+Cuando te enfermas...|Me pongo muy sensible|Me desespera estar en cama|Me cuido con disciplina|Investigo todo
+¿Qué te da más vitalidad?|Estar cerca del mar o un río|El sol|La tierra y las plantas|El viento y la montaña
+Tu postura natural es...|Encogida, protegiendo el pecho|Hacia adelante, lista para actuar|Firme y estable|Inquieta, cambio de posición
+La parte del cuerpo que más te molesta es...|El estómago|La cabeza|Las piernas o la espalda|El pecho al respirar
+Cuando bailas...|Me dejo llevar por la emoción|Me suelto con fuerza|Sigo el paso|Improviso
+¿Qué ritual de autocuidado prefieres?|Un baño largo|Entrenar duro|Un masaje|Meditar o respirar
+Tu respiración cuando hay tensión...|Se corta con suspiros|Se acelera|Se vuelve pesada|Se queda arriba en el pecho
+Lo que más te desgasta es...|Las emociones ajenas|No poder actuar|El exceso de tareas|Pensar sin parar
+¿Qué tan fácil te relajas?|Difícil si alguien está mal|Difícil, siempre hay algo por hacer|Fácil con mi rutina|Difícil, la mente no para
+Tu cuerpo en la mañana se siente...|Sensible|Con ganas de moverse|Pesado|Despierto pero disperso
+¿Qué te pasa con el estrés?|Lloro|Exploto|Me duele el cuerpo|No duermo
+El clima que más te gusta es...|La lluvia|El calor|Un día fresco de campo|Un día con brisa
+Tu relación con el descanso es...|Descanso si estoy en paz|Me cuesta parar|Lo programo|Descanso, pero mi mente no
+¿Qué bebida te representa?|Agua o té|Café fuerte|Chocolate caliente|Jugo refrescante
+Cuando te miras al espejo...|Veo cómo me siento|Veo lo que quiero cambiar|Reviso que todo esté en orden|Pienso en otra cosa
+Tu energía baja cuando...|Hay conflictos|Hay rutina|Hay desorden|Hay mucho ruido
+Un día perfecto para tu cuerpo es...|Playa y descanso|Deporte y aventura|Jardín y buena comida|Paseo y buena charla
+¿Qué sientes en el pecho cuando te preocupas?|Opresión|Fuego|Peso|Falta de aire
+Te mueves más...|Cuando me siento bien|Siempre|Cuando toca|Cuando se me ocurre
+La enfermedad que más te asusta es la que...|Afecta a los que amo|Me deja sin moverme|Desordena mi vida|No tiene explicación
+Cuando hace frío...|Busco el calor de un abrazo|Me muevo más|Me abrigo y me quedo en casa|Me da igual, estoy en mi mente
+Tu manera de soltar tensión es...|Llorar|Gritar o golpear un cojín|Dormir|Hablar
+¿Qué hábito de tu cuerpo quieres cambiar?|Comer por ansiedad|Hacer todo con prisa|Moverme poco|Dormir poco
+Tu sentido más despierto es...|El tacto|La vista|El gusto|El oído
+Cuando te duele algo...|Me pongo triste|Sigo como si nada|Uso los remedios de siempre|Busco en internet
+¿Qué lugar te recarga?|Un río o el mar|Un concierto|Una finca|Una terraza alta
+La energía que das a otros es...|Cálida y dulce|Intensa|Tranquila|Ligera
+Tus manos suelen estar...|Frías|Calientes|Firmes|Inquietas
+Al terminar el día, tu cuerpo...|Siente todo lo que pasó|Sigue acelerado|Pide cama|Está cansado, pero la mente activa
+Tu forma de caminar es...|Suave|Rápida|Firme|Ligera
+¿Qué te ayuda a dormir?|Estar en paz con todos|Cansarme físicamente|Mi rutina nocturna|Escribir para vaciar la mente
+Tu cuerpo te habla con...|Lágrimas|Calor y tensión|Cansancio|Insomnio
+Para ti, el autocuidado es...|Darme amor|Superarme|Cuidar mi salud|Cuidar mi mente
+Cuando hay luna llena...|Me siento más sensible|Tengo más energía|Igual que siempre|Me da curiosidad
+Tu cuerpo necesita aprender a...|Soltar lo que no es suyo|Pausar|Moverse|Aterrizar
+Si tu energía fuera un sonido, sería...|Olas|Tambores|Latidos lentos|Viento`;
+QB_RAW.decisiones = `
+Tienes que tomar una decisión importante. ¿Cómo eliges?|Sigo lo que siento|Decido rápido y actúo|Elijo lo seguro y probado|Pregunto, comparo y analizo
+¿Qué es lo que más te cuesta?|Soltar|Tener paciencia|Cambiar de planes|Terminar lo que empiezo
+Te toca cambiarte de casa o de ciudad...|Me despido llorando|Me emociona la aventura|Me cuesta adaptarme|Planeo cada detalle
+Un plan se cae a última hora...|Me pongo triste|Busco otro plan ya|Me desacomodo|Pienso alternativas
+Ante lo desconocido sientes...|Vulnerabilidad|Ganas|Desconfianza|Curiosidad
+Aparece una oportunidad de repente...|Siento si es para mí|La tomo|Espero y evalúo|Investigo todo
+Te equivocas en una decisión...|Me culpo mucho|Corrijo y sigo|Vuelvo a lo seguro|Analizo qué falló
+Tu forma de cerrar un ciclo es...|Llorarlo|Cortar de una vez|Poco a poco|Entenderlo
+Para cambiar un hábito necesitas...|Motivación emocional|Un reto|Una rutina|Entender el porqué
+¿Qué te da miedo cambiar?|Mis relaciones|Nada, me encanta cambiar|Mi estabilidad|Mis ideas
+Tienes dos opciones buenas...|Elijo la que me hace sentir mejor|Elijo rápido|Elijo la más segura|No me decido
+Enfrentas una pérdida...|La lloro profundamente|La transformo en fuerza|Me aferro a la rutina|Busco darle sentido
+En una crisis tú eres...|Quien contiene|Quien actúa|Quien sostiene|Quien busca salidas
+Cambiar de opinión para ti es...|Fácil si me tocan el corazón|Difícil, defiendo mi postura|Difícil, me gusta lo conocido|Fácil con buenos argumentos
+Nadie te apoya en una decisión...|Dudo|Lo hago igual|Me detengo|Busco más información
+Tu primer paso ante un problema es...|Sentirlo|Actuar|Organizar|Pensar
+Lo nuevo te genera...|Ilusión y nervios|Adrenalina|Resistencia|Preguntas
+Si pudieras empezar de cero...|Sanaría mi corazón|Haría todo distinto|Construiría bases firmes|Exploraría otros caminos
+La vida te sacude. ¿Qué haces?|Me rompo y me reconstruyo|Me levanto con más fuerza|Me agarro de lo que tengo|Busco la lección
+Una decisión pendiente te hace...|Sentir angustia|Desesperar|Posponer|Pensar mucho
+Te mudas mañana. Lo primero que empacas es...|Fotos y recuerdos|Lo indispensable, sin pensar|Todo en cajas marcadas|Mis libros y cuadernos
+Te llega un consejo...|Lo siento antes de seguirlo|Lo aplico si me sirve ya|Lo comparo con lo que conozco|Lo analizo
+¿Qué te ayuda a soltar el pasado?|Llorarlo|Moverme hacia algo nuevo|Crear nuevas rutinas|Entenderlo
+Cuando todo va bien, tú...|Temo que algo malo pase|Busco el siguiente reto|Disfruto la calma|Pienso cómo mejorarlo
+Decides mejor...|Con el corazón|Con el instinto|Con la experiencia|Con la razón
+Recibes un "no". Tú...|Me duele|Insisto|Lo acepto|Busco otra forma
+Tienes que esperar para cambiar algo...|Me inquieto|Me desespero|Espero con paciencia|Planeo mientras tanto
+¿Qué te hace cambiar de verdad?|Un dolor profundo|Un reto|Una necesidad|Una idea poderosa
+Ante un riesgo...|Pienso en los que amo|Me lanzo|Me protejo|Calculo
+Un cambio que te salió bien fue por...|Seguir mi intuición|Atreverme|Ser constante|Pensarlo bien
+Dudas entre quedarte o irte...|Me quedo por cariño|Me voy|Me quedo por seguridad|Lo pienso por meses
+¿Cómo eliges un regalo?|Por lo que siente la persona|Lo primero que me emociona|Algo útil|Algo original
+Te piden que cambies algo de ti...|Me hiere|Me resisto|Lo intento poco a poco|Pregunto por qué
+Un sueño que postergas es por...|Miedo a decepcionar|Falta de tiempo|Falta de seguridad|Indecisión
+Si la vida fuera un camino, tú...|Sigo el que me late|Abro el mío|Sigo el conocido|Exploro varios
+Empieza un año nuevo...|Me llega la nostalgia|Me lleno de metas|Organizo mi agenda|Reflexiono mucho
+Algo ya no te hace feliz...|Lo sigo sintiendo y aguanto|Lo cambio|Me cuesta dejarlo|Le doy vueltas
+Tu intuición para decidir...|Es mi guía|Es mi impulso|La reviso con hechos|La contrasto con la lógica
+Cambiar tu rutina te hace sentir...|Inseguridad|Vida|Incomodidad|Estímulo
+Te hacen una propuesta arriesgada...|Escucho mi corazón|Digo que sí|Digo que no|Pido tiempo para pensar
+La decisión más difícil de tu vida la tomaste...|Por amor|Por valentía|Por necesidad|Por convicción
+Todos opinan distinto...|Me afecta|Hago lo que creo|Hago lo que funciona|Escucho a todos
+Lo que más te ayuda a avanzar es...|Sentir compañía|Un desafío|Un plan|Una visión clara
+Si mañana todo cambiara...|Lloraría y me adaptaría|Saldría a conquistar|Buscaría estabilidad|Lo vería como posibilidad
+Para ti, cambiar es...|Sanar|Crecer|Construir|Aprender`;
+QB_RAW.proposito = `
+Si hoy pudieras activar un poder, sería...|Sanar lo que siento|El valor para empezar|La calma para sostenerme|La claridad para ver mi camino
+Tu propósito tiene que ver con...|Sanar personas|Transformar|Construir|Enseñar
+Lo que te hace vibrar es...|El amor|Los retos|La paz|Las ideas
+Tu mayor sueño es...|Una familia en armonía|Lograr algo grande|Una vida estable y tranquila|Libertad para crear
+¿Qué legado quieres dejar?|Amor|Un ejemplo de valentía|Algo sólido|Conocimiento
+Te sientes en tu poder cuando...|Ayudo a alguien a sanar|Lidero|Cumplo lo que prometo|Inspiro con ideas
+Si fueras un superhéroe, tu poder sería...|Sentir lo que sienten otros|Fuerza imparable|Un escudo protector|Leer mentes
+Tu frase de vida es...|"Todo pasa por el corazón"|"Si se puede soñar, se puede hacer"|"Paso a paso se llega lejos"|"Todo empieza con una idea"
+Lo que más admiras en alguien es...|Su sensibilidad|Su valentía|Su constancia|Su inteligencia
+Te imaginas en 5 años...|En paz con los míos|En la cima|Con mi casa y mi base|Creando algo nuevo
+¿Qué te frena a brillar?|Miedo a herir|La impaciencia|Miedo a perder lo que tengo|Dudar de mí
+Tu don natural es...|Escuchar|Motivar|Sostener|Comunicar
+Si tu vida fuera una película, sería de...|Amor y drama|Acción y aventura|Superación paso a paso|Ciencia ficción
+Para ti, el éxito es...|Amar y sentir amor|Lograr mis metas|Tener estabilidad|Ser libre
+La misión que sientes en el alma es...|Acompañar a otros|Abrir caminos|Proteger a mi familia|Compartir lo que sé
+Cuando ayudas a alguien sientes...|Conexión|Poder|Utilidad|Inspiración
+Tu fuerza interior viene de...|Lo que he sentido|Lo que he luchado|Lo que he construido|Lo que he aprendido
+Si pudieras enseñarle algo al mundo, sería...|A sentir sin miedo|A atreverse|A ser constante|A pensar distinto
+Te inspira más una historia de...|Amor|Lucha|Esfuerzo|Genialidad
+La versión más poderosa de ti es...|Sensible y en paz|Valiente y libre|Firme y abundante|Clara y creativa
+¿Qué te gustaría sanar para crecer?|Heridas del corazón|Rabia guardada|Miedo al cambio|Exceso de pensamientos
+Un símbolo que te representa es...|La luna|El sol|El árbol|La pluma
+Tu mayor aprendizaje de vida ha sido...|Amar sin perderme|Que puedo con todo|Que la constancia gana|Que todo tiene sentido
+¿Qué harías si no tuvieras miedo?|Diría todo lo que siento|Empezaría mi proyecto ya|Cambiaría mi vida de raíz|Viajaría y crearía
+Cuando meditas o rezas, pides...|Paz en mi corazón|Fuerza|Estabilidad|Claridad
+Lo que el mundo necesita de ti es...|Tu ternura|Tu fuego|Tu solidez|Tu visión
+Si tu alma fuera un paisaje, sería...|Un océano|Un volcán|Un bosque|Un cielo abierto
+¿Qué te devuelve a ti cuando te pierdes?|Sentir|Actuar|Mis rutinas|Pensar en silencio
+Tu poder dormido es...|La intuición|El liderazgo|La abundancia|La creatividad
+Te gustaría que te recordaran por...|Tu corazón|Tu valentía|Tu lealtad|Tus ideas
+¿Qué energía quieres atraer este año?|Amor|Éxito|Estabilidad|Claridad
+¿Qué necesitas para cumplir tu propósito?|Sanar|Atreverme|Organizarme|Enfocarme
+En tu mejor momento...|Irradio ternura|Contagio energía|Transmito calma|Inspiro ideas
+Tu animal de poder sería...|Un delfín|Un león|Un oso|Un águila
+El regalo que traes al mundo es...|Comprensión|Fuerza|Constancia|Sabiduría
+Para ti, la espiritualidad es...|Sentir|Transformarme|Agradecer|Comprender
+Sientes que perdiste el rumbo...|Busco a quien me abrace|Me pongo un reto|Vuelvo a lo básico|Me pregunto quién soy
+¿Qué te gustaría crear?|Un espacio de sanación|Un negocio exitoso|Un hogar sólido|Un proyecto creativo
+La lección de tu etapa actual es...|Soltar|Tener calma|Abrirme al cambio|Aterrizar
+Si mañana despertaras con un superpoder...|Curaría corazones|Movería montañas|Daría abundancia|Volaría
+Tu brillo se nota cuando...|Acompaño|Lidero|Sostengo|Hablo
+Lo que te hace especial es...|Mi sensibilidad|Mi intensidad|Mi lealtad|Mi mente
+Cuando cumples una meta, sientes...|Gratitud|Euforia|Satisfacción|Ganas de la siguiente idea
+Hoy necesitas más...|Ternura|Valentía|Orden|Claridad
+El código que quieres activar hoy es...|El de la paz emocional|El de la acción|El del orden|El de la claridad`;
+const QB = {};
+for(const k in QB_RAW){
+  QB[k] = QB_RAW[k].trim().split('\n').map(l=>{ const p=l.split('|').map(x=>x.trim()); return {t:p[0], o:{agua:p[1], fuego:p[2], tierra:p[3], aire:p[4]}}; });
+}
+// ═════════════ PERSONAJES (SVG generados) ═════════════
+const PAL = {
+  agua:  {main:'#2f80ed', light:'#8fd0ff', dark:'#16357a', hair:'#3f86e0', glow:'#4aa8ff', eye:'#1b78e6'},
+  fuego: {main:'#f05a22', light:'#ffc04d', dark:'#86200f', hair:'#e33a1a', glow:'#ff7a2f', eye:'#e0401c'},
+  tierra:{main:'#4e9a3a', light:'#b5e06a', dark:'#294a1a', hair:'#6b4426', glow:'#86d14a', eye:'#3c8a2c'},
+  aire:  {main:'#8b7cf6', light:'#e3ddff', dark:'#4636a6', hair:'#cfc8f7', glow:'#b8a9ff', eye:'#7656f0'},
+  neutro:{main:'#8a93a6', light:'#d6dbe6', dark:'#454d5f', hair:'#3a2618', glow:'#a7b0c4', eye:'#5a3a24'}
+};
+const AGE = {
+  F:{r:50, body:40, leg:20, sh:28, eye:.25},
+  S:{r:45, body:50, leg:28, sh:32, eye:.22},
+  C:{r:44, body:54, leg:30, sh:35, eye:.20},
+  Y:{r:44, body:52, leg:28, sh:34, eye:.18}
+};
+const SKINS = ['#ffe0c7','#f6caa4','#e3a97e','#c08458','#8d5a3b'];
+const HAIRS = ['#2b1d16','#4a2f1f','#1b1b22','#7a4b26','#5b3a22'];
+const ICON = {
+  agua:'M0,-7 C4,-2 6,1 6,3 A6,6 0 0 1 -6,3 C-6,1 -4,-2 0,-7Z',
+  fuego:'M0,-8 C5,-3 6,1 4,5 C3,7 1,8 0,8 C-1,8 -3,7 -4,5 C-5,2 -3,-1 -1,-2 C-1,1 0,2 1,2 C2,0 1,-4 0,-8Z',
+  tierra:'M-6,6 C-7,-2 -1,-7 7,-7 C7,1 2,7 -6,6Z',
+  aire:'M-7,-2 C-3,-6 6,-5 6,-1 C6,2 2,3 0,1 M-7,3 C-2,1 4,2 4,5'
+};
+const LEAF = 'M0,-7 C5,-3 5,3 0,7 C-5,3 -5,-3 0,-7Z';
+const SPARK = 'M0,-6 L1.5,-1.5 L6,0 L1.5,1.5 L0,6 L-1.5,1.5 L-6,0 L-1.5,-1.5Z';
+const ROCK = 'M-7,-3 L-2,-8 L6,-6 L8,1 L3,7 L-6,5Z';
+let UID = 0;
+
+function shade(hex, p){
+  const n = parseInt(hex.slice(1),16); let r=n>>16, g=n>>8&255, b=n&255;
+  const t = p<0?0:255, f = Math.abs(p)/100;
+  r=Math.round((t-r)*f+r); g=Math.round((t-g)*f+g); b=Math.round((t-b)*f+b);
+  return '#'+((1<<24)|(r<<16)|(g<<8)|b).toString(16).slice(1);
+}
+function flame(x,y,w,h){
+  return `M${x},${y-h} C${x+w*.18},${y-h*.62} ${x+w*.55},${y-h*.5} ${x+w*.5},${y-h*.18} C${x+w*.48},${y} ${x+w*.2},${y} ${x},${y} C${x-w*.2},${y} ${x-w*.48},${y} ${x-w*.5},${y-h*.18} C${x-w*.55},${y-h*.5} ${x-w*.18},${y-h*.62} ${x},${y-h}Z`;
+}
+function icon(el,x,y,s,color){
+  if(el==='aire') return `<path d="${ICON.aire}" transform="translate(${x},${y}) scale(${s})" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round"/>`;
+  return `<path d="${ICON[el]}" transform="translate(${x},${y}) scale(${s})" fill="${color}"/>`;
+}
+
+function backHair(g,el,old,cx,hy,r,hair,hairD,bB,neu){
+  if(g==='M') return `<path d="M${cx-r-3},${hy+r*.3} Q${cx-r-7},${hy-r*1.12} ${cx},${hy-r-7} Q${cx+r+7},${hy-r*1.12} ${cx+r+3},${hy+r*.3}Z" fill="${hairD}"/>`;
+  const top = `M${cx-r-5},${hy} Q${cx-r-8},${hy-r*1.15} ${cx},${hy-r-8} Q${cx+r+8},${hy-r*1.15} ${cx+r+5},${hy}`;
+  if(old){
+    return `<path d="${top} L${cx+r+6},${hy+r*.55} Q${cx},${hy+r*.7} ${cx-r-6},${hy+r*.55}Z" fill="${hairD}"/>`+
+      `<circle cx="${cx}" cy="${hy-r-2}" r="${r*.38}" fill="${hair}" stroke="${hairD}" stroke-width="1.5"/>`;
+  }
+  const style = neu ? 'base' : el;
+  if(style==='agua'){
+    const L = bB-6, x0 = cx+r+14, x1 = cx-r-14, n=5, st=(x1-x0)/n;
+    let d = `${top} C${cx+r+16},${hy+r*.8} ${cx+r},${hy+r*1.4} ${x0},${L}`;
+    for(let i=0;i<n;i++){ const xa=x0+st*i, xb=x0+st*(i+1); d+=` Q${(xa+xb)/2},${L+(i%2?-8:12)} ${xb},${L}`; }
+    d += ` C${cx-r},${hy+r*1.4} ${cx-r-16},${hy+r*.8} ${cx-r-5},${hy}Z`;
+    return `<path d="${d}" fill="${hair}" stroke="${hairD}" stroke-width="1.5"/>`;
+  }
+  if(style==='fuego'){
+    const L = hy+r*1.45, x0=cx+r+9, x1=cx-r-9, n=6, st=(x1-x0)/n;
+    let d = `${top} L${x0},${L}`;
+    for(let i=0;i<n;i++){ const xm=x0+st*(i+.5), xb=x0+st*(i+1); d+=` L${xm},${L-16} L${xb},${L+(i===n-1?0:2)}`; }
+    d += 'Z';
+    return `<path d="${d}" fill="${hair}" stroke="${hairD}" stroke-width="1.5"/>`;
+  }
+  const L = style==='aire' ? hy+r*.9 : hy+r*1.12;
+  let s = `<path d="${top} L${cx+r+7},${L} Q${cx},${L+12} ${cx-r-7},${L}Z" fill="${hair}" stroke="${hairD}" stroke-width="1.5"/>`;
+  if(style==='tierra'){
+    for(let i=0;i<5;i++) s += `<ellipse cx="${cx+r*.9}" cy="${hy+r*.95+i*11}" rx="${7.5-i*.6}" ry="7" fill="${hair}" stroke="${hairD}" stroke-width="1.5"/>`;
+    s += `<path d="${LEAF}" transform="translate(${cx+r*.9},${hy+r*.95+58}) rotate(30) scale(1.1)" fill="${PAL.tierra.light}" stroke="${PAL.tierra.dark}" stroke-width="1.2"/>`;
+  }
+  if(style==='aire'){
+    s += `<path d="M${cx+r*.45},${hy-r*.85} C${cx+r+40},${hy-r*1.25} ${cx+r+50},${hy+r*.2} ${cx+r+24},${hy+r*.95} C${cx+r+30},${hy+r*.2} ${cx+r+14},${hy-r*.45} ${cx+r*.25},${hy-r*.55}Z" fill="${hair}" stroke="${hairD}" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" values="0 ${cx+r*.4} ${hy-r*.7};6 ${cx+r*.4} ${hy-r*.7};0 ${cx+r*.4} ${hy-r*.7}" dur="2s" repeatCount="indefinite"/></path>`;
+  }
+  return s;
+}
+
+function frontHair(g,el,cx,hy,r,hair,hairD,neu){
+  const P=(a,b)=>`${cx+r*a},${hy+r*b}`;
+  let s = '';
+  if(g==='F'){
+    s += `<path d="M${cx-r-4},${hy-r*.1} Q${cx-r-9},${hy+r*.6} ${cx-r+3},${hy+r*1.05} Q${cx-r+2},${hy+r*.4} ${cx-r+9},${hy-r*.1}Z" fill="${hair}" stroke="${hairD}" stroke-width="1.2"/>`;
+    s += `<path d="M${cx+r+4},${hy-r*.1} Q${cx+r+9},${hy+r*.6} ${cx+r-3},${hy+r*1.05} Q${cx+r-2},${hy+r*.4} ${cx+r-9},${hy-r*.1}Z" fill="${hair}" stroke="${hairD}" stroke-width="1.2"/>`;
+  }
+  s += `<path d="M${cx-r-3},${hy+r*.1} C${cx-r-4},${hy-r*1.45} ${cx+r+4},${hy-r*1.45} ${cx+r+3},${hy+r*.1} L${P(.8,-.3)} L${P(.56,-.14)} L${P(.42,-.48)} L${P(.16,-.22)} L${P(0,-.52)} L${P(-.2,-.2)} L${P(-.46,-.5)} L${P(-.62,-.12)} L${P(-.82,-.34)}Z" fill="${hair}" stroke="${hairD}" stroke-width="1.5" stroke-linejoin="round"/>`;
+  if(g==='M' && !neu){
+    if(el==='fuego') s += `<path d="M${P(-.72,-.72)} L${P(-.58,-1.5)} L${P(-.26,-.98)} L${P(0,-1.68)} L${P(.26,-.98)} L${P(.62,-1.5)} L${P(.76,-.68)}Z" fill="${hair}" stroke="${hairD}" stroke-width="1.5" stroke-linejoin="round"/>`;
+    if(el==='agua') s += `<path d="M${P(.25,-.95)} Q${P(1.25,-1.25)} ${P(1.06,-.15)} Q${P(.92,-.7)} ${P(.25,-.75)}Z" fill="${hair}" stroke="${hairD}" stroke-width="1.5"/>`;
+    if(el==='aire') s += `<path d="M${P(-.15,-1.02)} q-10,-18 6,-28 M${P(.2,-1)} q-4,-16 12,-20" fill="none" stroke="${hair}" stroke-width="5" stroke-linecap="round"/>`;
+  }
+  s += `<path d="M${P(-.55,-.72)} Q${P(-.2,-.98)} ${P(.15,-.9)}" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3" stroke-linecap="round"/>`;
+  return s;
+}
+
+function accessory(el,cx,hy,r,Pa,neu){
+  if(neu) return '';
+  if(el==='agua'||el==='fuego'){
+    return `<path d="M${cx-r*.95},${hy-r*.3} Q${cx},${hy-r*.95} ${cx+r*.95},${hy-r*.3}" fill="none" stroke="${Pa.dark}" stroke-width="3.5" stroke-linecap="round"/>`+
+      `<circle cx="${cx}" cy="${hy-r*.63}" r="8" fill="${Pa.dark}" stroke="${Pa.light}" stroke-width="1.5"/>`+icon(el,cx,hy-r*.63,.8,Pa.light);
+  }
+  if(el==='tierra'){
+    let s = `<path d="M${cx-r*.9},${hy-r*.55} Q${cx},${hy-r*1.15} ${cx+r*.9},${hy-r*.55}" fill="none" stroke="${Pa.dark}" stroke-width="3" stroke-linecap="round"/>`;
+    [[-.48,-.98,-35],[0,-1.12,0],[.48,-.98,35]].forEach(([a,b,rot])=>{
+      s += `<path d="${LEAF}" transform="translate(${cx+r*a},${hy+r*b}) rotate(${rot}) scale(1.45)" fill="${Pa.light}" stroke="${Pa.dark}" stroke-width="1"/>`;
+    });
+    return s;
+  }
+  // aire
+  const fx=cx+r*.8, fy=hy-r*.68;
+  return `<g transform="rotate(35 ${fx} ${fy})"><ellipse cx="${fx}" cy="${fy}" rx="5" ry="15" fill="#fff" stroke="${Pa.main}" stroke-width="1.5"/><line x1="${fx}" y1="${fy-13}" x2="${fx}" y2="${fy+17}" stroke="${Pa.main}" stroke-width="1.5"/></g>`+
+    `<path d="${SPARK}" transform="translate(${cx-r*.75},${hy-r*.85})" fill="#fff"><animate attributeName="opacity" values="1;.2;1" dur="1.4s" repeatCount="indefinite"/></path>`;
+}
+
+function pads(el,cx,sh,bT,Pa){
+  let s='';
+  [-1,1].forEach(side=>{
+    const x=cx+side*(sh-2), y=bT+5;
+    s += `<ellipse cx="${x}" cy="${y}" rx="10.5" ry="7" fill="${Pa.dark}" stroke="${Pa.light}" stroke-width="1.5"/>`;
+    if(el==='fuego') s += `<path d="${flame(x,y-3,12,17)}" fill="${Pa.light}"/>`;
+    if(el==='tierra') s += `<path d="${ROCK}" transform="translate(${x},${y-3}) scale(1.15)" fill="#8b6b4a" stroke="${Pa.dark}" stroke-width="1.5"/>`;
+    if(el==='agua') s += `<g transform="translate(${x},0) scale(${side},1) translate(${-x},0)"><path d="M${x-8},${y} q8,-14 17,-1 q-7,-5 -9,3" fill="none" stroke="${Pa.light}" stroke-width="2.6" stroke-linecap="round"/></g>`;
+    if(el==='aire') s += `<ellipse cx="${x+side*4}" cy="${y-6}" rx="3.8" ry="11" transform="rotate(${side*40} ${x+side*4} ${y-6})" fill="#fff" stroke="${Pa.main}" stroke-width="1.2"/>`;
+  });
+  return s;
+}
+
+function face(g,ph,cx,hy,r,A,eyeC,hairD,old){
+  const ey=hy+r*.15, ex=r*.4, erx=r*.15, ery=r*A.eye;
+  let f='<g class="eyes">';
+  [-1,1].forEach(sd=>{
+    const x=cx+sd*ex;
+    f += `<ellipse cx="${x}" cy="${ey}" rx="${erx}" ry="${ery}" fill="#1d1530"/><ellipse cx="${x}" cy="${ey+ery*.28}" rx="${erx*.78}" ry="${ery*.58}" fill="${eyeC}"/><circle cx="${x-erx*.3}" cy="${ey-ery*.38}" r="${erx*.4}" fill="#fff"/><circle cx="${x+erx*.35}" cy="${ey+ery*.42}" r="${erx*.18}" fill="#fff" opacity=".85"/>`;
+  });
+  f += '</g>';
+  [-1,1].forEach(sd=>{
+    const x=cx+sd*ex;
+    f += `<path d="M${x-erx*1.25},${ey-ery*.45} Q${x},${ey-ery*1.38} ${x+erx*1.25},${ey-ery*.45}" fill="none" stroke="#1d1530" stroke-width="${g==='F'?2.8:1.8}" stroke-linecap="round"/>`;
+    if(g==='F') f += `<path d="M${x+sd*erx*1.2},${ey-ery*.48} l${sd*5},-5" stroke="#1d1530" stroke-width="2.2" stroke-linecap="round"/>`;
+    f += `<path d="M${x-erx*1.2},${ey-ery-5} Q${x},${ey-ery-9} ${x+erx*1.2},${ey-ery-5}" fill="none" stroke="${hairD}" stroke-width="${g==='M'?3.4:2.2}" stroke-linecap="round"/>`;
+    if(old) f += `<circle cx="${x}" cy="${ey}" r="${erx*1.8}" fill="#fff" fill-opacity=".08" stroke="#d9b45a" stroke-width="1.8"/>`;
+  });
+  if(old) f += `<path d="M${cx-ex+erx*1.8},${ey} Q${cx},${ey-4} ${cx+ex-erx*1.8},${ey}" fill="none" stroke="#d9b45a" stroke-width="1.8"/>`;
+  f += `<ellipse cx="${cx-r*.62}" cy="${hy+r*.47}" rx="7.5" ry="4.2" fill="#ff6f91" opacity=".38"/><ellipse cx="${cx+r*.62}" cy="${hy+r*.47}" rx="7.5" ry="4.2" fill="#ff6f91" opacity=".38"/>`;
+  const my=hy+r*.55;
+  if(g==='F') f += `<path d="M${cx-7.5},${my} Q${cx-3},${my-2.5} ${cx},${my-.5} Q${cx+3},${my-2.5} ${cx+7.5},${my} Q${cx},${my+9} ${cx-7.5},${my}Z" fill="#e0557a"/><path d="M${cx-4},${my+3.2} Q${cx},${my+4.2} ${cx+4},${my+3.2}" stroke="#fff" stroke-opacity=".45" stroke-width="1.2" fill="none" stroke-linecap="round"/>`;
+  else f += ph==='F'
+    ? `<path d="M${cx-7},${my} Q${cx},${my+10} ${cx+7},${my}Z" fill="#7a2e3a"/>`
+    : `<path d="M${cx-7},${my} Q${cx},${my+7} ${cx+7},${my}" fill="none" stroke="#7a2e3a" stroke-width="2.4" stroke-linecap="round"/>`;
+  return f;
+}
+
+function particles(el,Pa,hy,r,bB){
+  const pos=[[26,hy-8],[172,hy+6],[36,bB-14],[166,bB-26],[100,hy-r-26]];
+  return pos.map(([x,y],i)=>{
+    const b=`begin="${(i*.45).toFixed(2)}s" repeatCount="indefinite"`;
+    if(el==='agua') return `<g><animateTransform attributeName="transform" type="translate" values="0 0;0 -12;0 0" dur="2.6s" ${b}/><path d="${ICON.agua}" transform="translate(${x},${y}) scale(.7)" fill="${Pa.light}" opacity=".85"/></g>`;
+    if(el==='fuego') return `<circle cx="${x}" cy="${y}" r="2.8" fill="${Pa.light}"><animateTransform attributeName="transform" type="translate" values="0 18;5 -26" dur="1.6s" ${b}/><animate attributeName="opacity" values="1;0" dur="1.6s" ${b}/></circle>`;
+    if(el==='tierra') return `<g><animateTransform attributeName="transform" type="translate" values="0 -14;9 18" dur="2.8s" ${b}/><animate attributeName="opacity" values="1;0" dur="2.8s" ${b}/><path d="${LEAF}" transform="translate(${x},${y}) rotate(${i*50}) scale(.75)" fill="${Pa.light}"/></g>`;
+    return `<path d="${SPARK}" transform="translate(${x},${y}) scale(.9)" fill="#fff"><animate attributeName="opacity" values="0;1;0" dur="1.8s" ${b}/></path>`;
+  }).join('');
+}
+
+// o = {el:'agua'|'fuego'|'tierra'|'aire'|'neutro', g:'F'|'M', ph:'F'|'S'|'C'|'Y', skin, hairN}
+function hero(o){
+  const id='h'+(UID++), el=o.el||'neutro', Pa=PAL[el], A=AGE[o.ph||'S'], g=o.g||'F';
+  const neu=el==='neutro', old=o.ph==='Y', fem=g==='F';
+  const cx=100, feet=224, r=A.r, sh=A.sh+(fem?0:4), legTop=feet-A.leg, bT=legTop-A.body, bB=legTop, hy=bT-r*.78;
+  const hair = old ? '#ebe8f5' : (neu ? (o.hairN||Pa.hair) : Pa.hair), hairD = shade(hair,-32);
+  const skin = o.skin||SKINS[1], skinD = shade(skin,-14);
+  const vb = o.face ? `${(cx-r*1.6).toFixed(1)} ${(hy-r*1.62).toFixed(1)} ${(r*3.2).toFixed(1)} ${(r*3.2).toFixed(1)}` : '0 0 200 240';
+  let s = `<svg class="hero-svg${o.face?' face':''}" viewBox="${vb}" xmlns="http://www.w3.org/2000/svg"><defs>`+
+    `<radialGradient id="${id}a"><stop offset="0" stop-color="${Pa.glow}" stop-opacity="${neu?.25:.6}"/><stop offset="1" stop-color="${Pa.glow}" stop-opacity="0"/></radialGradient>`+
+    `<linearGradient id="${id}b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${Pa.light}"/><stop offset=".45" stop-color="${Pa.main}"/><stop offset="1" stop-color="${Pa.dark}"/></linearGradient></defs>`;
+  s += `<circle cx="100" cy="${hy+34}" r="96" fill="url(#${id}a)"/>`;
+  s += `<ellipse cx="100" cy="${feet+3}" rx="50" ry="9" fill="${Pa.glow}" opacity=".35"/><ellipse cx="100" cy="${feet+3}" rx="30" ry="5" fill="${Pa.light}" opacity=".45"/>`;
+  // efectos de espalda
+  if(el==='fuego') s += `<g opacity=".8">`+
+    [[46,58,118,'main','1;.55;1','1.2s'],[154,58,124,'main','.55;1;.55','1.1s'],[64,34,80,'light','.4;1;.4','.9s'],[136,34,84,'light','1;.4;1','1s'],[30,24,56,'light','1;.3;1','.8s'],[170,24,60,'light','.3;1;.3','.85s']]
+    .map(([x,w,h,c,v,d])=>`<path d="${flame(x,feet-2,w,h)}" fill="${Pa[c]}"><animate attributeName="opacity" values="${v}" dur="${d}" repeatCount="indefinite"/></path>`).join('')+`</g>`;
+  if(el==='agua') s += `<path d="M${cx-sh+4},${bT+4} Q${cx-sh-24},${bB-10} ${cx-sh-16},${feet-4} Q${cx-sh+4},${feet+4} ${cx},${feet-6} Q${cx+sh-4},${feet+4} ${cx+sh+16},${feet-4} Q${cx+sh+24},${bB-10} ${cx+sh-4},${bT+4}Z" fill="${Pa.dark}" stroke="${Pa.light}" stroke-width="2"/>`+
+    `<ellipse cx="100" cy="${bT+A.body*.75}" rx="${sh+34}" ry="11" fill="none" stroke="${Pa.light}" stroke-width="2.5" stroke-dasharray="14 9" opacity=".7"><animate attributeName="stroke-dashoffset" values="0;-46" dur="1.6s" repeatCount="indefinite"/></ellipse>`;
+  if(el==='aire'){
+    const px=cx-sh+6, py=bT+20;
+    const wing = `<path d="M${cx-sh+8},${bT+12} C${cx-sh-30},${bT-34} ${cx-sh-62},${bT-6} ${cx-sh-40},${bT+30} C${cx-sh-56},${bT+26} ${cx-sh-50},${bT+48} ${cx-sh-24},${bT+46} C${cx-sh-34},${bT+58} ${cx-sh-14},${bT+64} ${cx-sh+6},${bT+40}Z" fill="${Pa.light}" stroke="${Pa.main}" stroke-width="2" opacity=".93"><animateTransform attributeName="transform" type="rotate" values="0 ${px} ${py};9 ${px} ${py};0 ${px} ${py}" dur="1.6s" repeatCount="indefinite"/></path>`;
+    s += wing + `<g transform="translate(200,0) scale(-1,1)">${wing}</g>`;
+  }
+  if(el==='tierra'){
+    [[34,bT-6,1],[168,bT+16,.8],[44,bB+4,.7]].forEach(([x,y,sc],i)=>{
+      s += `<g><animateTransform attributeName="transform" type="translate" values="0 0;0 -7;0 0" dur="${2.2+i*.4}s" repeatCount="indefinite"/><path d="${ROCK}" transform="translate(${x},${y}) scale(${sc*1.4})" fill="#8b6b4a" stroke="${Pa.dark}" stroke-width="1.2"/></g>`;
+    });
+  }
+  s += backHair(g,el,old,cx,hy,r,hair,hairD,bB,neu);
+  // bastón de sabiduría (54-72)
+  if(old){ const sx=cx+sh+16; s += `<line x1="${sx}" y1="${bT-30}" x2="${sx}" y2="${feet}" stroke="#8a5a2b" stroke-width="5" stroke-linecap="round"/><circle cx="${sx}" cy="${bT-37}" r="10" fill="${Pa.light}" stroke="${Pa.dark}" stroke-width="2"/><circle cx="${sx-3}" cy="${bT-40}" r="3" fill="#fff" opacity=".85"/>`; }
+  // piernas y botas
+  const pants = Pa.dark, boot = shade(Pa.dark,-40);
+  s += `<rect x="${cx-15}" y="${legTop-6}" width="13" height="${A.leg+2}" rx="5" fill="${pants}"/><rect x="${cx+2}" y="${legTop-6}" width="13" height="${A.leg+2}" rx="5" fill="${pants}"/>`;
+  s += `<rect x="${cx-18}" y="${feet-11}" width="17" height="12" rx="5" fill="${boot}"/><rect x="${cx+1}" y="${feet-11}" width="17" height="12" rx="5" fill="${boot}"/>`;
+  // brazos
+  const armH = A.body*.78;
+  s += `<g transform="rotate(14 ${cx-sh+4} ${bT+8})"><rect x="${cx-sh-6}" y="${bT+2}" width="12" height="${armH}" rx="6" fill="${Pa.main}" stroke="${Pa.dark}" stroke-width="1"/><circle cx="${cx-sh}" cy="${bT+2+armH}" r="6.5" fill="${skin}"/></g>`;
+  s += `<g transform="rotate(${old?-30:-14} ${cx+sh-4} ${bT+8})"><rect x="${cx+sh-6}" y="${bT+2}" width="12" height="${armH}" rx="6" fill="${Pa.main}" stroke="${Pa.dark}" stroke-width="1"/><circle cx="${cx+sh}" cy="${bT+2+armH}" r="6.5" fill="${skin}"/></g>`;
+  // torso
+  const torso = fem
+    ? `M${cx-sh+6},${bT} Q${cx},${bT-5} ${cx+sh-6},${bT} L${cx+sh-3},${bT+A.body*.55} L${cx+sh+10},${bB+2} Q${cx},${bB+9} ${cx-sh-10},${bB+2} L${cx-sh+3},${bT+A.body*.55}Z`
+    : `M${cx-sh},${bT+2} Q${cx},${bT-5} ${cx+sh},${bT+2} L${cx+sh-4},${bB+2} Q${cx},${bB+6} ${cx-sh+4},${bB+2}Z`;
+  s += `<path d="${torso}" fill="url(#${id}b)" stroke="${Pa.dark}" stroke-width="1.5"/>`;
+  s += `<path d="M${cx-11},${bT-1} L${cx},${bT+13} L${cx+11},${bT-1}" fill="none" stroke="${Pa.light}" stroke-width="3" stroke-linejoin="round"/>`;
+  const belt = bT+A.body*.55;
+  s += `<rect x="${cx-sh+3}" y="${belt-3}" width="${2*sh-6}" height="6" rx="2" fill="${Pa.dark}"/><rect x="${cx-5}" y="${belt-4}" width="10" height="8" rx="2" fill="${Pa.light}"/>`;
+  const exE = cx-sh*.45, eyE = bT+A.body*.3;
+  s += `<circle cx="${exE}" cy="${eyE}" r="8" fill="${Pa.light}" stroke="${Pa.dark}" stroke-width="1.5"/>`+
+    (neu ? `<text x="${exE}" y="${eyE+4}" text-anchor="middle" font-size="11" font-weight="700" fill="${Pa.dark}" font-family="Fredoka,sans-serif">?</text>` : icon(el,exE,eyE,.8,Pa.dark));
+  s += pads(el,cx,sh,bT,Pa);
+  // cuello y cabeza
+  s += `<rect x="${cx-6}" y="${hy+r*.55}" width="12" height="${bT-(hy+r*.55)+4}" fill="${skinD}"/>`;
+  s += `<circle cx="${cx-r*.96}" cy="${hy+5}" r="7" fill="${skinD}"/><circle cx="${cx+r*.96}" cy="${hy+5}" r="7" fill="${skinD}"/>`;
+  s += `<ellipse cx="${cx}" cy="${hy}" rx="${r}" ry="${r*.97}" fill="${skin}"/>`;
+  if(!fem && (o.ph==='C'||old)) s += `<path d="M${cx-r*.88},${hy+r*.15} Q${cx-r*.82},${hy+r*.98} ${cx},${hy+r*1.06} Q${cx+r*.82},${hy+r*.98} ${cx+r*.88},${hy+r*.15} Q${cx+r*.62},${hy+r*.72} ${cx},${hy+r*.74} Q${cx-r*.62},${hy+r*.72} ${cx-r*.88},${hy+r*.15}Z" fill="${hair}" opacity="${old?1:.8}"/>`;
+  s += face(g,o.ph,cx,hy,r,A,neu?Pa.eye:Pa.eye,hairD,old);
+  s += frontHair(g,el,cx,hy,r,hair,hairD,neu);
+  s += accessory(el,cx,hy,r,Pa,neu);
+  if(fem && (o.ph==='C'||old)) s += `<circle cx="${cx-r*.96}" cy="${hy+14}" r="3.2" fill="${neu?'#ffd166':Pa.light}"/><circle cx="${cx+r*.96}" cy="${hy+14}" r="3.2" fill="${neu?'#ffd166':Pa.light}"/>`;
+  if(!neu) s += particles(el,Pa,hy,r,bB);
+  return s + '</svg>';
+}
+
+// ═════════════ CONFIGURACIÓN (edita solo esto) ═════════════
+const CONFIG = {
+  SHEETS_URL: '',      // URL de tu Apps Script (termina en /exec). Vacío = no guarda.
+  WA_VERIFY:  false,   // true cuando WhatsApp Cloud API esté configurado en el Apps Script
+  ARTE_WA:    '',      // tu WhatsApp con código de país, solo números. Ej: 573001234567
+  EBOOK_URL:  'https://codigo360grados.netlify.app/',
+  ACCESS_KEY: 'SEGUIDOR360', // código secreto que ManyChat envía solo a seguidores (cámbialo cuando quieras)
+  DM_KEYWORD: 'JUEGO',       // palabra que la persona te escribe por DM
+  IG_USER:    'anasofia_claridadydireccion',
+  GAME_URL:   'https://codigo360-juego.netlify.app'       // link público del juego en Netlify (el que se comparte). Ej: https://codigo360grados.netlify.app/juego
+};
+
+// ═════════════ DATOS ═════════════
+const ELKEYS = ['agua','fuego','tierra','aire'];
+const EL = {
+  agua: {name:'Agua', emo:'💧', title:['Guardiana de la Marea','Guardián de la Marea'],
+    def:'El Agua es la emoción: sentir, intuir y conectar con lo que vive el otro. Es tu corazón sabiendo antes que la mente.',
+    power:['Sientes lo que el otro vive sin que te lo diga: eso es empatía pura.',
+           'Tu sensibilidad te permite amar, acompañar y sanar profundo.',
+           'Tu intuición casi nunca se equivoca: aprende a escucharla.'],
+    exceso:['Sientes de más: cargas el dolor de los demás como si fuera tuyo.',
+            'Te sientes vulnerable y una palabra puede afectarte por días.',
+            'Absorbes las emociones de tu casa y de noche aparecen el llanto o la culpa.'],
+    falta:['Para no sufrir, te endureces y dejas de sentir.',
+           'Guardas tanto lo que sientes que el agua se estanca: cansancio y tristeza sin nombre.'],
+    tips:['Pregúntate: ¿esto que siento es mío o es del otro?',
+          'Ponle nombre a una emoción hoy: lo que se nombra, se ordena.',
+          'Date una ducha consciente al final del día para soltar lo que cargaste.',
+          'Puedes acompañar sin cargar: escucha, pero no te lleves el peso.'],
+    decide:{exceso:'Decides desde lo que sientes en el momento: si estás triste todo se ve oscuro, y si alguien sufre, decides por esa persona y no por ti.',
+            falta:'Para no sentir, decides en automático y tapas la emoción; después llegan de golpe el cansancio o el llanto.'},
+    ally:'fuego', allyTxt:'Activa tu Fuego: pasa del sentir al hacer. Una acción pequeña hoy saca la emoción del pecho y la convierte en movimiento.',
+    react:['💧 Tu agua se movió','💧 Corazón abierto','💧 Sientes profundo','💧 La intuición habla','💧 Fluye la emoción']},
+  fuego:{name:'Fuego', emo:'🔥', title:['Guerrera de la Llama','Guerrero de la Llama'],
+    def:'El Fuego es la acción: hacer, decidir, comunicar y moverte hacia lo que quieres. Es la energía que te pone en marcha.',
+    power:['Cuando decides, lo haces: tu energía mueve a los demás.',
+           'Dices lo que piensas y abres caminos con tu voz.',
+           'Tienes el valor de empezar lo que otros solo imaginan.'],
+    exceso:['Tu fuego se vuelve explosión: reaccionas fuerte y luego te arrepientes.',
+            'La impaciencia te quema: quieres todo ya y te frustras cuando no sale.',
+            'Hablas desde el enojo y lo que querías comunicar se pierde.'],
+    falta:['Tu fuego se bloquea: sabes lo que tienes que hacer pero no arrancas.',
+           'Te guardas lo que quieres decir y la rabia se queda adentro.',
+           'Empiezas con fuerza y te apagas a mitad de camino.'],
+    tips:['Antes de responder, cuenta hasta 10 y respira: el fuego que espera, ilumina.',
+          'Haz hoy una acción pequeña de eso que vienes aplazando.',
+          'Mueve el cuerpo 10 minutos: el fuego bloqueado necesita salir.',
+          'Di lo que sientes empezando con "yo siento…" en lugar de "tú siempre…".'],
+    decide:{exceso:'Decides desde la rabia o la urgencia: actúas antes de sentir y después te toca reparar.',
+            falta:'Sabes lo que quieres, pero el miedo a explotar o a fallar te frena y la decisión se queda congelada.'},
+    ally:'agua', allyTxt:'Activa tu Agua: antes de actuar, siente. Pregúntate qué hay debajo de la rabia o del bloqueo.',
+    react:['🔥 Se encendió tu fuego','🔥 Pura acción','🔥 Energía en marcha','🔥 Tu voz se hace sentir','🔥 Chispa activada']},
+  tierra:{name:'Tierra', emo:'🌱', title:['Protectora de la Raíz','Protector de la Raíz'],
+    def:'La Tierra es la estructura: el orden, la rutina, el cuerpo y las bases que sostienen tu vida.',
+    power:['Pones orden donde hay caos: contigo las cosas funcionan.',
+           'Eres constante: construyes paso a paso y no te rindes.',
+           'Das seguridad: tu familia sabe que puede contar contigo.'],
+    exceso:['Tanto orden se vuelve rigidez: si algo cambia, te desestabilizas.',
+            'Controlas todo para sentir seguridad y terminas cargando con todo.',
+            'Te cuesta soltar una rutina aunque ya no te sirva.'],
+    falta:['Te falta estructura: hay mucho desorden en tu casa, tu agenda o tu dinero.',
+           'Empiezas rutinas que no sostienes y el desorden te roba energía.',
+           'Sin una base firme todo se siente pesado y no sabes por dónde empezar.'],
+    tips:['Ordena un solo espacio hoy: un cajón en orden ordena la mente.',
+          'Crea una rutina de 3 pasos para tu mañana y repítela 7 días.',
+          'Pon los pies en la tierra o el pasto 5 minutos: el cuerpo se centra.',
+          'Escribe tus 3 prioridades del día antes de abrir el celular.'],
+    decide:{exceso:'Decides desde el miedo a perder la seguridad: eliges lo conocido aunque ya no te haga feliz.',
+            falta:'Sin una estructura, decides según cómo amaneciste y el desorden termina decidiendo por ti.'},
+    ally:'aire', allyTxt:'Activa tu Aire: abre la ventana a ideas nuevas. Cambiar una pequeña rutina le da aire a tu estructura.',
+    react:['🌱 Tu tierra se afirma','🌱 Raíces firmes','🌱 Orden en marcha','🌱 Construyes paso a paso','🌱 Tu base se fortalece']},
+  aire:{name:'Aire', emo:'💨', title:['Viajera del Viento','Viajero del Viento'],
+    def:'El Aire es el pensamiento: las ideas, la mente que analiza, imagina y conecta. Es tu forma de entender la vida desde la cabeza.',
+    power:['Tu mente ve soluciones donde otros ven problemas.',
+           'Tienes ideas que pueden cambiar tu vida y la de tu familia.',
+           'Conectas, explicas y pones en palabras lo que otros no saben decir.'],
+    exceso:['Piensas tanto que no aterrizas: das vueltas a lo mismo y a las 3 a. m. tu mente sigue encendida.',
+            'Tu cabeza va más rápido que tu vida: muchas ideas empezadas y pocas terminadas.',
+            'Analizas cada detalle hasta cansarte; la duda te frena más que el miedo.'],
+    falta:['Cuando el Aire se apaga llega la confusión: no sabes qué quieres ni por dónde empezar.',
+           'Sientes la mente nublada, en blanco, como si las ideas no llegaran.'],
+    tips:['Escribe 3 pensamientos en papel antes de dormir: lo que sale de la cabeza deja de dar vueltas.',
+          'Elige UNA idea esta semana y llévala hasta el final.',
+          'Respira 4 segundos, sostén 4, suelta 6: el cuerpo calma a la mente.',
+          'Antes de analizar, pregúntate: ¿qué siento con esto?'],
+    decide:{exceso:'Decides desde la cabeza: analizas tanto cada opción que la ansiedad no te deja elegir.',
+            falta:'La confusión te lleva a preguntarle a todo el mundo y terminas decidiendo por lo que dicen otros.'},
+    ally:'tierra', allyTxt:'Activa tu Tierra: aterriza. Escribe, ordena y da un paso concreto; el cuerpo calma a la mente.',
+    react:['💨 Tu mente se activó','💨 Ideas en movimiento','💨 Pensamiento encendido','💨 La mente busca el camino','💨 Sopla el viento']}
+};
+const MOODS = [
+  {k:'triste',    emo:'😢', name:'Tristeza',      el:'agua',   msg:'La tristeza es Agua estancada: necesita sentirse y fluir, no esconderse.'},
+  {k:'sensible',  emo:'🥺', name:'Sensibilidad',  el:'agua',   msg:'Sentir de más es Agua desbordada: hoy estás absorbiendo emociones que no son tuyas.'},
+  {k:'rabia',     emo:'😤', name:'Rabia',         el:'fuego',  msg:'La rabia es Fuego que quiere salir: necesita dirección, no explosión.'},
+  {k:'bloqueo',   emo:'🧱', name:'Bloqueo',       el:'fuego',  msg:'El bloqueo es Fuego apagado: la energía está ahí, esperando una primera acción.'},
+  {k:'cansancio', emo:'😮‍💨', name:'Cansancio',     el:'tierra', msg:'El cansancio es Tierra pesada: tu cuerpo está cargando más de lo que le toca.'},
+  {k:'desorden',  emo:'📦', name:'Desorden',      el:'tierra', msg:'El desorden es Tierra sin estructura: te falta una base que te sostenga.'},
+  {k:'ansiedad',  emo:'😰', name:'Ansiedad',      el:'aire',   msg:'La ansiedad es Aire acelerado: la mente corre más rápido que tu vida.'},
+  {k:'confusion', emo:'😵‍💫', name:'Confusión',     el:'aire',   msg:'La confusión es Aire nublado: hay tantas voces que no escuchas la tuya.'}
+];
+const QUADS = [
+  {k:'F', age:'0 – 18',  name:'Cuadrante del Impulso',     short:'IMPULSO',     color:'#7c6cff',
+   lesson:'Aquí se graban tus primeras respuestas automáticas: lo que viviste en casa se vuelve tu forma de reaccionar.'},
+  {k:'S', age:'18 – 36', name:'Cuadrante del Instinto',    short:'INSTINTO',    color:'#22c3ee',
+   lesson:'Etapa de construir: pareja, trabajo, independencia. Actúas desde el instinto de sobrevivir y pertenecer.'},
+  {k:'C', age:'36 – 54', name:'Cuadrante del Pensamiento', short:'PENSAMIENTO', color:'#ff8a3d',
+   lesson:'Etapa de revisar: lo que construiste te pide sentido. La mente pregunta "¿esto es lo que de verdad quiero?".'},
+  {k:'Y', age:'54 – 72', name:'Cuadrante del Ser',         short:'SER',         color:'#ffcc4d',
+   lesson:'Etapa de cosechar: soltar lo que pesa y convertir tu historia en sabiduría.'}
+];
+const MISSION = {
+  agua:  {F:'Aprende a nombrar lo que sientes en vez de esconderlo. Lo que sientes no es exagerado: es información.',
+          S:'Pon límites a las emociones ajenas. Puedes acompañar sin cargar lo que no te toca.',
+          C:'Revisa qué lágrimas del pasado siguen sin cerrarse. Hoy tienes la madurez para soltarlas.',
+          Y:'Tu sensibilidad es medicina. Compártela: tu historia puede sanar a quien viene detrás.'},
+  fuego: {F:'Canaliza tu fuerza en algo que construya: un deporte, un arte, una meta. El fuego sin dirección quema.',
+          S:'Aprende a pausar antes de reaccionar. Tu poder crece cuando eliges el momento.',
+          C:'Deja de demostrar. Lidera desde la calma y verás cuánto más lejos llega tu luz.',
+          Y:'Tu fuego ahora es calor que guía. Inspira, enseña y enciende a otros.'},
+  tierra:{F:'No tienes que ser fuerte por todos. Pide ayuda: también mereces que te sostengan.',
+          S:'Construye bases para ti, no solo para los demás. Tu bienestar también es prioridad.',
+          C:'Atrévete a cambiar algo de tu rutina. Tener raíces firmes no significa no moverse.',
+          Y:'Tu constancia es tu legado. Ordena tu historia y entrégala como herencia.'},
+  aire:  {F:'Aterriza una idea a la vez. Tu mente es enorme; el enfoque la vuelve real.',
+          S:'Termina antes de empezar algo nuevo. Un paso completo vale más que diez proyectos.',
+          C:'Baja de la cabeza al cuerpo. Respira: la claridad que buscas llega en silencio.',
+          Y:'Tus ideas merecen quedarse: escribe, graba, enseña lo que entendiste de la vida.'}
+};
+const COUNTRIES = [
+  {c:'CO',f:'🇨🇴',n:'Colombia',       d:'57',  re:/^3\d{9}$/,          ex:'300 123 4567'},
+  {c:'MX',f:'🇲🇽',n:'México',         d:'52',  re:/^\d{10}$/,          ex:'55 1234 5678'},
+  {c:'VE',f:'🇻🇪',n:'Venezuela',      d:'58',  re:/^4\d{9}$/,          ex:'412 123 4567'},
+  {c:'EC',f:'🇪🇨',n:'Ecuador',        d:'593', re:/^9\d{8}$/,          ex:'99 123 4567'},
+  {c:'PE',f:'🇵🇪',n:'Perú',           d:'51',  re:/^9\d{8}$/,          ex:'912 345 678'},
+  {c:'CL',f:'🇨🇱',n:'Chile',          d:'56',  re:/^9\d{8}$/,          ex:'9 1234 5678'},
+  {c:'AR',f:'🇦🇷',n:'Argentina',      d:'54',  re:/^9\d{10}$/,         ex:'11 2345 6789', fix:v=>v.length===10?'9'+v:v},
+  {c:'PA',f:'🇵🇦',n:'Panamá',         d:'507', re:/^6\d{7}$/,          ex:'6123 4567'},
+  {c:'CR',f:'🇨🇷',n:'Costa Rica',     d:'506', re:/^[5-8]\d{7}$/,      ex:'8312 3456'},
+  {c:'GT',f:'🇬🇹',n:'Guatemala',      d:'502', re:/^[3-5]\d{7}$/,      ex:'5123 4567'},
+  {c:'BO',f:'🇧🇴',n:'Bolivia',        d:'591', re:/^[67]\d{7}$/,       ex:'7123 4567'},
+  {c:'UY',f:'🇺🇾',n:'Uruguay',        d:'598', re:/^9\d{7}$/,          ex:'94 123 456'},
+  {c:'PY',f:'🇵🇾',n:'Paraguay',       d:'595', re:/^9\d{8}$/,          ex:'961 456 789'},
+  {c:'DO',f:'🇩🇴',n:'Rep. Dominicana',d:'1',   re:/^(809|829|849)\d{7}$/, ex:'809 123 4567'},
+  {c:'US',f:'🇺🇸',n:'Estados Unidos', d:'1',   re:/^[2-9]\d{9}$/,      ex:'305 123 4567'},
+  {c:'ES',f:'🇪🇸',n:'España',         d:'34',  re:/^[67]\d{8}$/,       ex:'612 34 56 78'},
+  {c:'XX',f:'🌎',n:'Otro país',       d:'',    re:/^[1-9]\d{7,14}$/,   ex:'código de país + número'}
+];
+
+// ═════════════ ESTADO ═════════════
+const S = {gender:'', name:'', country:COUNTRIES[0], e164:'', phoneOk:false, follow:'', verified:false,
+  id:'c360-'+Date.now().toString(36)+Math.random().toString(36).slice(2,7),
+  skin:'', hairN:'', quad:null, answers:[], scores:{}, result:null, deg:0, lock:false, timers:{}};
+const $ = id => document.getElementById(id);
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const gi = () => S.gender==='M' ? 1 : 0;
+
+// ═════════════ SONIDO ═════════════
+let AC=null, soundOn=true;
+function tone(f,d=.08,type='square',vol=.045,when=0){
+  if(!soundOn) return;
+  try{
+    AC = AC || new (window.AudioContext||window.webkitAudioContext)();
+    const t=AC.currentTime+when, o=AC.createOscillator(), g=AC.createGain();
+    o.type=type; o.frequency.setValueAtTime(f,t);
+    g.gain.setValueAtTime(vol,t); g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    o.connect(g); g.connect(AC.destination); o.start(t); o.stop(t+d+.02);
+  }catch(e){}
+}
+const sfx = {
+  click:()=>tone(660,.05), tick:()=>tone(990,.035,'square',.025),
+  ok:()=>{tone(523,.08); tone(784,.12,'square',.045,.08);},
+  pop:()=>{tone(300,.08,'triangle',.08); tone(620,.12,'triangle',.06,.06);},
+  win:()=>[523,659,784,1047,1319].forEach((f,i)=>tone(f,.2,'square',.045,i*.11)),
+  err:()=>tone(150,.2,'sawtooth',.04)
+};
+function toggleSound(){ soundOn=!soundOn; $('snd').textContent=soundOn?'🔊':'🔇'; if(soundOn) sfx.click(); }
+
+// ═════════════ UTILIDADES ═════════════
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const el=$(id); el.classList.add('active'); el.scrollTop=0;
+  if(id!=='s-player') clearInterval(S.timers.prev);
+}
+function toast(msg){ const t=$('toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(S.timers.toast); S.timers.toast=setTimeout(()=>t.classList.remove('show'),2800); }
+function shake(el){ el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake'); }
+function burst(x,y,color,n=16){
+  for(let i=0;i<n;i++){
+    const d=document.createElement('div'), a=Math.random()*Math.PI*2, dist=40+Math.random()*80;
+    d.className='pt';
+    d.style.cssText=`left:${x}px;top:${y}px;background:${color};--dx:${Math.cos(a)*dist}px;--dy:${Math.sin(a)*dist}px`;
+    document.body.appendChild(d); setTimeout(()=>d.remove(),800);
+  }
+}
+function burstFrom(el,color,n){ const r=el.getBoundingClientRect(); burst(r.left+r.width/2, r.top+r.height/2, color, n); }
+function setElVars(el){ const p=PAL[el]; const st=document.documentElement.style; st.setProperty('--el',p.main); st.setProperty('--el2',p.light); st.setProperty('--eld',p.dark); }
+
+async function api(action,data){
+  if(!CONFIG.SHEETS_URL) return {ok:false, offline:true};
+  try{
+    const r = await fetch(CONFIG.SHEETS_URL,{method:'POST', body:JSON.stringify({action, ...data})});
+    return await r.json();
+  }catch(e){ return {ok:false, reason:'network'}; }
+}
+function saveLead(stage){
+  const q = S.quad!==null ? QUADS[S.quad] : null, res=S.result;
+  api('lead',{
+    id:S.id, etapa:stage, nombre:S.name, whatsapp:S.e164, pais:S.country.n,
+    genero:S.gender==='F'?'Mujer':'Hombre', instagram:S.ig||'', sigue_ig:'SÍ (verificado por DM)', acepta_datos:'SÍ',
+    verificado:S.verified?'SÍ':'NO',
+    cuadrante:q?q.name:'', edad:q?q.age:'',
+    emocion_hoy:S.mood?S.mood.name:'', equilibrio:(S.msg&&res)?(S.msg.pole==='exceso'?'Exceso':'Falta')+' de '+EL[res].name:'',
+    elemento:res?EL[res].name:'', personaje:res?EL[res].title[gi()]:'', grados:res?S.deg:'',
+    agua:S.scores.agua||0, fuego:S.scores.fuego||0, tierra:S.scores.tierra||0, aire:S.scores.aire||0,
+    respuestas:S.answers.join(','), preguntas:(S.qs||[]).slice(0,S.answers.length).map(q=>q.id).join(',')
+  });
+}
+
+// ═════════════ RUEDA 360 ═════════════
+function pt(r,deg){ const a=(deg-90)*Math.PI/180; return [170+r*Math.cos(a), 170+r*Math.sin(a)]; }
+function arc(a1,a2,ro,ri){
+  const f=v=>v.toFixed(1), [x1,y1]=pt(ro,a1), [x2,y2]=pt(ro,a2), [x3,y3]=pt(ri,a2), [x4,y4]=pt(ri,a1), lg=a2-a1>180?1:0;
+  return `M${f(x1)},${f(y1)}A${ro},${ro} 0 ${lg} 1 ${f(x2)},${f(y2)}L${f(x3)},${f(y3)}A${ri},${ri} 0 ${lg} 0 ${f(x4)},${f(y4)}Z`;
+}
+function wheelSVG(mode){
+  const n=S.answers.length;
+  let s=`<svg viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="wcg-${mode}"><stop offset="0" stop-color="#3a2f8a"/><stop offset="1" stop-color="#120f33"/></radialGradient></defs>`;
+  s+=`<circle cx="170" cy="170" r="168" fill="rgba(10,8,30,.8)" stroke="rgba(255,209,102,.4)" stroke-width="2"/>`;
+  if(mode!=='title'){
+    for(let i=0;i<8;i++){
+      const a=S.answers[i], cur=mode==='game'&&i===n, [x,y]=pt(153.5,i*45+22.5);
+      s+=`<path class="seg${cur?' cur':''}" d="${arc(i*45+1.5,(i+1)*45-1.5,164,143)}" fill="${a?PAL[a].main:'#fff'}" fill-opacity="${a?1:.07}" stroke="${cur?'#ffd166':'none'}" stroke-width="2"/>`;
+      s+= a ? `<text x="${x}" y="${y+4.5}" text-anchor="middle" font-size="12">${EL[a].emo}</text>`
+            : `<text x="${x}" y="${y+4}" text-anchor="middle" font-size="9" font-family="'Press Start 2P',monospace" fill="#fff" fill-opacity="${cur?.95:.35}">${i+1}</text>`;
+    }
+  }
+  for(let d=0; d<360; d+=10){ const [x1,y1]=pt(140,d), [x2,y2]=pt(d%90===0?131:136,d); s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#fff" stroke-opacity=".3" stroke-width="${d%90?1:2}"/>`; }
+  QUADS.forEach((q,qi)=>{
+    const on=S.quad===qi && mode!=='title';
+    const fo = on ? .5 : (mode==='game' ? .1 : .22);
+    s+=`<path class="quad" d="${arc(qi*90+1,(qi+1)*90-1,130,38)}" fill="${q.color}" fill-opacity="${fo}" stroke="${q.color}" stroke-width="${on?3:1.5}"${mode==='age'?` onclick="pickQuad(${qi})"`:''}/>`;
+    if(!on && mode!=='title'){
+      const [x,y]=pt(84,qi*90+45);
+      s+=`<text x="${x}" y="${y-1}" text-anchor="middle" font-size="18" font-weight="700" font-family="Fredoka,sans-serif" fill="#fff" fill-opacity="${mode==='game'?.45:1}" pointer-events="none">${q.age.replace(/ /g,'')}</text>`+
+         `<text x="${x}" y="${y+15}" text-anchor="middle" font-size="10" font-weight="600" letter-spacing="1" font-family="Fredoka,sans-serif" fill="${q.color}" fill-opacity="${mode==='game'?.6:1}" pointer-events="none">${q.short}</text>`;
+    }
+  });
+  s+=`<circle cx="170" cy="170" r="34" fill="url(#wcg-${mode})" stroke="#ffd166" stroke-width="2"/>`;
+  s+= mode==='game'
+    ? `<text x="170" y="172" text-anchor="middle" font-size="18" font-weight="700" fill="#ffd166" font-family="Fredoka,sans-serif">${n*45}°</text><text x="170" y="188" text-anchor="middle" font-size="7" fill="#fff" fill-opacity=".6" font-family="'Press Start 2P',monospace">${n}/8</text>`
+    : (mode==='age' ? `<text x="170" y="176" text-anchor="middle" font-size="17" font-weight="700" fill="#fff" font-family="Fredoka,sans-serif">360°</text>` : '');
+  return s+'</svg>';
+}
+function heroPos(qi){ const a=(qi*90+45)*Math.PI/180; return {left:(170+84*Math.sin(a))/3.4+'%', top:(170-84*Math.cos(a))/3.4+'%'}; }
+function puffAt(box,pos){ const p=document.createElement('div'); p.className='puff'; p.style.left=pos.left; p.style.top=pos.top; box.appendChild(p); setTimeout(()=>p.remove(),650); }
+
+// ═════════════ 1. TÍTULO ═════════════
+function buildTitle(){
+  const sk=()=>pick(SKINS);
+  $('orbit').innerHTML = `<svg class="spin" viewBox="0 0 340 340">${wheelSVG('title').replace(/^<svg[^>]*>/,'').replace('</svg>','')}</svg><div class="core">360°</div>`+
+    [['agua','F','S'],['fuego','M','S'],['tierra','F','C'],['aire','M','F']].map(([el,g,ph],i)=>`<div class="oh p${i+1}">${hero({face:true,el,g,ph,skin:sk()})}</div>`).join('');
+}
+function startGame(){ sfx.pop(); if(S.access || !CONFIG.ACCESS_KEY) goPlayer(); else show('s-lock'); }
+
+// ═════════════ 2. JUGADOR ═════════════
+function startPreviews(){
+  const skF=pick(SKINS), skM=pick(SKINS); let i=0;
+  const draw=()=>{ $('prev-F').innerHTML=hero({face:true,el:ELKEYS[i%4],g:'F',ph:'S',skin:skF}); $('prev-M').innerHTML=hero({face:true,el:ELKEYS[(i+2)%4],g:'M',ph:'S',skin:skM}); i++; };
+  draw(); clearInterval(S.timers.prev); S.timers.prev=setInterval(draw,1300);
+}
+function pickGender(g){ S.gender=g; sfx.click(); document.querySelectorAll('.g-card').forEach(b=>b.classList.toggle('sel',b.dataset.g===g)); }
+function fillCountries(){
+  $('country').innerHTML = COUNTRIES.map((c,i)=>`<option value="${i}">${c.f} ${c.d?'+'+c.d:''} ${c.c==='XX'?c.n:c.c}</option>`).join('');
+  onCountry();
+}
+function onCountry(){ S.country=COUNTRIES[+$('country').value]; $('phone').placeholder=S.country.ex; checkPhone(); }
+function checkPhone(){
+  const c=S.country, inp=$('phone'), hint=$('phone-hint');
+  let v=inp.value.replace(/\D/g,'');
+  if(c.d && v.startsWith(c.d) && !c.re.test(c.fix?c.fix(v):v) && c.re.test((c.fix||(x=>x))(v.slice(c.d.length)))) v=v.slice(c.d.length);
+  if(c.c!=='XX') v=v.replace(/^0+/,'');
+  if(c.fix) v=c.fix(v);
+  const junk=/^(\d)\1+$/.test(v) || /(0123456789|123456789|987654321)/.test(v) || /(\d)\1{6,}/.test(v);
+  const ok = c.re.test(v) && !junk;
+  S.phoneOk=ok; S.e164 = ok ? '+'+c.d+v : '';
+  inp.classList.toggle('ok',ok); inp.classList.toggle('bad',!ok && v.length>=7);
+  if(!v){ hint.className='hint'; hint.textContent = c.c==='XX' ? 'Escribe el código de país y tu número, sin el +' : `Ej: ${c.ex}`; }
+  else if(ok){ hint.className='hint ok'; hint.textContent=`✓ Número válido: ${S.e164}`; }
+  else if(v.length>=7){ hint.className='hint bad'; hint.textContent=`✗ Ese número no es válido para ${c.n}`; }
+  else { hint.className='hint'; hint.textContent='Sigue escribiendo…'; }
+}
+function readAccess(){
+  let q; try{ q=new URLSearchParams(location.search); }catch(e){ return; }
+  const k=(q.get('acceso')||'').trim().toUpperCase(), ig=(q.get('ig')||'').trim().replace(/^@/,'');
+  if(k && k===CONFIG.ACCESS_KEY.toUpperCase()) grantAccess(ig);
+  else { try{ const m=JSON.parse(localStorage.getItem('c360_acceso')||'null'); if(m && m.k===CONFIG.ACCESS_KEY) grantAccess(m.ig); }catch(e){} }
+}
+function grantAccess(ig){
+  S.access=true;
+  if(ig && /^[A-Za-z0-9._]{1,30}$/.test(ig)) S.ig='@'+ig.toLowerCase();
+  try{ localStorage.setItem('c360_acceso', JSON.stringify({k:CONFIG.ACCESS_KEY, ig:S.ig?S.ig.slice(1):''})); }catch(e){}
+}
+function tryCode(){
+  const v=$('acc').value.trim().toUpperCase();
+  if(v && v===CONFIG.ACCESS_KEY.toUpperCase()){ grantAccess(''); sfx.win(); toast('✅ Acceso de seguidor verificado'); goPlayer(); }
+  else { $('acc-err').textContent='Código incorrecto. Escribe '+CONFIG.DM_KEYWORD+' por DM en Instagram para recibir el tuyo.'; shake($('acc')); sfx.err(); }
+}
+function goPlayer(){ $('ver-ig').textContent=S.ig||''; show('s-player'); startPreviews(); }
+
+async function submitPlayer(){
+  const err=$('p-err'), btn=$('p-go');
+  S.name=$('name').value.trim().replace(/\s+/g,' ');
+  let m='';
+  if(!S.gender) m='Elige tu personaje: mujer u hombre.';
+  else if(S.name.length<2 || !/\p{L}/u.test(S.name)) m='Escribe tu nombre.';
+  else if(!S.phoneOk) m='Revisa tu WhatsApp: el número no es válido.';
+  else if(!$('consent').checked) m='Acepta el uso de tus datos para continuar.';
+  err.textContent=m;
+  if(m){ sfx.err(); shake(btn); return; }
+  S.name = S.name.split(' ').map(w=>w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+  if(CONFIG.WA_VERIFY && CONFIG.SHEETS_URL){
+    btn.disabled=true; btn.textContent='Enviando código…';
+    const r=await api('send_otp',{whatsapp:S.e164});
+    btn.disabled=false; btn.textContent='Continuar ▶';
+    if(r.ok){ $('v-num').textContent=S.e164; $('otp').value=''; $('v-err').textContent=''; show('s-verify'); resendTimer(); setTimeout(()=>$('otp').focus(),300); return; }
+    err.textContent = r.reason==='too_many' ? 'Demasiados intentos con este número. Intenta en una hora.'
+      : r.reason==='invalid' ? 'Ese número no es válido.'
+      : 'No pudimos enviar el código a ese WhatsApp. Revisa el número.';
+    sfx.err(); shake(btn); return;
+  }
+  saveLead('registro'); goAge();
+}
+
+// ═════════════ 3. VERIFICACIÓN ═════════════
+function resendTimer(){
+  const b=$('v-resend'); let t=30; b.disabled=true;
+  clearInterval(S.timers.rs);
+  S.timers.rs=setInterval(()=>{ t--; b.textContent=`Reenviar código (${t}s)`; if(t<=0){ clearInterval(S.timers.rs); b.disabled=false; b.textContent='Reenviar código'; } },1000);
+}
+async function resendCode(){
+  const r=await api('send_otp',{whatsapp:S.e164});
+  if(r.ok){ toast('📲 Código reenviado'); resendTimer(); } else { $('v-err').textContent='No pudimos reenviar. Intenta más tarde.'; }
+}
+async function verifyCode(){
+  const code=$('otp').value.replace(/\D/g,''), btn=$('v-go'), err=$('v-err');
+  if(code.length!==6){ err.textContent='El código tiene 6 dígitos.'; shake($('otp')); sfx.err(); return; }
+  btn.disabled=true; btn.textContent='Verificando…';
+  const r=await api('verify_otp',{whatsapp:S.e164, code});
+  btn.disabled=false; btn.textContent='Verificar ✓';
+  if(r.ok){ S.verified=true; sfx.win(); toast('✅ WhatsApp verificado'); saveLead('registro'); goAge(); return; }
+  err.textContent = r.reason==='expired' ? 'El código venció. Pide uno nuevo.' : r.reason==='too_many' ? 'Demasiados intentos. Pide un código nuevo.' : 'Código incorrecto. Revisa e intenta otra vez.';
+  shake($('otp')); sfx.err();
+}
+
+// ═════════════ 4. CUADRANTE ═════════════
+function goAge(){
+  S.quad=null; S.answers=[]; S.scores={}; S.result=null; S.mood=null;
+  setElVars('aire');
+  $('age-svg').innerHTML=wheelSVG('age');
+  const h=$('age-hero'); h.classList.remove('on'); h.innerHTML='';
+  $('qinfo').classList.add('hidden'); $('age-go').classList.add('hidden');
+  $('age-sub').textContent='Toca tu etapa en la rueda y aparecerá tu personaje 👇';
+  show('s-age');
+}
+function pickQuad(qi){
+  if(S.timers.shufOn) return;
+  sfx.click(); S.quad=qi;
+  const q=QUADS[qi], h=$('age-hero'), pos=heroPos(qi);
+  $('age-svg').innerHTML=wheelSVG('age');
+  h.style.left=pos.left; h.style.top=pos.top; h.classList.add('on');
+  S.skin=pick(SKINS); S.hairN=pick(HAIRS);
+  puffAt($('age-box'),pos);
+  let k=0; S.timers.shufOn=true;
+  clearInterval(S.timers.shuf);
+  S.timers.shuf=setInterval(()=>{
+    k++;
+    h.innerHTML=`<div class="inner">${hero({face:true,el:pick(ELKEYS),g:S.gender,ph:q.k,skin:pick(SKINS)})}</div>`;
+    sfx.tick();
+    if(k>=10){
+      clearInterval(S.timers.shuf); S.timers.shufOn=false;
+      h.innerHTML=`<div class="inner">${hero({face:true,el:'neutro',g:S.gender,ph:q.k,skin:S.skin,hairN:S.hairN})}</div>`;
+      puffAt($('age-box'),pos); sfx.pop();
+      const r=$('age-box').getBoundingClientRect();
+      burst(r.left+r.width*parseFloat(pos.left)/100, r.top+r.height*parseFloat(pos.top)/100, q.color, 14);
+    }
+  },85);
+  $('age-sub').textContent='¿Otra etapa? Toca otro cuadrante.';
+  const info=$('qinfo');
+  info.innerHTML=`<div class="age" style="color:${q.color}">${q.age} años</div><div class="qn pixel">${q.name.toUpperCase().replace('Á','A')}</div><p>${q.lesson}</p>`;
+  info.classList.remove('hidden'); info.style.animation='none'; void info.offsetWidth; info.style.animation='';
+  $('age-go').classList.remove('hidden');
+}
+
+// ═════════════ 4b. ¿CÓMO TE SIENTES HOY? ═════════════
+function goMood(){
+  if(S.quad===null || S.timers.shufOn) return;
+  sfx.pop(); S.mood=null;
+  $('moods').innerHTML=MOODS.map((m,i)=>`<button class="mood" onclick="pickMood(${i},this)"><span class="me">${m.emo}</span><span>${m.name}</span></button>`).join('');
+  show('s-mood');
+}
+function pickMood(i,btn){
+  S.mood=MOODS[i]; sfx.ok(); btn.classList.add('sel'); burstFrom(btn,PAL[S.mood.el].light,12);
+  setTimeout(beginMissions,550);
+}
+
+// ═════════════ 5. MISIONES ═════════════
+function beginMissions(){
+  if(S.quad===null || S.timers.shufOn) return;
+  sfx.pop();
+  S.answers=[]; S.scores={agua:0,fuego:0,tierra:0,aire:0}; S.lock=false; pickQuestions();
+  const q=QUADS[S.quad], pos=heroPos(S.quad), h=$('game-hero');
+  h.style.left=pos.left; h.style.top=pos.top; h.style.filter='';
+  h.innerHTML=`<div class="inner">${hero({face:true,el:'neutro',g:S.gender,ph:q.k,skin:S.skin,hairN:S.hairN})}</div>`;
+  $('hud-av').innerHTML=hero({face:true,el:'neutro',g:S.gender,ph:q.k,skin:S.skin,hairN:S.hairN});
+  $('hud-name').textContent=S.name; $('hud-deg').textContent='0°';
+  $('game-svg').innerHTML=wheelSVG('game');
+  show('s-game'); renderQuestion();
+}
+function pickQuestions(){
+  let seen={}; try{ seen=JSON.parse(localStorage.getItem('c360_seen')||'{}'); }catch(e){}
+  S.qs = MISSIONS.map(m=>{
+    const pool=QB[m.k]; let used=(seen[m.k]||[]).filter(i=>i<pool.length);
+    if(used.length>=pool.length) used=[];
+    const free=pool.map((_,i)=>i).filter(i=>!used.includes(i)), i=pick(free);
+    used.push(i); seen[m.k]=used;
+    return {...pool[i], m, id:m.k+'-'+(i+1)};
+  });
+  try{ localStorage.setItem('c360_seen', JSON.stringify(seen)); }catch(e){}
+}
+function renderQuestion(){
+  const n=S.answers.length, q=S.qs[n];
+  $('q-num').textContent=`MISION ${n+1}/8 · ${q.m.name}`;
+  $('q-text').textContent=`${q.m.ico} ${q.t}`;
+  if(n===0) $('react').classList.remove('show');
+  const keys=[...ELKEYS].sort(()=>Math.random()-.5);
+  $('answers').classList.remove('lock');
+  $('answers').innerHTML=keys.map((e,i)=>`<button class="ans" data-el="${e}" onclick="answer(this)"><span class="k">${'ABCD'[i]}</span><span>${q.o[e]}</span></button>`).join('');
+}
+function leader(){
+  const max=Math.max(...ELKEYS.map(e=>S.scores[e]||0));
+  const tied=ELKEYS.filter(e=>(S.scores[e]||0)===max);
+  if(tied.length===1) return tied[0];
+  for(let i=S.answers.length-1;i>=0;i--) if(tied.includes(S.answers[i])) return S.answers[i];
+  return tied[0];
+}
+function answer(btn){
+  if(S.lock) return; S.lock=true;
+  const e=btn.dataset.el;
+  btn.style.setProperty('--c',PAL[e].main); btn.classList.add('pick'); $('answers').classList.add('lock');
+  S.scores[e]++; S.answers.push(e);
+  sfx.ok(); burstFrom(btn,PAL[e].light,14);
+  setTimeout(()=>{
+    const n=S.answers.length;
+    $('game-svg').innerHTML=wheelSVG('game');
+    $('hud-deg').textContent=`${n*45}°`;
+    const f=document.createElement('div'); f.className='float'; f.textContent=n===8?'360° !':'+45°'; $('fx').appendChild(f); setTimeout(()=>f.remove(),1150);
+    const rc=$('react'); rc.textContent=pick(EL[e].react); rc.style.color=PAL[e].light; rc.classList.remove('show'); void rc.offsetWidth; rc.classList.add('show');
+    const h=$('game-hero'); h.classList.remove('hop'); void h.offsetWidth; h.classList.add('hop');
+    h.style.filter=`drop-shadow(0 0 ${6+n*2}px ${PAL[leader()].glow})`;
+    if(n===8){ sfx.win(); setTimeout(toReveal,1200); }
+    else setTimeout(()=>{ S.lock=false; renderQuestion(); },650);
+  },380);
+}
+
+// ═════════════ 6. REVELACIÓN (al azar) ═════════════
+function toReveal(){
+  const res=leader(), q=QUADS[S.quad];
+  S.result=res; S.msg=null;
+  S.deg = S.quad*90 + ELKEYS.indexOf(res)*22 + 1 + Math.floor(Math.random()*22);
+  saveLead('completo');
+  $('rv-name').textContent=''; $('rv-sub').textContent=''; $('rv-go').classList.add('hidden');
+  $('rv-tag').textContent='ANALIZANDO TU ENERGIA...';
+  show('s-reveal');
+  const N=24, start=((ELKEYS.indexOf(res)-(N-1))%4+4)%4;
+  let i=0;
+  const step=()=>{
+    const e=ELKEYS[(start+i)%4];
+    setElVars(e);
+    $('rv-hero').innerHTML=hero({face:true,el:e,g:S.gender,ph:q.k,skin:S.skin});
+    sfx.tick(); i++;
+    if(i<N) setTimeout(step, 60+i*i*.55);
+    else setTimeout(finishReveal,350);
+  };
+  setTimeout(step,500);
+}
+function finishReveal(){
+  const res=S.result, E=EL[res];
+  $('flash').classList.remove('go'); void $('flash').offsetWidth; $('flash').classList.add('go');
+  sfx.win();
+  const r=$('rv-stage').getBoundingClientRect();
+  burst(r.left+r.width/2, r.top+r.height/2, PAL[res].light, 34);
+  setTimeout(()=>burst(r.left+r.width/2, r.top+r.height/2, '#ffd166', 20),200);
+  $('rv-tag').textContent='¡EVOLUCION COMPLETA!';
+  const nm=$('rv-name'); nm.textContent=`${E.emo} ${E.name.toUpperCase()}`; nm.classList.remove('pop'); void nm.offsetWidth; nm.classList.add('pop');
+  $('rv-sub').innerHTML=`${E.title[gi()]}<div style="font-size:14.5px;color:var(--mut);margin-top:10px;line-height:1.45;padding:0 8px">${E.def}</div>`;
+  setTimeout(()=>$('rv-go').classList.remove('hidden'),700);
+}
+
+// ═════════════ 7. CARTA ═════════════
+function showCard(){
+  const res=S.result, E=EL[res], q=QUADS[S.quad], gold=true, sc=S.scores[res]||0;
+  if(!S.msg){ const pole = sc>=5 ? 'exceso' : sc<=3 ? 'falta' : pick(['exceso','falta']);
+    S.msg={pole, power:pick(E.power), shadow:pick(E[pole]), tip:pick(E.tips)}; }
+  const M=S.mood, A=EL[E.ally];
+  const moodTxt = !M ? '' : M.el===res
+    ? `${M.msg} Y coincide con tu elemento: tu ${E.name} te está pidiendo equilibrio hoy.`
+    : `${M.msg} Tu base es ${E.name}, pero hoy se está moviendo tu ${EL[M.el].name}: ahí está tu trabajo de hoy.`;
+  const todayEl = M ? EL[M.el].name : E.name;
+  sfx.pop(); setElVars(res);
+  const stats=ELKEYS.map(e=>{ const p=Math.round((S.scores[e]||0)/8*100); return `<div class="stat"><span>${EL[e].emo} ${EL[e].name}</span><div class="bar"><i data-w="${p}" style="background:linear-gradient(90deg,${PAL[e].dark},${PAL[e].light})"></i></div><b class="pixel">${p}%</b></div>`; }).join('');
+  $('card').className='card'+(gold?' gold':'');
+  $('card').innerHTML=`<div class="card-in">
+    <div class="card-top"><span class="pixel">CODIGO 360°</span><span class="pixel card-deg">${S.deg}°</span></div>
+    <div class="card-art">${hero({face:true,el:res,g:S.gender,ph:q.k,skin:S.skin})}<div class="card-quad pixel">${q.age.replace(/ /g,'')} · ${q.name.toUpperCase().replace('Á','A')}</div></div>
+    <div class="card-name">${esc(S.name)}</div>
+    <div class="card-title">${E.emo} ${E.title[gi()]}</div>
+    <div class="card-el pixel">ELEMENTO ${E.name.toUpperCase()}</div>
+    ${gold?`<div class="gold-badge pixel" style="margin:-4px 0 12px">✦ EDICION DORADA · ${esc(S.ig||'SEGUIDOR OFICIAL')} ✦</div>`:''}
+    <div class="stats">${stats}</div>
+    <div class="sec"><h4>${E.emo} ¿Qué es el ${E.name}?</h4><p>${E.def}</p></div>
+    ${M?`<div class="sec"><h4>${M.emo} Hoy llegaste con ${M.name.toLowerCase()}</h4><p>${moodTxt}</p></div>`:''}
+    <div class="sec"><h4>⚡ Tu superpoder</h4><p>${S.msg.power}</p></div>
+    <div class="sec"><h4>🧭 Cómo decides desde tus emociones</h4><p>${E.decide[S.msg.pole]}</p></div>
+    <div class="sec"><h4>⚠️ Tu desequilibrio</h4><p>${S.msg.shadow}</p></div>
+    <div class="sec"><h4>🎯 Tu misión en el ${q.name}</h4><p>${q.lesson} ${MISSION[res][q.k]}</p></div>
+    <div class="bridge">
+      <div class="bridge-h">🔓 Tu código ${S.deg}° en el ebook</div>
+      <p>En el ebook <b>Código 360°</b>, tu grado tiene 4 partes para resolver lo que estás viviendo hoy:</p>
+      <div class="tiles">
+        <div class="tile">📸<span>Fotografía actual moderna</span><i>🔒</i></div>
+        <div class="tile">💭<span>Lo que estás viviendo</span><i>🔒</i></div>
+        <div class="tile">📚<span>Lo que debes aprender</span><i>🔒</i></div>
+        <div class="tile">👣<span>Lo que debes hacer</span><i>🔒</i></div>
+      </div>
+      <p>Úsalo cada día según cómo te sientas. Hoy empieza por la sección de <b>${todayEl}</b> para construir lo contrario de tu desequilibrio.</p>
+    </div>
+    <div class="sec"><h4>🔑 Tu clave de hoy</h4><p>${S.msg.tip}</p></div>
+    <div class="ally-inv" style="--ac:${PAL[E.ally].main};--al:${PAL[E.ally].light}">
+      <div class="ally-h">${A.emo} Activa tu ${A.name}</div>
+      <p>${E.allyTxt.replace(/^Activa tu \S+: /,'').replace(/^./,c=>c.toUpperCase())}</p>
+      <p class="ally-cta">En el ebook <b>Código 360°</b> tienes la guía de cada día para activar tu ${A.name} y equilibrar tu ${E.name}. Adquiérelo y activa tu código ${S.deg}° hoy 👇</p>
+    </div>
+  </div>`;
+  const u=CONFIG.EBOOK_URL; $('cta-ebook').href = u + (u.includes('?')?'&':'?') + `elemento=${res}&grado=${S.deg}&emocion=${M?M.k:''}&cuadrante=${q.k}`;
+  $('cta-ebook').textContent=`🔓 Activar mi código ${S.deg}°`;
+  if(CONFIG.ARTE_WA){
+    const txt=`Hola Ana Sofía 👋 Soy ${S.name}. Jugué Código 360° y mi carta es: ${E.emo} ${E.title[gi()]} · ${q.name} (${q.age}) · ${S.deg}°. Quiero activar mi código completo.`;
+    $('cta-wa').href=`https://wa.me/${CONFIG.ARTE_WA}?text=${encodeURIComponent(txt)}`;
+    $('cta-wa').classList.remove('hidden');
+  }
+  show('s-card');
+  setTimeout(()=>document.querySelectorAll('.bar i').forEach(i=>i.style.width=i.dataset.w+'%'),350);
+}
+function gameUrl(){
+  if(CONFIG.GAME_URL) return CONFIG.GAME_URL;
+  try{ if(/^https?:/.test(location.protocol) && !/claude|usercontent/.test(location.host)) return location.origin+location.pathname; }catch(e){}
+  return 'https://codigo360grados.netlify.app/';
+}
+function shareText(){
+  const E=EL[S.result], q=QUADS[S.quad];
+  return `🎮 Jugué CÓDIGO 360° y mi carta es ${E.emo} ${E.title[gi()]} · ${q.name} (${S.deg}°). ¿Cuál es tu elemento? Juega aquí 👉 ${gameUrl()}  @${CONFIG.IG_USER}`;
+}
+function loadImg(src){ return new Promise((ok,ko)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=ko; i.src=src; }); }
+function wrap(x,text,maxW){ const words=text.split(' '), lines=[]; let l=''; words.forEach(w=>{ const t=l?l+' '+w:w; if(x.measureText(t).width>maxW && l){ lines.push(l); l=w; } else l=t; }); if(l) lines.push(l); return lines; }
+function rr(x,X,Y,w,h,r){ x.beginPath(); x.moveTo(X+r,Y); x.arcTo(X+w,Y,X+w,Y+h,r); x.arcTo(X+w,Y+h,X,Y+h,r); x.arcTo(X,Y+h,X,Y,r); x.arcTo(X,Y,X+w,Y,r); x.closePath(); }
+async function cardImage(){
+  const W=1080,H=1920,c=document.createElement('canvas'); c.width=W; c.height=H;
+  const x=c.getContext('2d'), P=PAL[S.result], E=EL[S.result], q=QUADS[S.quad], F='Fredoka, system-ui, sans-serif';
+  try{ await document.fonts.ready; }catch(e){}
+  let g=x.createLinearGradient(0,0,0,H); g.addColorStop(0,'#1a1342'); g.addColorStop(1,'#07061a'); x.fillStyle=g; x.fillRect(0,0,W,H);
+  g=x.createRadialGradient(540,640,40,540,640,760); g.addColorStop(0,P.main+'cc'); g.addColorStop(1,'rgba(0,0,0,0)'); x.fillStyle=g; x.fillRect(0,0,W,H);
+  for(let i=0;i<90;i++){ x.fillStyle=`rgba(255,255,255,${Math.random()*.8})`; x.beginPath(); x.arc(Math.random()*W,Math.random()*H,Math.random()*2.6+.6,0,7); x.fill(); }
+  x.strokeStyle='#ffd166'; x.lineWidth=10; rr(x,40,40,W-80,H-80,52); x.stroke();
+  x.textAlign='center'; x.fillStyle='#ffd166'; x.font=`700 70px ${F}`; x.fillText('CÓDIGO 360°',540,165);
+  x.fillStyle=P.light; x.font=`600 34px ${F}`; x.fillText('MI CARTA DE JUGADOR',540,220);
+  const svg=hero({face:true,el:S.result,g:S.gender,ph:q.k,skin:S.skin}).replace('<svg ','<svg width="660" height="660" ');
+  x.save(); x.beginPath(); x.arc(540,620,330,0,7); x.closePath();
+  g=x.createRadialGradient(540,620,30,540,620,330); g.addColorStop(0,P.main); g.addColorStop(1,P.dark); x.fillStyle=g; x.fill(); x.clip();
+  try{ const img=await loadImg('data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg)); x.drawImage(img,210,290,660,660); }catch(e){}
+  x.restore(); x.strokeStyle=P.light; x.lineWidth=12; x.beginPath(); x.arc(540,620,330,0,7); x.stroke();
+  x.fillStyle='#ffd166'; x.beginPath(); x.arc(850,350,88,0,7); x.fill(); x.fillStyle='#3a2300'; x.font=`700 54px ${F}`; x.fillText(S.deg+'°',850,368);
+  let fs=86; x.font=`700 ${fs}px ${F}`; while(x.measureText(S.name).width>900 && fs>40){ fs-=4; x.font=`700 ${fs}px ${F}`; }
+  x.fillStyle='#fff'; x.fillText(S.name,540,1060);
+  x.fillStyle=P.light; x.font=`600 50px ${F}`; x.fillText(`${E.emo} ${E.title[gi()]}`,540,1135);
+  x.fillStyle='#ffd166'; x.font=`600 36px ${F}`; x.fillText(`${q.age} años · ${q.name}`,540,1200);
+  ELKEYS.forEach((e,i)=>{ const y=1275+i*64, p=Math.round((S.scores[e]||0)/8*100);
+    x.textAlign='left'; x.fillStyle='#fff'; x.font=`500 36px ${F}`; x.fillText(`${EL[e].emo} ${EL[e].name}`,140,y+12);
+    x.fillStyle='rgba(255,255,255,.12)'; rr(x,380,y-14,460,28,14); x.fill();
+    x.fillStyle=PAL[e].light; if(p>0){ rr(x,380,y-14,Math.max(28,460*p/100),28,14); x.fill(); }
+    x.textAlign='right'; x.fillStyle='#fff'; x.fillText(p+'%',940,y+12); });
+  x.textAlign='center'; x.font=`500 38px ${F}`; x.fillStyle='rgba(243,241,255,.92)';
+  wrap(x,'⚡ '+S.msg.power,860).slice(0,3).forEach((l,i)=>x.fillText(l,540,1580+i*50));
+  x.fillStyle='#fff'; x.font=`700 44px ${F}`; x.fillText('¿Cuál es tu elemento? 🎮',540,1760);
+  x.fillStyle='#ffd166'; x.font=`700 40px ${F}`; x.fillText('@'+CONFIG.IG_USER,540,1820);
+  return new Promise(r=>c.toBlob(r,'image/png'));
+}
+async function shareImage(){
+  sfx.click(); toast('🎴 Creando tu carta…');
+  const blob=await cardImage(); if(!blob){ toast('No se pudo crear la imagen'); return; }
+  const file=new File([blob],'mi-carta-codigo360.png',{type:'image/png'});
+  try{
+    if(navigator.canShare && navigator.canShare({files:[file]})){ await navigator.share({files:[file], text:shareText()}); return; }
+  }catch(e){ if(e && e.name==='AbortError') return; }
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='mi-carta-codigo360.png'; document.body.appendChild(a); a.click(); a.remove();
+  try{ await navigator.clipboard.writeText(shareText()); }catch(e){}
+  toast('📥 Carta guardada. Súbela a tu historia y pega el link 🔗');
+}
+function shareWA(){ sfx.click(); window.open('https://wa.me/?text='+encodeURIComponent(shareText()),'_blank'); }
+function replay(){ sfx.click(); goAge(); }
+
+// ═════════════ INICIO ═════════════
+(function init(){
+  const st=$('bg');
+  for(let i=0;i<60;i++){ const d=document.createElement('div'), z=Math.random()*2.4+.6; d.className='star'; d.style.cssText=`width:${z}px;height:${z}px;left:${Math.random()*100}%;top:${Math.random()*70}%;--d:${2+Math.random()*4}s;--dl:${Math.random()*4}s`; st.appendChild(d); }
+  buildTitle(); fillCountries();
+  $('kw').textContent=CONFIG.DM_KEYWORD; $('kw2').textContent=CONFIG.DM_KEYWORD;
+  $('dm-go').href='https://ig.me/m/'+CONFIG.IG_USER;
+  $('acc').addEventListener('keydown',e=>{ if(e.key==='Enter') tryCode(); });
+  readAccess();
+  $('otp').addEventListener('input',e=>{ e.target.value=e.target.value.replace(/\D/g,'').slice(0,6); if(e.target.value.length===6) verifyCode(); });
+})();
+</script>
+</body></html>
