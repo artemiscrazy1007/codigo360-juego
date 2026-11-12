@@ -143,6 +143,12 @@ button,input,select{font-family:inherit;color:inherit}
 .clave{margin-top:12px;border-radius:16px;padding:15px;background:linear-gradient(160deg,rgba(255,209,102,.22),#140f35);border:2px solid #ffd166}
 .clave-h{font-size:21px;font-weight:700;color:#ffd166;margin-bottom:6px}
 .clave p{font-size:16px;line-height:1.45;color:#fff;font-weight:500}
+/* patrón heredado en la carta */
+.patron{margin:4px 0 14px;border-radius:16px;padding:14px 15px;background:linear-gradient(160deg,color-mix(in srgb,var(--el) 30%,#140f35),#140f35);border:2px solid var(--el2);text-align:center}
+.patron-h{font-size:19px;font-weight:700;color:var(--el2);margin-bottom:6px}
+.patron p{font-size:17px;line-height:1.4;color:#fff;font-weight:500}
+.patron b{color:#ffd166}
+.patron .patron-q{font-size:13.5px;color:var(--mut);margin-top:8px;font-weight:400}
 /* game */
 .hud{display:flex;align-items:center;gap:10px;width:calc(100% - 50px);align-self:flex-start;padding:8px 12px}
 .hud-av{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.08);overflow:hidden;flex-shrink:0;position:relative}
@@ -227,7 +233,8 @@ button,input,select{font-family:inherit;color:inherit}
   <h1 class="logo">CÓDIGO<span>360°</span></h1>
   <div class="tag pixel" style="color:var(--el2)">EL JUEGO DE TU ELEMENTO</div>
   <div class="orbit" id="orbit"></div>
-  <p class="sub">Descubre cómo tomas decisiones desde tus emociones. Elige tu etapa, supera <b>8 misiones</b> y conoce tu elemento: <b style="color:#8fd0ff">Agua</b>, <b style="color:#ffc04d">Fuego</b>, <b style="color:#b5e06a">Tierra</b> o <b style="color:#e3ddff">Aire</b>.</p>
+  <p class="sub" style="font-size:20px;font-weight:700;color:#fff;margin-bottom:6px">¿De quién aprendiste a reaccionar así?</p>
+  <p class="sub">Supera <b>8 misiones</b> y descubre el patrón que heredaste: <b style="color:#8fd0ff">Agua</b>, <b style="color:#ffc04d">Fuego</b>, <b style="color:#b5e06a">Tierra</b> o <b style="color:#e3ddff">Aire</b>.</p>
   <button class="btn gold pulse" onclick="startGame()">▶ Iniciar juego</button>
   <div class="small" style="margin-top:14px">⏱ 2 minutos · 360 preguntas · 🎴 Carta para compartir</div>
 </section>
@@ -254,7 +261,8 @@ button,input,select{font-family:inherit;color:inherit}
 <!-- 2. CREA TU JUGADOR -->
 <section class="screen" id="s-player">
   <div class="step pixel">PASO 1 · CREA TU JUGADOR</div>
-  <h2 class="h2">¿Quién va a jugar?</h2>
+  <h2 class="h2">¿De quién aprendiste a reaccionar así?</h2>
+  <p class="sub" style="margin-bottom:4px">Crea tu jugador y descubre el patrón que heredaste 👇</p>
   <div class="g-row">
     <button class="g-card" data-g="F" onclick="pickGender('F')"><div class="g-prev" id="prev-F"></div><span>MUJER</span></button>
     <button class="g-card" data-g="M" onclick="pickGender('M')"><div class="g-prev" id="prev-M"></div><span>HOMBRE</span></button>
@@ -325,6 +333,14 @@ button,input,select{font-family:inherit;color:inherit}
   </div>
   <div class="q-card panel"><div class="react" id="react"></div><div class="pixel q-num" id="q-num"></div><div class="q-text" id="q-text"></div></div>
   <div class="answers" id="answers"></div>
+</section>
+
+<!-- 5b. MISIÓN FINAL -->
+<section class="screen" id="s-origin">
+  <div class="step pixel">MISION FINAL</div>
+  <h2 class="h2">¿De quién aprendiste a reaccionar así?</h2>
+  <p class="sub">Piensa en cómo reaccionas cuando te enojas, te duele algo o te preocupas. ¿A quién de tu historia te pareces? 👇</p>
+  <div class="moods" id="origins"></div>
 </section>
 
 <!-- 6. REVELACIÓN -->
@@ -2546,6 +2562,30 @@ const MOODS = [
   {k:'ansiedad',  emo:'😰', name:'Ansiedad',      el:'aire',   msg:'La ansiedad es Aire acelerado: la mente corre más rápido que tu vida.'},
   {k:'confusion', emo:'😵‍💫', name:'Confusión',     el:'aire',   msg:'La confusión es Aire nublado: hay tantas voces que no escuchas la tuya.'}
 ];
+const ORIGINS = [
+  {k:'mama',   emo:'👩', name:'Mi mamá',            who:'tu mamá',               mine:'mi mamá'},
+  {k:'papa',   emo:'👨', name:'Mi papá',            who:'tu papá',               mine:'mi papá'},
+  {k:'abuela', emo:'👵', name:'Mi abuela',          who:'tu abuela',             mine:'mi abuela'},
+  {k:'abuelo', emo:'👴', name:'Mi abuelo',          who:'tu abuelo',             mine:'mi abuelo'},
+  {k:'herm',   emo:'🧑‍🤝‍🧑', name:'Un hermano o hermana', who:'alguien de tus hermanos', mine:'alguien de mis hermanos'},
+  {k:'tios',   emo:'👪', name:'Una tía o un tío',   who:'alguien de tus tíos',   mine:'alguien de mis tíos'},
+  {k:'otra',   emo:'🫂', name:'Otra persona',       who:'alguien en tu historia', mine:'alguien en mi historia'},
+  {k:'nose',   emo:'❓', name:'No lo sé',           who:'alguien en tu historia', mine:'alguien en mi historia'}
+];
+const PATTERN_ME = {"cargas con lo que sienten los demás": "cargo con lo que sienten los demás", "callas lo que te duele para no incomodar": "callo lo que me duele para no incomodar", "evitas el conflicto y lo lloras a solas": "evito el conflicto y lo lloro a solas", "pones a todos primero y te dejas de último": "pongo a todos primero y me dejo de último", "sientes culpa por lo que no depende de ti": "siento culpa por lo que no depende de mí", "te quedas donde ya no estás bien por miedo a herir": "me quedo donde ya no estoy bien por miedo a herir", "evitas el conflicto y guardas lo que sientes": "evito el conflicto y guardo lo que siento", "te endureces para no sufrir": "me endurezco para no sufrir", "te muestras fuerte para que nadie vea tu dolor": "me muestro fuerte para que nadie vea mi dolor", "cambias de tema cuando algo te duele": "cambio de tema cuando algo me duele", "cuidas a todos pero no dejas que te cuiden": "cuido a todos pero no dejo que me cuiden", "explotas primero y te arrepientes después": "exploto primero y me arrepiento después", "levantas la voz cuando sientes que no te escuchan": "levanto la voz cuando siento que no me escuchan", "quieres controlarlo todo para sentir seguridad": "quiero controlarlo todo para sentir seguridad", "resuelves con prisa y con rabia": "resuelvo con prisa y con rabia", "te pones a la defensiva ante cualquier crítica": "me pongo a la defensiva ante cualquier crítica", "te tragas la rabia hasta que se vuelve cansancio": "me trago la rabia hasta que se vuelve cansancio", "postergas lo que sueñas para \"algún día\"": "postergo lo que sueño para \"algún día\"", "callas lo que quieres para no causar problemas": "callo lo que quiero para no causar problemas", "esperas a que otros decidan por ti": "espero a que otros decidan por mí", "empiezas con fuerza y te apagas a mitad de camino": "empiezo con fuerza y me apago a mitad de camino", "cargas con todo y no te permites descansar": "cargo con todo y no me permito descansar", "te aferras a lo conocido aunque ya no te haga feliz": "me aferro a lo conocido aunque ya no me haga feliz", "controlas el orden para no sentir miedo": "controlo el orden para no sentir miedo", "trabajas sin parar para sentir seguridad": "trabajo sin parar para sentir seguridad", "pones el deber antes que tus emociones": "pongo el deber antes que mis emociones", "vives apagando incendios sin una base que te sostenga": "vivo apagando incendios sin una base que me sostenga", "dejas para mañana lo que ordena tu vida": "dejo para mañana lo que ordena mi vida", "te pierdes en el desorden cuando algo te supera": "me pierdo en el desorden cuando algo me supera", "empiezas rutinas que no sostienes": "empiezo rutinas que no sostengo", "resuelves el día a día pero olvidas tu futuro": "resuelvo el día a día pero olvido mi futuro", "le das vueltas a todo antes de sentirlo": "le doy vueltas a todo antes de sentirlo", "analizas tanto que no decides": "analizo tanto que no decido", "te preocupas por lo que todavía no ha pasado": "me preocupo por lo que todavía no ha pasado", "explicas lo que sientes en vez de sentirlo": "explico lo que siento en vez de sentirlo", "te vas a tu cabeza cuando algo duele": "me voy a mi cabeza cuando algo duele", "te quedas en blanco cuando tienes que hablar": "me quedo en blanco cuando tengo que hablar", "dejas que otros piensen y decidan por ti": "dejo que otros piensen y decidan por mí", "te confundes y no sabes qué quieres": "me confundo y no sé qué quiero", "callas tu opinión por miedo a equivocarte": "callo mi opinión por miedo a equivocarme", "repites lo que te enseñaron sin cuestionarlo": "repito lo que me enseñaron sin cuestionarlo"};
+function firstPerson(t){ return PATTERN_ME[t]||t; }
+function firstUpper(t){ return t.charAt(0).toUpperCase()+t.slice(1); }
+// Patrón heredado: "Reaccionas desde el X: [patrón] igual que [persona]."
+const PATTERNS = {
+  agua:{exceso:['cargas con lo que sienten los demás','callas lo que te duele para no incomodar','evitas el conflicto y lo lloras a solas','pones a todos primero y te dejas de último','sientes culpa por lo que no depende de ti','te quedas donde ya no estás bien por miedo a herir'],
+        falta:['evitas el conflicto y guardas lo que sientes','te endureces para no sufrir','te muestras fuerte para que nadie vea tu dolor','cambias de tema cuando algo te duele','cuidas a todos pero no dejas que te cuiden']},
+  fuego:{exceso:['explotas primero y te arrepientes después','levantas la voz cuando sientes que no te escuchan','quieres controlarlo todo para sentir seguridad','resuelves con prisa y con rabia','te pones a la defensiva ante cualquier crítica'],
+         falta:['te tragas la rabia hasta que se vuelve cansancio','postergas lo que sueñas para "algún día"','callas lo que quieres para no causar problemas','esperas a que otros decidan por ti','empiezas con fuerza y te apagas a mitad de camino']},
+  tierra:{exceso:['cargas con todo y no te permites descansar','te aferras a lo conocido aunque ya no te haga feliz','controlas el orden para no sentir miedo','trabajas sin parar para sentir seguridad','pones el deber antes que tus emociones'],
+          falta:['vives apagando incendios sin una base que te sostenga','dejas para mañana lo que ordena tu vida','te pierdes en el desorden cuando algo te supera','empiezas rutinas que no sostienes','resuelves el día a día pero olvidas tu futuro']},
+  aire:{exceso:['le das vueltas a todo antes de sentirlo','analizas tanto que no decides','te preocupas por lo que todavía no ha pasado','explicas lo que sientes en vez de sentirlo','te vas a tu cabeza cuando algo duele'],
+        falta:['te quedas en blanco cuando tienes que hablar','dejas que otros piensen y decidan por ti','te confundes y no sabes qué quieres','callas tu opinión por miedo a equivocarte','repites lo que te enseñaron sin cuestionarlo']}
+};
 const QUADS = [
   {k:'F', age:'0 – 18',  name:'Cuadrante del Impulso',     short:'IMPULSO',     color:'#7c6cff',
    lesson:'Aquí se graban tus primeras respuestas automáticas: lo que viviste en casa se vuelve tu forma de reaccionar.'},
@@ -2657,7 +2697,7 @@ function saveLead(stage){
     genero:S.gender==='F'?'Mujer':'Hombre', instagram:S.ig||'', sigue_ig:'SÍ (verificado por DM)', acepta_datos:'SÍ',
     verificado:S.verified?'SÍ':'NO',
     cuadrante:q?q.name:'', edad:q?q.age:'',
-    emocion_hoy:S.mood?S.mood.name:'', equilibrio:(S.msg&&res)?(S.msg.pole==='exceso'?'Exceso':'Falta')+' de '+EL[res].name:'',
+    emocion_hoy:S.mood?S.mood.name:'', aprendido_de:S.origin?S.origin.name:'', patron:(S.msg&&S.msg.pattern)?S.msg.pattern:'', equilibrio:(S.msg&&res)?(S.msg.pole==='exceso'?'Exceso':'Falta')+' de '+EL[res].name:'',
     elemento:res?EL[res].name:'', personaje:res?EL[res].title[gi()]:'', grados:res?S.deg:'',
     agua:S.scores.agua||0, fuego:S.scores.fuego||0, tierra:S.scores.tierra||0, aire:S.scores.aire||0,
     respuestas:S.answers.join(','), preguntas:(S.qs||[]).slice(0,S.answers.length).map(q=>q.id).join(',')
@@ -2815,7 +2855,7 @@ async function verifyCode(){
 
 // ═════════════ 4. CUADRANTE ═════════════
 function goAge(){
-  S.quad=null; S.answers=[]; S.scores={}; S.result=null; S.mood=null;
+  S.quad=null; S.answers=[]; S.scores={}; S.result=null; S.mood=null; S.origin=null;
   setElVars('aire');
   drawWheel('age-svg','age');
   const h=$('age-hero'); h.classList.remove('on'); h.innerHTML='';
@@ -2918,9 +2958,20 @@ function answer(btn){
     const rc=$('react'); rc.textContent=pick(EL[e].react); rc.style.color=PAL[e].light; rc.classList.remove('show'); void rc.offsetWidth; rc.classList.add('show');
     const h=$('game-hero'); h.classList.remove('hop'); void h.offsetWidth; h.classList.add('hop');
     h.style.filter=`drop-shadow(0 0 ${6+n*2}px ${PAL[leader()].glow})`;
-    if(n===8){ sfx.win(); setTimeout(toReveal,1200); }
+    if(n===8){ sfx.win(); setTimeout(goOrigin,1200); }
     else setTimeout(()=>{ S.lock=false; renderQuestion(); },650);
   },380);
+}
+
+// ═════════════ 5b. MISIÓN FINAL: ¿DE QUIÉN LO APRENDISTE? ═════════════
+function goOrigin(){
+  S.origin=null;
+  $('origins').innerHTML=ORIGINS.map((o,i)=>`<button class="mood" onclick="pickOrigin(${i},this)"><span class="me">${o.emo}</span><span>${o.name}</span></button>`).join('');
+  show('s-origin');
+}
+function pickOrigin(i,btn){
+  S.origin=ORIGINS[i]; sfx.ok(); btn.classList.add('sel'); burstFrom(btn,'#ffd166',12);
+  setTimeout(toReveal,550);
 }
 
 // ═════════════ 6. REVELACIÓN (al azar) ═════════════
@@ -2958,6 +3009,11 @@ function finishReveal(){
 }
 
 // ═════════════ 7. CARTA ═════════════
+function patternText(firstPerson){
+  const E=EL[S.result], O=S.origin||ORIGINS[7];
+  if(firstPerson) return `Reacciono desde el ${E.name}, igual que ${O.mine}`;
+  return `${firstUpper(S.msg.pattern)}, igual que <b>${O.who}</b>.`;
+}
 function pickNR(key){
   const pool=BANK[key]||[]; if(!pool.length) return '';
   let seen={}; try{ seen=JSON.parse(localStorage.getItem('c360_msgs')||'{}'); }catch(e){}
@@ -2971,7 +3027,7 @@ function toggleAcc(b){ sfx.click(); const a=b.parentElement, open=a.classList.to
 function showCard(){
   const res=S.result, E=EL[res], q=QUADS[S.quad], gold=true, sc=S.scores[res]||0;
   if(!S.msg){ const pole = sc>=5 ? 'exceso' : sc<=3 ? 'falta' : pick(['exceso','falta']);
-    S.msg={pole, power:pickNR('power.'+res), shadow:pickNR(pole+'.'+res), decide:pickNR('d'+pole+'.'+res), tip:pickNR('tip.'+res)}; }
+    S.msg={pole, power:pickNR('power.'+res), shadow:pickNR(pole+'.'+res), decide:pickNR('d'+pole+'.'+res), tip:pickNR('tip.'+res), pattern:pick(PATTERNS[res][pole])}; }
   const M=S.mood, A=EL[E.ally];
   const moodTxt = !M ? '' : M.pos
     ? (M.el===res
@@ -2991,6 +3047,7 @@ function showCard(){
     <div class="card-title">${E.emo} ${E.title[gi()]}</div>
     <div class="card-el pixel">ELEMENTO ${E.name.toUpperCase()}</div>
     ${gold?`<div class="gold-badge pixel" style="margin:-4px 0 12px">✦ EDICION DORADA · ${esc(S.ig||'SEGUIDOR OFICIAL')} ✦</div>`:''}
+    <div class="patron"><div class="patron-h">Reaccionas desde el ${E.emo} ${E.name}:</div><p>${patternText()}</p>${(S.origin&&S.origin.k==='nose')?'<p class="patron-q">¿Ya sabes quién es? Piénsalo: ahí empieza tu código.</p>':''}</div>
     <div class="stats">${stats}</div>
     <div class="acc-hint">👇 Toca cada botón para descubrir tu información</div>
     ${acc(`${E.emo} ¿Qué es el ${E.name}?`, E.def)}
@@ -3033,7 +3090,7 @@ function gameUrl(){
 }
 function shareText(){
   const E=EL[S.result], q=QUADS[S.quad];
-  return `🎮 Jugué CÓDIGO 360° y mi carta es ${E.emo} ${E.title[gi()]} · ${q.name} (${S.deg}°). ¿Cuál es tu elemento? Juega aquí 👉 ${gameUrl()}  @${CONFIG.IG_USER}`;
+  return `🎮 Jugué CÓDIGO 360° y descubrí mi patrón: ${firstPerson(S.msg.pattern)}, igual que ${(S.origin||ORIGINS[7]).mine}. Reacciono desde el ${E.emo} ${E.name} (${S.deg}°). ¿Y tú, de quién aprendiste a reaccionar así? 👉 ${gameUrl()}  @${CONFIG.IG_USER}`;
 }
 function loadImg(src){ return new Promise((ok,ko)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=ko; i.src=src; }); }
 function wrap(x,text,maxW){ const words=text.split(' '), lines=[]; let l=''; words.forEach(w=>{ const t=l?l+' '+w:w; if(x.measureText(t).width>maxW && l){ lines.push(l); l=w; } else l=t; }); if(l) lines.push(l); return lines; }
@@ -3064,8 +3121,11 @@ async function cardImage(){
     x.fillStyle=PAL[e].light; if(p>0){ rr(x,380,y-14,Math.max(28,460*p/100),28,14); x.fill(); }
     x.textAlign='right'; x.fillStyle='#fff'; x.fillText(p+'%',940,y+12); });
   x.textAlign='center'; x.font=`500 38px ${F}`; x.fillStyle='rgba(243,241,255,.92)';
-  wrap(x,'⚡ '+S.msg.power,860).slice(0,3).forEach((l,i)=>x.fillText(l,540,1580+i*50));
-  x.fillStyle='#fff'; x.font=`700 44px ${F}`; x.fillText('¿Cuál es tu elemento? 🎮',540,1760);
+  x.fillStyle=P.light; x.font=`700 40px ${F}`; x.fillText(`Reacciono desde el ${E.name}:`,540,1570);
+  x.fillStyle='rgba(243,241,255,.95)'; x.font=`500 37px ${F}`;
+  const O=S.origin||ORIGINS[7];
+  wrap(x,`${firstUpper(firstPerson(S.msg.pattern))}, igual que ${O.mine}.`,880).slice(0,3).forEach((l,i)=>x.fillText(l,540,1625+i*46));
+  x.fillStyle='#fff'; x.font=`700 44px ${F}`; x.fillText('¿Y tú, de quién lo aprendiste? 🎮',540,1760);
   x.fillStyle='#ffd166'; x.font=`700 40px ${F}`; x.fillText('@'+CONFIG.IG_USER,540,1820);
   return new Promise(r=>c.toBlob(r,'image/png'));
 }
