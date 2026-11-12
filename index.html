@@ -233,7 +233,7 @@ button,input,select{font-family:inherit;color:inherit}
   <div style="height:22px;flex-shrink:0"></div>
   <div class="tag pixel">ANA SOFIA PRESENTA</div>
   <h1 class="logo">CÓDIGO<span>360°</span></h1>
-  <div class="tag pixel" style="color:var(--el2)">EL JUEGO DE TU ELEMENTO</div>
+  <div class="tag pixel" style="color:var(--el2)">EL JUEGO DE LO QUE HEREDASTE</div>
   <div class="orbit" id="orbit"></div>
   <p class="sub" style="font-size:20px;font-weight:700;color:#fff;margin-bottom:6px">¿De quién aprendiste a reaccionar así?</p>
   <p class="sub">Supera <b>8 misiones</b> y descubre el patrón que heredaste: <b style="color:#8fd0ff">Agua</b>, <b style="color:#ffc04d">Fuego</b>, <b style="color:#b5e06a">Tierra</b> o <b style="color:#e3ddff">Aire</b>.</p>
@@ -304,7 +304,7 @@ button,input,select{font-family:inherit;color:inherit}
 <section class="screen" id="s-age">
   <div class="step pixel">PASO 3 · ELIGE TU CUADRANTE</div>
   <h2 class="h2">¿Cuántos años tienes?</h2>
-  <p class="sub" id="age-sub">Toca tu etapa en la rueda y aparecerá tu personaje 👇</p>
+  <p class="sub" id="age-sub">Cada etapa guarda lo que aprendiste en casa. Toca la tuya y aparecerá tu personaje 👇</p>
   <div class="wheel-box" id="age-box">
     <div class="wsvg" id="age-svg"></div>
     <div class="w-hero" id="age-hero"></div>
@@ -317,7 +317,7 @@ button,input,select{font-family:inherit;color:inherit}
 <section class="screen" id="s-mood">
   <div class="step pixel">ESTADO DEL JUGADOR</div>
   <h2 class="h2">¿Cómo te sientes hoy?</h2>
-  <p class="sub">Tu emoción de hoy también es información. Elige la que más se parezca a lo que sientes 👇</p>
+  <p class="sub">Tu emoción de hoy también tiene historia: muchas veces sientes como sentían en tu casa. Elige la que más se parezca a ti hoy 👇</p>
   <div class="moods" id="moods"></div>
 </section>
 
@@ -347,7 +347,7 @@ button,input,select{font-family:inherit;color:inherit}
 
 <!-- 6. REVELACIÓN -->
 <section class="screen center" id="s-reveal">
-  <div class="pixel tag" id="rv-tag">ANALIZANDO TU ENERGIA...</div>
+  <div class="pixel tag" id="rv-tag">BUSCANDO TU PATRON...</div>
   <div class="rv-stage" id="rv-stage"><div class="halo"></div><div class="ring"></div><div id="rv-hero"></div></div>
   <div class="rv-name" id="rv-name"></div>
   <div class="rv-sub" id="rv-sub"></div>
@@ -356,7 +356,7 @@ button,input,select{font-family:inherit;color:inherit}
 
 <!-- 7. CARTA -->
 <section class="screen" id="s-card">
-  <div class="pixel tag" style="margin-top:4px">TU CARTA DE JUGADOR</div>
+  <div class="pixel tag" style="margin-top:4px">TU CARTA DE PATRON FAMILIAR</div>
   <div class="card" id="card"></div>
   <a class="btn gold pulse" id="cta-ebook" target="_blank" rel="noopener" style="margin-top:18px">🔓 Activar mi código</a>
   <button class="btn" onclick="shareImage()" style="background:linear-gradient(90deg,#f58529,#dd2a7b,#8134af);box-shadow:0 6px 0 #5a1f7a">📸 Compartir mi carta en Instagram</button>
@@ -2597,13 +2597,13 @@ const PATTERNS = {
 };
 const QUADS = [
   {k:'F', age:'0 – 18',  name:'Cuadrante del Impulso',     short:'IMPULSO',     color:'#7c6cff',
-   lesson:'Aquí se graban tus primeras respuestas automáticas: lo que viviste en casa se vuelve tu forma de reaccionar.'},
+   lesson:'Aquí se graban tus primeras respuestas automáticas: lo que viste y viviste en casa se vuelve tu forma de reaccionar.'},
   {k:'S', age:'18 – 36', name:'Cuadrante del Instinto',    short:'INSTINTO',    color:'#22c3ee',
-   lesson:'Etapa de construir: pareja, trabajo, independencia. Actúas desde el instinto de sobrevivir y pertenecer.'},
+   lesson:'Etapa de construir tu propia vida: pareja, trabajo, hogar. Aquí repites, sin darte cuenta, lo que aprendiste en casa.'},
   {k:'C', age:'36 – 54', name:'Cuadrante del Pensamiento', short:'PENSAMIENTO', color:'#ff8a3d',
-   lesson:'Etapa de revisar: lo que construiste te pide sentido. La mente pregunta "¿esto es lo que de verdad quiero?".'},
+   lesson:'Etapa de revisar: empiezas a ver en ti los gestos de tus padres. Es el momento de elegir qué conservas y qué sueltas.'},
   {k:'Y', age:'54 – 72', name:'Cuadrante del Ser',         short:'SER',         color:'#ffcc4d',
-   lesson:'Etapa de cosechar: soltar lo que pesa y convertir tu historia en sabiduría.'}
+   lesson:'Etapa de cosechar: lo que sanes ahora es la herencia que dejas a tus hijos y nietos.'}
 ];
 const MISSION = {
   agua:  {F:'Aprende a nombrar lo que sientes en vez de esconderlo. Lo que sientes no es exagerado: es información.',
@@ -2869,7 +2869,7 @@ function goAge(){
   drawWheel('age-svg','age');
   const h=$('age-hero'); h.classList.remove('on'); h.innerHTML='';
   $('qinfo').classList.add('hidden'); $('age-go').classList.add('hidden');
-  $('age-sub').textContent='Toca tu etapa en la rueda y aparecerá tu personaje 👇';
+  $('age-sub').textContent='Cada etapa guarda lo que aprendiste en casa. Toca la tuya y aparecerá tu personaje 👇';
   show('s-age');
 }
 function pickQuad(qi){
@@ -2990,7 +2990,7 @@ function toReveal(){
   S.deg = S.quad*90 + ELKEYS.indexOf(res)*22 + 1 + Math.floor(Math.random()*22);
   saveLead('completo');
   $('rv-name').textContent=''; $('rv-sub').textContent=''; $('rv-go').classList.add('hidden');
-  $('rv-tag').textContent='ANALIZANDO TU ENERGIA...';
+  $('rv-tag').textContent='BUSCANDO TU PATRON...';
   show('s-reveal');
   const N=24, start=((ELKEYS.indexOf(res)-(N-1))%4+4)%4;
   let i=0;
@@ -3011,7 +3011,7 @@ function finishReveal(){
   const r=$('rv-stage').getBoundingClientRect();
   burst(r.left+r.width/2, r.top+r.height/2, PAL[res].light, 34);
   setTimeout(()=>burst(r.left+r.width/2, r.top+r.height/2, '#ffd166', 20),200);
-  $('rv-tag').textContent='¡EVOLUCION COMPLETA!';
+  $('rv-tag').textContent='¡PATRON ENCONTRADO!';
   const nm=$('rv-name'); nm.textContent=`${E.emo} ${E.name.toUpperCase()}`; nm.classList.remove('pop'); void nm.offsetWidth; nm.classList.add('pop');
   $('rv-sub').innerHTML=`${E.title[gi()]}<div style="font-size:14.5px;color:var(--mut);margin-top:10px;line-height:1.45;padding:0 8px">${E.def}</div>`;
   setTimeout(()=>$('rv-go').classList.remove('hidden'),700);
@@ -3073,7 +3073,7 @@ function showCard(){
     ${acc(`🎯 Tu misión en el ${q.name}`, `${q.lesson} ${MISSION[res][q.k]}`)}
     <div class="bridge">
       <div class="bridge-h">🔓 Tu código ${S.deg}° en el ebook</div>
-      <p>En el ebook <b>Código 360°</b>, tu grado tiene 4 partes para resolver lo que estás viviendo hoy:</p>
+      <p>En el ebook <b>Código 360°</b>, tu grado tiene 4 partes para transformar el patrón que heredaste:</p>
       <div class="tiles">
         <div class="tile">📸<span>Fotografía actual moderna</span><i>🔒</i></div>
         <div class="tile">💭<span>Lo que estás viviendo</span><i>🔒</i></div>
@@ -3085,7 +3085,7 @@ function showCard(){
     <div class="ally-inv" style="--ac:${PAL[E.ally].main};--al:${PAL[E.ally].light}">
       <div class="ally-h">${A.emo} Activa tu ${A.name}</div>
       <p>${E.allyTxt.replace(/^Activa tu \S+: /,'').replace(/^./,c=>c.toUpperCase())}</p>
-      <p class="ally-cta">En el ebook <b>Código 360°</b> tienes la guía de cada día para activar tu ${A.name} y equilibrar tu ${E.name}. Adquiérelo y activa tu código ${S.deg}° hoy 👇</p>
+      <p class="ally-cta">En el ebook <b>Código 360°</b> tienes la guía de cada día para activar tu ${A.name}, equilibrar tu ${E.name} y dejar de repetir lo que no elegiste. Adquiérelo y activa tu código ${S.deg}° hoy 👇</p>
     </div>
   </div>`;
   const u=CONFIG.EBOOK_URL; $('cta-ebook').href = u + (u.includes('?')?'&':'?') + `elemento=${res}&grado=${S.deg}&emocion=${M?M.k:''}&cuadrante=${q.k}`;
@@ -3119,7 +3119,7 @@ async function cardImage(){
   for(let i=0;i<90;i++){ x.fillStyle=`rgba(255,255,255,${Math.random()*.8})`; x.beginPath(); x.arc(Math.random()*W,Math.random()*H,Math.random()*2.6+.6,0,7); x.fill(); }
   x.strokeStyle='#ffd166'; x.lineWidth=10; rr(x,40,40,W-80,H-80,52); x.stroke();
   x.textAlign='center'; x.fillStyle='#ffd166'; x.font=`700 70px ${F}`; x.fillText('CÓDIGO 360°',540,165);
-  x.fillStyle=P.light; x.font=`600 34px ${F}`; x.fillText('MI CARTA DE JUGADOR',540,220);
+  x.fillStyle=P.light; x.font=`600 34px ${F}`; x.fillText('MI CARTA DE PATRÓN FAMILIAR',540,220);
   const svg=hero({face:true,el:S.result,g:S.gender,ph:q.k,skin:S.skin}).replace('<svg ','<svg width="660" height="660" ');
   x.save(); x.beginPath(); x.arc(540,620,330,0,7); x.closePath();
   g=x.createRadialGradient(540,620,30,540,620,330); g.addColorStop(0,P.main); g.addColorStop(1,P.dark); x.fillStyle=g; x.fill(); x.clip();
