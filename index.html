@@ -145,8 +145,10 @@ button,input,select{font-family:inherit;color:inherit}
 .clave p{font-size:16px;line-height:1.45;color:#fff;font-weight:500}
 /* patrón heredado en la carta */
 .patron{margin:4px 0 14px;border-radius:16px;padding:14px 15px;background:linear-gradient(160deg,color-mix(in srgb,var(--el) 30%,#140f35),#140f35);border:2px solid var(--el2);text-align:center}
-.patron-h{font-size:19px;font-weight:700;color:var(--el2);margin-bottom:6px}
-.patron p{font-size:17px;line-height:1.4;color:#fff;font-weight:500}
+.patron-h{font-size:20px;font-weight:700;color:var(--el2);margin-bottom:2px}
+.patron p{font-size:16.5px;line-height:1.4;color:#fff;font-weight:500}
+.patron-row{text-align:left;background:rgba(0,0,0,.25);border-radius:12px;padding:10px 12px;margin-top:8px}
+.patron-row span{display:block;font-size:13px;font-weight:700;color:var(--el2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
 .patron b{color:#ffd166}
 .patron .patron-q{font-size:13.5px;color:var(--mut);margin-top:8px;font-weight:400}
 /* game */
@@ -2575,6 +2577,13 @@ const ORIGINS = [
 const PATTERN_ME = {"cargas con lo que sienten los demás": "cargo con lo que sienten los demás", "callas lo que te duele para no incomodar": "callo lo que me duele para no incomodar", "evitas el conflicto y lo lloras a solas": "evito el conflicto y lo lloro a solas", "pones a todos primero y te dejas de último": "pongo a todos primero y me dejo de último", "sientes culpa por lo que no depende de ti": "siento culpa por lo que no depende de mí", "te quedas donde ya no estás bien por miedo a herir": "me quedo donde ya no estoy bien por miedo a herir", "evitas el conflicto y guardas lo que sientes": "evito el conflicto y guardo lo que siento", "te endureces para no sufrir": "me endurezco para no sufrir", "te muestras fuerte para que nadie vea tu dolor": "me muestro fuerte para que nadie vea mi dolor", "cambias de tema cuando algo te duele": "cambio de tema cuando algo me duele", "cuidas a todos pero no dejas que te cuiden": "cuido a todos pero no dejo que me cuiden", "explotas primero y te arrepientes después": "exploto primero y me arrepiento después", "levantas la voz cuando sientes que no te escuchan": "levanto la voz cuando siento que no me escuchan", "quieres controlarlo todo para sentir seguridad": "quiero controlarlo todo para sentir seguridad", "resuelves con prisa y con rabia": "resuelvo con prisa y con rabia", "te pones a la defensiva ante cualquier crítica": "me pongo a la defensiva ante cualquier crítica", "te tragas la rabia hasta que se vuelve cansancio": "me trago la rabia hasta que se vuelve cansancio", "postergas lo que sueñas para \"algún día\"": "postergo lo que sueño para \"algún día\"", "callas lo que quieres para no causar problemas": "callo lo que quiero para no causar problemas", "esperas a que otros decidan por ti": "espero a que otros decidan por mí", "empiezas con fuerza y te apagas a mitad de camino": "empiezo con fuerza y me apago a mitad de camino", "cargas con todo y no te permites descansar": "cargo con todo y no me permito descansar", "te aferras a lo conocido aunque ya no te haga feliz": "me aferro a lo conocido aunque ya no me haga feliz", "controlas el orden para no sentir miedo": "controlo el orden para no sentir miedo", "trabajas sin parar para sentir seguridad": "trabajo sin parar para sentir seguridad", "pones el deber antes que tus emociones": "pongo el deber antes que mis emociones", "vives apagando incendios sin una base que te sostenga": "vivo apagando incendios sin una base que me sostenga", "dejas para mañana lo que ordena tu vida": "dejo para mañana lo que ordena mi vida", "te pierdes en el desorden cuando algo te supera": "me pierdo en el desorden cuando algo me supera", "empiezas rutinas que no sostienes": "empiezo rutinas que no sostengo", "resuelves el día a día pero olvidas tu futuro": "resuelvo el día a día pero olvido mi futuro", "le das vueltas a todo antes de sentirlo": "le doy vueltas a todo antes de sentirlo", "analizas tanto que no decides": "analizo tanto que no decido", "te preocupas por lo que todavía no ha pasado": "me preocupo por lo que todavía no ha pasado", "explicas lo que sientes en vez de sentirlo": "explico lo que siento en vez de sentirlo", "te vas a tu cabeza cuando algo duele": "me voy a mi cabeza cuando algo duele", "te quedas en blanco cuando tienes que hablar": "me quedo en blanco cuando tengo que hablar", "dejas que otros piensen y decidan por ti": "dejo que otros piensen y decidan por mí", "te confundes y no sabes qué quieres": "me confundo y no sé qué quiero", "callas tu opinión por miedo a equivocarte": "callo mi opinión por miedo a equivocarme", "repites lo que te enseñaron sin cuestionarlo": "repito lo que me enseñaron sin cuestionarlo"};
 function firstPerson(t){ return PATTERN_ME[t]||t; }
 function firstUpper(t){ return t.charAt(0).toUpperCase()+t.slice(1); }
+// Lo bueno que heredaste (por elemento)
+const GIFTS = {
+  agua:['a sentir profundo y a cuidar a quienes amas','a escuchar con el corazón','la ternura para acompañar a otros','a ponerte en el lugar del otro','la intuición para leer a las personas','a amar con detalles','la sensibilidad para ver lo que otros no ven'],
+  fuego:['la fuerza para salir adelante','el valor de decir lo que piensas','a luchar por los tuyos','la energía para empezar de nuevo','a no rendirte ante los problemas','el carácter para defender lo que es justo','la pasión para ir por lo que quieres'],
+  tierra:['a trabajar con constancia','a sostener a tu familia en los momentos difíciles','el orden que te da seguridad','a cumplir tu palabra','a cuidar lo que tienes','la paciencia para construir paso a paso','a hacer mucho con poco'],
+  aire:['la curiosidad para aprender','a buscarle sentido a las cosas','las palabras para explicar lo que vives','a ver soluciones donde otros ven problemas','la creatividad para inventar caminos','a conversar y conectar con la gente','a pensar antes de actuar']
+};
 // Patrón heredado: "Reaccionas desde el X: [patrón] igual que [persona]."
 const PATTERNS = {
   agua:{exceso:['cargas con lo que sienten los demás','callas lo que te duele para no incomodar','evitas el conflicto y lo lloras a solas','pones a todos primero y te dejas de último','sientes culpa por lo que no depende de ti','te quedas donde ya no estás bien por miedo a herir'],
@@ -3009,6 +3018,7 @@ function finishReveal(){
 }
 
 // ═════════════ 7. CARTA ═════════════
+function giftFrom(){ const O=S.origin; return (!O||O.k==='nose'||O.k==='otra') ? '' : ' de '+O.who.replace(/^tu /,'tu ').replace(/^alguien de tus /,'tus '); }
 function patternText(firstPerson){
   const E=EL[S.result], O=S.origin||ORIGINS[7];
   if(firstPerson) return `Reacciono desde el ${E.name}, igual que ${O.mine}`;
@@ -3027,7 +3037,7 @@ function toggleAcc(b){ sfx.click(); const a=b.parentElement, open=a.classList.to
 function showCard(){
   const res=S.result, E=EL[res], q=QUADS[S.quad], gold=true, sc=S.scores[res]||0;
   if(!S.msg){ const pole = sc>=5 ? 'exceso' : sc<=3 ? 'falta' : pick(['exceso','falta']);
-    S.msg={pole, power:pickNR('power.'+res), shadow:pickNR(pole+'.'+res), decide:pickNR('d'+pole+'.'+res), tip:pickNR('tip.'+res), pattern:pick(PATTERNS[res][pole])}; }
+    S.msg={pole, power:pickNR('power.'+res), shadow:pickNR(pole+'.'+res), decide:pickNR('d'+pole+'.'+res), tip:pickNR('tip.'+res), pattern:pick(PATTERNS[res][pole]), gift:pick(GIFTS[res])}; }
   const M=S.mood, A=EL[E.ally];
   const moodTxt = !M ? '' : M.pos
     ? (M.el===res
@@ -3047,7 +3057,12 @@ function showCard(){
     <div class="card-title">${E.emo} ${E.title[gi()]}</div>
     <div class="card-el pixel">ELEMENTO ${E.name.toUpperCase()}</div>
     ${gold?`<div class="gold-badge pixel" style="margin:-4px 0 12px">✦ EDICION DORADA · ${esc(S.ig||'SEGUIDOR OFICIAL')} ✦</div>`:''}
-    <div class="patron"><div class="patron-h">Reaccionas desde el ${E.emo} ${E.name}:</div><p>${patternText()}</p>${(S.origin&&S.origin.k==='nose')?'<p class="patron-q">¿Ya sabes quién es? Piénsalo: ahí empieza tu código.</p>':''}</div>
+    <div class="patron">
+      <div class="patron-h">Reaccionas desde el ${E.emo} ${E.name}</div>
+      <div class="patron-row"><span>🎁 Lo bueno que aprendiste${giftFrom()}</span><p>${firstUpper(S.msg.gift)}.</p></div>
+      <div class="patron-row"><span>🔁 El patrón que repites</span><p>${patternText()}</p></div>
+      ${(S.origin&&S.origin.k==='nose')?'<p class="patron-q">¿Ya sabes de quién lo aprendiste? Piénsalo: ahí empieza tu código.</p>':''}
+    </div>
     <div class="stats">${stats}</div>
     <div class="acc-hint">👇 Toca cada botón para descubrir tu información</div>
     ${acc(`${E.emo} ¿Qué es el ${E.name}?`, E.def)}
@@ -3090,7 +3105,7 @@ function gameUrl(){
 }
 function shareText(){
   const E=EL[S.result], q=QUADS[S.quad];
-  return `🎮 Jugué CÓDIGO 360° y descubrí mi patrón: ${firstPerson(S.msg.pattern)}, igual que ${(S.origin||ORIGINS[7]).mine}. Reacciono desde el ${E.emo} ${E.name} (${S.deg}°). ¿Y tú, de quién aprendiste a reaccionar así? 👉 ${gameUrl()}  @${CONFIG.IG_USER}`;
+  return `🎮 Jugué CÓDIGO 360° y descubrí mi patrón. Lo bueno que heredé: ${S.msg.gift.replace(/\btus\b/g,'mis').replace(/\btu\b/g,'mi').replace(/\bte\b/g,'me')}. Lo que repito: ${firstPerson(S.msg.pattern)}, igual que ${(S.origin||ORIGINS[7]).mine}. Reacciono desde el ${E.emo} ${E.name} (${S.deg}°). ¿Y tú, de quién aprendiste a reaccionar así? 👉 ${gameUrl()}  @${CONFIG.IG_USER}`;
 }
 function loadImg(src){ return new Promise((ok,ko)=>{ const i=new Image(); i.onload=()=>ok(i); i.onerror=ko; i.src=src; }); }
 function wrap(x,text,maxW){ const words=text.split(' '), lines=[]; let l=''; words.forEach(w=>{ const t=l?l+' '+w:w; if(x.measureText(t).width>maxW && l){ lines.push(l); l=w; } else l=t; }); if(l) lines.push(l); return lines; }
