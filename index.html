@@ -23,6 +23,7 @@ button,input,select{font-family:inherit;color:inherit}
 .screen.active{display:flex;animation:scrIn .45s ease}
 @keyframes scrIn{from{opacity:0;transform:translateX(-50%) scale(.96)}to{opacity:1;transform:translateX(-50%) scale(1)}}
 .screen::-webkit-scrollbar{display:none}
+.screen>*{flex-shrink:0}
 .center{justify-content:center}
 .tag{font-size:9px;color:var(--gold);text-align:center;line-height:1.8}
 .logo{font-weight:700;text-align:center;line-height:.95;font-size:44px;letter-spacing:3px;color:#fff;text-shadow:0 4px 0 #4636a6,0 8px 26px rgba(139,124,246,.65);margin:8px 0 6px}
@@ -49,7 +50,7 @@ button,input,select{font-family:inherit;color:inherit}
 .linkbtn[disabled]{opacity:.5;text-decoration:none}
 .snd{position:fixed;top:12px;right:12px;z-index:60;width:40px;height:40px;border-radius:12px;border:2px solid var(--line);background:rgba(20,17,50,.8);font-size:18px;cursor:pointer}
 /* title */
-.orbit{position:relative;width:min(74vw,290px);aspect-ratio:1;margin:40px auto 30px;flex-shrink:0}
+.orbit{position:relative;width:min(66vw,260px);aspect-ratio:1;margin:34px auto 26px;flex-shrink:0}
 .orbit .spin{position:absolute;inset:6%;width:88%;height:88%;animation:spin 40s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .orbit .core{position:absolute;inset:39%;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;color:var(--gold);background:radial-gradient(circle,#2f2675,#120f33);border:2px solid rgba(255,209,102,.7);box-shadow:0 0 30px rgba(255,209,102,.35)}
@@ -57,6 +58,19 @@ button,input,select{font-family:inherit;color:inherit}
 .oh svg,.g-prev svg,.medal svg{width:100%;height:auto;display:block;border-radius:50%;background:radial-gradient(circle,#2f2675,#110e30 75%);border:3px solid #ffd166;box-shadow:0 0 18px rgba(255,209,102,.35)}
 .oh.p1{left:35%;top:-6%}.oh.p2{left:71%;top:35%;animation-delay:.5s}.oh.p3{left:35%;top:76%;animation-delay:1s}.oh.p4{left:-1%;top:35%;animation-delay:1.5s}
 @keyframes bob{50%{transform:translateY(-8px)}}
+/* portada: gancho */
+.hook{display:grid;gap:8px;width:100%;margin:4px 0 12px}
+.hk{position:relative;padding:11px 40px 11px 14px;border-radius:14px;background:rgba(22,19,54,.9);border:1.5px solid var(--line);font-size:15.5px;font-weight:600;line-height:1.3;opacity:0;transform:translateX(-14px);animation:hkIn .5s ease forwards;animation-delay:var(--d)}
+.hk i{position:absolute;right:12px;top:50%;transform:translateY(-50%) scale(0);width:22px;height:22px;border-radius:50%;background:var(--gold);color:#3a2300;font-style:normal;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;animation:hkOk .3s ease forwards;animation-delay:calc(var(--d) + .4s)}
+@keyframes hkIn{to{opacity:1;transform:none}}
+@keyframes hkOk{to{transform:translateY(-50%) scale(1)}}
+.hook-big{font-size:17px;color:var(--mut);text-align:center;line-height:1.3;margin:2px 0 4px}
+.hook-big span{display:block;font-size:24px;font-weight:700;color:#fff;margin-top:2px}
+.elchips{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;width:100%;margin-top:10px}
+.elchip{padding:10px 4px;border-radius:12px;border:2px solid var(--c);background:color-mix(in srgb,var(--c) 18%,#140f35);font-size:14px;font-weight:700;cursor:pointer}
+.elchip.sel{background:var(--c);box-shadow:0 0 16px var(--c)}
+.elinfo{width:100%;min-height:0;font-size:15px;line-height:1.4;text-align:center;color:#fff;margin-top:8px}
+.elinfo:not(:empty){padding:11px 13px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid var(--line);animation:popIn .35s ease}
 /* player */
 .g-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin:10px 0 4px}
 .g-card{position:relative;border:3px solid var(--line);border-radius:18px;background:var(--panel);padding:6px 6px 10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;transition:all .2s}
@@ -115,6 +129,7 @@ button,input,select{font-family:inherit;color:inherit}
 .moods{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;margin-top:18px}
 .mood{display:flex;flex-direction:column;align-items:center;gap:6px;padding:16px 8px;border-radius:16px;border:2px solid var(--line);background:var(--panel);font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.4);animation:ansIn .35s ease backwards}
 .mood .me{font-size:38px;line-height:1}
+.mood-g{grid-column:1/-1;font-size:13px;font-weight:700;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin:8px 0 -2px 4px}
 .mood:active{transform:translateY(3px)}
 .mood.sel{border-color:var(--gold);background:rgba(255,209,102,.15);transform:scale(1.05)}
 /* bridge ebook */
@@ -238,12 +253,23 @@ button,input,select{font-family:inherit;color:inherit}
   <h1 class="logo">CÓDIGO<span>360°</span></h1>
   <div class="tag pixel" style="color:var(--el2)">EL JUEGO DE LO QUE HEREDASTE</div>
   <div class="orbit" id="orbit"></div>
-  <p class="sub" style="font-size:21px;font-weight:700;color:#fff;margin-bottom:8px">¿De quién aprendiste a reaccionar así?</p>
-  <p class="sub" style="color:var(--txt)">Para ti que <b>piensas de más</b>, sientes todo y reaccionas igual en <b>casa</b>, en <b>pareja</b> y en el <b>trabajo</b>.</p>
-  <p class="sub" style="margin-top:8px">Todos reaccionamos desde los 4 elementos: <b style="color:#8fd0ff">Agua</b>, <b style="color:#ff5a4f">Fuego</b>, <b style="color:#b5e06a">Tierra</b> y <b style="color:#e3ddff">Aire</b>. Supera <b>8 misiones</b> y descubre cuál repites y de quién lo heredaste.</p>
-  <p class="sub" style="margin-top:8px;color:var(--gold);font-weight:600">🔁 Lo que repites lo heredaste. Y se cambia.</p>
-  <button class="btn gold pulse" onclick="startGame()">▶ Iniciar juego</button>
-  <div class="small" style="margin-top:14px">⏱ 2 minutos · 🌙 Herramientas 360° para mente y cuerpo</div>
+  <div class="hook">
+    <div class="hk" style="--d:.2s">🧠 ¿Piensas de más?<i>✓</i></div>
+    <div class="hk" style="--d:.9s">💗 ¿Sientes todo?<i>✓</i></div>
+    <div class="hk" style="--d:1.6s">🔁 ¿Reaccionas igual en casa, en pareja y en el trabajo?<i>✓</i></div>
+  </div>
+  <p class="hook-big">No es casualidad.<br><span>¿De quién aprendiste a reaccionar así?</span></p>
+  <p class="sub" style="font-size:14.5px;margin-top:4px">Todos reaccionamos desde los 4 elementos. Toca uno 👇</p>
+  <div class="elchips">
+    <button class="elchip" style="--c:#2f80ed" onclick="elInfo(this,'agua')">💧 Agua</button>
+    <button class="elchip" style="--c:#e3222b" onclick="elInfo(this,'fuego')">🔥 Fuego</button>
+    <button class="elchip" style="--c:#4e9a3a" onclick="elInfo(this,'tierra')">🌱 Tierra</button>
+    <button class="elchip" style="--c:#8b7cf6" onclick="elInfo(this,'aire')">💨 Aire</button>
+  </div>
+  <div class="elinfo" id="elinfo"></div>
+  <p class="sub" style="margin-top:12px;color:var(--gold);font-weight:700;font-size:16.5px">🔁 Lo que repites lo heredaste. Y se cambia.</p>
+  <button class="btn gold pulse" onclick="startGame()">▶ Descubrir mi patrón</button>
+  <div class="small" style="margin-top:14px">⏱ 8 misiones · 2 minutos · 🌙 Herramientas 360° para mente y cuerpo</div>
 </section>
 
 
@@ -2561,13 +2587,9 @@ const MOODS = [
   {k:'felicidad',   emo:'😊', name:'Felicidad',    el:'agua',   pos:true, msg:'La felicidad es Agua en calma: el corazón está lleno y se siente en paz.'},
   {k:'tranquilidad',emo:'😌', name:'Tranquilidad', el:'tierra', pos:true, msg:'La tranquilidad es Tierra firme: tu base te sostiene y te da seguridad.'},
   {k:'triste',    emo:'😢', name:'Tristeza',      el:'agua',   msg:'La tristeza es Agua estancada: necesita sentirse y fluir, no esconderse.'},
-  {k:'sensible',  emo:'🥺', name:'Sensibilidad',  el:'agua',   msg:'Sentir de más es Agua desbordada: hoy estás absorbiendo emociones que no son tuyas.'},
   {k:'rabia',     emo:'😤', name:'Rabia',         el:'fuego',  msg:'La rabia es Fuego que quiere salir: necesita dirección, no explosión.'},
-  {k:'bloqueo',   emo:'🧱', name:'Bloqueo',       el:'fuego',  msg:'El bloqueo es Fuego apagado: la energía está ahí, esperando una primera acción.'},
   {k:'cansancio', emo:'😮‍💨', name:'Cansancio',     el:'tierra', msg:'El cansancio es Tierra pesada: tu cuerpo está cargando más de lo que le toca.'},
-  {k:'desorden',  emo:'📦', name:'Desorden',      el:'tierra', msg:'El desorden es Tierra sin estructura: te falta una base que te sostenga.'},
   {k:'ansiedad',  emo:'😰', name:'Ansiedad',      el:'aire',   msg:'La ansiedad es Aire acelerado: la mente corre más rápido que tu vida.'},
-  {k:'confusion', emo:'😵‍💫', name:'Confusión',     el:'aire',   msg:'La confusión es Aire nublado: hay tantas voces que no escuchas la tuya.'}
 ];
 const ORIGINS = [
   {k:'mama',   emo:'👩', name:'Mi mamá',            who:'tu mamá',               mine:'mi mamá'},
@@ -2775,6 +2797,13 @@ function buildTitle(){
   $('orbit').innerHTML = `<svg class="spin" viewBox="0 0 340 340">${wheelSVG('title').replace(/^<svg[^>]*>/,'').replace('</svg>','')}</svg><div class="core">360°</div>`+
     [['agua','F','S'],['fuego','M','S'],['tierra','F','C'],['aire','M','F']].map(([el,g,ph],i)=>`<div class="oh p${i+1}">${hero({face:true,el,g,ph,skin:sk()})}</div>`).join('');
 }
+const EL_INFO = {
+  agua:'💧 <b>Agua</b>: sientes de más, cargas lo que vive el otro y te cuesta decir lo que te duele.',
+  fuego:'🔥 <b>Fuego</b>: actúas y comunicas con fuerza… o explotas, o te bloqueas.',
+  tierra:'🌱 <b>Tierra</b>: ordenas y sostienes todo… o vives en el desorden y sin estructura.',
+  aire:'💨 <b>Aire</b>: piensas de más, das vueltas a las ideas y te cuesta aterrizar.'
+};
+function elInfo(btn,el){ sfx.click(); document.querySelectorAll('.elchip').forEach(b=>b.classList.toggle('sel',b===btn)); $('elinfo').innerHTML=EL_INFO[el]; }
 function startGame(){ sfx.pop(); if(S.access || !CONFIG.ACCESS_KEY) goPlayer(); else show('s-lock'); }
 
 // ═════════════ 2. JUGADOR ═════════════
@@ -2910,7 +2939,10 @@ function pickQuad(qi){
 function goMood(){
   if(S.quad===null || S.timers.shufOn) return;
   sfx.pop(); S.mood=null;
-  $('moods').innerHTML=MOODS.map((m,i)=>`<button class="mood" onclick="pickMood(${i},this)"><span class="me">${m.emo}</span><span>${m.name}</span></button>`).join('');
+  const btn=(m)=>{ const i=MOODS.indexOf(m); return `<button class="mood" onclick="pickMood(${i},this)"><span class="me">${m.emo}</span><span>${m.name}</span></button>`; };
+  const neg=['ansiedad','triste','rabia','cansancio'].map(k=>MOODS.find(m=>m.k===k));
+  $('moods').innerHTML=`<div class="mood-g">😊 Hoy me siento bien</div>`+MOODS.filter(m=>m.pos).map(btn).join('')+
+    `<div class="mood-g">😔 Hoy me cuesta</div>`+neg.map(btn).join('');
   show('s-mood');
 }
 function pickMood(i,btn){
