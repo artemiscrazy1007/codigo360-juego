@@ -205,6 +205,9 @@ button,input,select{font-family:inherit;color:inherit}
 .card-title{font-size:17px;text-align:center;color:var(--el2);font-weight:600;margin-top:3px}
 .card-el{font-size:8px;text-align:center;color:var(--gold);margin:9px 0 13px}
 .stats{display:grid;gap:8px;margin-bottom:10px}
+.mix-h{font-size:13.5px;color:var(--mut);text-align:center;margin:2px 0 8px}
+.mix-t{font-size:14.5px;line-height:1.45;color:rgba(243,241,255,.9);background:rgba(255,255,255,.05);border-radius:12px;padding:10px 12px;margin:-2px 0 10px}
+.mix-t b{color:var(--el2)}
 .stat{display:grid;grid-template-columns:82px 1fr 40px;align-items:center;gap:8px;font-size:13.5px}
 .bar{height:11px;border-radius:6px;background:rgba(255,255,255,.08);overflow:hidden}
 .bar i{display:block;height:100%;width:0;border-radius:6px;transition:width 1.3s cubic-bezier(.25,.8,.3,1)}
@@ -236,7 +239,7 @@ button,input,select{font-family:inherit;color:inherit}
   <div class="tag pixel" style="color:var(--el2)">EL JUEGO DE LO QUE HEREDASTE</div>
   <div class="orbit" id="orbit"></div>
   <p class="sub" style="font-size:20px;font-weight:700;color:#fff;margin-bottom:6px">¿De quién aprendiste a reaccionar así?</p>
-  <p class="sub">Supera <b>8 misiones</b> y descubre el patrón que heredaste: <b style="color:#8fd0ff">Agua</b>, <b style="color:#ffc04d">Fuego</b>, <b style="color:#b5e06a">Tierra</b> o <b style="color:#e3ddff">Aire</b>.</p>
+  <p class="sub">Todos reaccionamos desde los 4 elementos: <b style="color:#8fd0ff">Agua</b>, <b style="color:#ffc04d">Fuego</b>, <b style="color:#b5e06a">Tierra</b> y <b style="color:#e3ddff">Aire</b>. Supera <b>8 misiones</b> y descubre desde cuál reaccionas más y de quién lo aprendiste.</p>
   <button class="btn gold pulse" onclick="startGame()">▶ Iniciar juego</button>
   <div class="small" style="margin-top:14px">⏱ 2 minutos · 360 preguntas · 🎴 Carta para compartir</div>
 </section>
@@ -3019,6 +3022,18 @@ function finishReveal(){
 
 // ═════════════ 7. CARTA ═════════════
 function giftFrom(){ const O=S.origin; return (!O||O.k==='nose'||O.k==='otra') ? '' : ' de '+O.who.replace(/^tu /,'tu ').replace(/^alguien de tus /,'tus '); }
+const REACT2 = {
+  agua:'cuando algo te duele, lo sientes profundo y lo guardas',
+  fuego:'cuando algo te presiona, reaccionas con fuerza o te bloqueas',
+  tierra:'cuando algo te asusta, te aferras al orden o a lo conocido',
+  aire:'cuando algo te preocupa, te vas a la cabeza y lo analizas'
+};
+function mixText(){
+  const res=S.result, others=ELKEYS.filter(e=>e!==res && (S.scores[e]||0)>0).sort((a,b)=>(S.scores[b]||0)-(S.scores[a]||0));
+  if(!others.length) return `<div class="mix-t">Tu base es el <b>${EL[res].emo} ${EL[res].name}</b>: hoy casi todas tus reacciones salen de ahí.</div>`;
+  const s2=others[0];
+  return `<div class="mix-t">Tu base es el <b>${EL[res].emo} ${EL[res].name}</b>, pero no reaccionas solo desde ahí: ${REACT2[s2]}, y ahí aparece tu <b>${EL[s2].emo} ${EL[s2].name}</b>.</div>`;
+}
 function patternText(firstPerson){
   const E=EL[S.result], O=S.origin||ORIGINS[7];
   if(firstPerson) return `Reacciono desde el ${E.name}, igual que ${O.mine}`;
@@ -3063,7 +3078,9 @@ function showCard(){
       <div class="patron-row"><span>🔁 El patrón que repites</span><p>${patternText()}</p></div>
       ${(S.origin&&S.origin.k==='nose')?'<p class="patron-q">¿Ya sabes de quién lo aprendiste? Piénsalo: ahí empieza tu código.</p>':''}
     </div>
+    <div class="mix-h">Todos reaccionamos desde los 4 elementos. Esta es tu mezcla:</div>
     <div class="stats">${stats}</div>
+    ${mixText()}
     <div class="acc-hint">👇 Toca cada botón para descubrir tu información</div>
     ${acc(`${E.emo} ¿Qué es el ${E.name}?`, E.def)}
     ${M?acc(`${M.emo} Hoy llegaste con ${M.name.toLowerCase()}`, moodTxt):''}
