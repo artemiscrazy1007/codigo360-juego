@@ -154,7 +154,10 @@ button,input,select{font-family:inherit;color:inherit}
 .acc.open .acc-h i{transform:rotate(180deg)}
 .acc.open{border-color:var(--el2)}
 .acc-b{max-height:0;overflow:hidden;transition:max-height .3s ease}
-.acc-b p{padding:0 14px 13px;font-size:14.5px;line-height:1.45;color:rgba(243,241,255,.88)}
+.acc-in{padding:0 14px 13px}
+.acc-b p{font-size:14.5px;line-height:1.45;color:rgba(243,241,255,.88)}
+.patron-acc{margin:6px 0 12px;border:2px solid var(--el2);background:linear-gradient(160deg,color-mix(in srgb,var(--el) 28%,#140f35),#140f35)}
+.patron-acc .acc-h{font-size:18px;font-weight:700;padding:14px}
 .clave{margin-top:12px;border-radius:16px;padding:15px;background:linear-gradient(160deg,rgba(255,209,102,.22),#140f35);border:2px solid #ffd166}
 .clave-h{font-size:21px;font-weight:700;color:#ffd166;margin-bottom:6px}
 .clave p{font-size:16px;line-height:1.45;color:#fff;font-weight:500}
@@ -163,7 +166,11 @@ button,input,select{font-family:inherit;color:inherit}
 .patron-h{font-size:20px;font-weight:700;color:var(--el2);margin-bottom:2px}
 .patron p{font-size:16.5px;line-height:1.4;color:#fff;font-weight:500}
 .patron-row{text-align:left;background:rgba(0,0,0,.25);border-radius:12px;padding:10px 12px;margin-top:8px}
-.patron-row span{display:block;font-size:13px;font-weight:700;color:var(--el2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+.patron-row span{display:block;font-size:12.5px;font-weight:700;color:var(--el2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+.patron-row p{font-size:16px;line-height:1.4;color:#fff;font-weight:500}
+.patron-row b{color:#ffd166}
+.patron-q{font-size:13.5px;color:var(--mut);margin-top:8px;text-align:center}
+.qinfo .fase{font-size:13px;font-weight:700;letter-spacing:1px;margin-top:4px}
 .patron b{color:#ffd166}
 .patron .patron-q{font-size:13.5px;color:var(--mut);margin-top:8px;font-weight:400}
 /* game */
@@ -1524,376 +1531,6 @@ Sientes que no tienes nada interesante que decir.
 Te cuesta respirar con calma cuando algo te asusta.
 `);
 BANK_RAW.push(`
-#dexceso.agua
-Decides desde lo que sientes en el momento: si estás triste, todo se ve oscuro.
-Decides pensando en cómo se sentirán los demás, no en lo que tú necesitas.
-Si alguien sufre, decides por esa persona y no por ti.
-Cambias una decisión si sientes que alguien se molestó.
-Decides según tu estado de ánimo y luego te arrepientes.
-Eliges quedarte por miedo a lastimar.
-Tus decisiones dependen de si sientes cariño a tu alrededor.
-Decides con el corazón aunque la razón te diga otra cosa.
-Postergas decisiones para no causar dolor.
-Decides para evitar conflictos emocionales.
-La culpa pesa más que tu deseo al elegir.
-Decides desde la nostalgia y vuelves a lo que te dolía.
-Eliges lo que te da consuelo inmediato.
-Decides después de llorar, cuando ves las cosas más claras.
-Consultas tu intuición, pero dudas cuando otros opinan.
-Decides según lo que siente tu familia.
-Te cuesta decidir si alguien que amas no está de acuerdo.
-Decides con miedo a que te dejen de querer.
-Eliges complacer antes que elegirte.
-Decides desde la compasión aunque te perjudique.
-Tus decisiones cambian con tus emociones.
-Decides rápido cuando algo te conmueve.
-Eliges a las personas por cómo te hacen sentir, no por lo que hacen.
-Te quedas en relaciones por lo que sentiste al principio.
-Tomas decisiones de dinero por emoción.
-Decides ayudar aunque no tengas fuerzas.
-Te cuesta decidir sin apoyo emocional.
-Decides cuando sientes que "es el momento", aunque no tengas un plan.
-El miedo al rechazo pesa en tus elecciones.
-Decides callar para mantener la paz.
-Eliges desde la herida y no desde lo que sueñas.
-Decides según los recuerdos del pasado.
-Si una decisión te duele, la cambias aunque sea correcta.
-Decides con el estómago: si se aprieta, dices que no.
-Eliges cuidar a otros antes que cuidarte.
-Decides perdonar rápido para no sentir distancia.
-Te cuesta decidir cuando estás sensible.
-Decides por intuición y aciertas, pero luego dudas de ti.
-Tomas decisiones importantes de noche, cuando todo se siente más intenso.
-Decides para que nadie se sienta mal.
-Eliges lo que te da seguridad emocional.
-Decides esperando que otros lo noten y lo agradezcan.
-Cambias de rumbo cuando alguien llora.
-Decides desde la empatía y olvidas tus límites.
-Tus emociones deciden y tu mente justifica después.
-#dfalta.agua
-Para no sentir, decides en automático y tapas la emoción.
-Decides con la cabeza fría y luego te pesa en el cuerpo.
-Ignoras tu intuición y eliges lo "correcto" aunque no te haga feliz.
-Decides sin preguntarte qué sientes.
-Postergas las decisiones del corazón.
-Decides lo que se espera de ti, no lo que sientes.
-Eliges no involucrarte para no sufrir.
-Decides alejarte en vez de hablar.
-Tomas decisiones con el cuerpo desconectado.
-Decides quedarte en silencio cuando necesitas expresar.
-Eliges el trabajo antes que tus emociones.
-Decides "estar bien" aunque no lo estés.
-No sabes qué quieres porque no sabes qué sientes.
-Decides cortar vínculos antes de que te hieran.
-Eliges no pedir ayuda.
-Decides sin tener en cuenta tu cansancio emocional.
-Eliges endurecerte para seguir adelante.
-Decides por obligación, no por deseo.
-Ignoras las señales de tu corazón hasta que es tarde.
-Decides no llorar y seguir.
-Eliges la distracción en vez de la emoción.
-Decides lo práctico y olvidas lo que te hace feliz.
-Tus decisiones se sienten vacías aunque sean lógicas.
-Decides sin escuchar tus sueños.
-Te cuesta decidir en el amor.
-Eliges proteger tu corazón cerrándolo.
-Decides tarde porque no te escuchas.
-Cierras etapas sin despedirte de ellas.
-Eliges no confiar.
-Decides desde la coraza y no desde la verdad.
-Te cuesta saber qué te hace bien.
-Decides según la rutina, sin sentir.
-Eliges no mostrar lo que te importa.
-Decides alejarte de lo espiritual.
-Postergas decisiones de perdón.
-Decides sin incluir tu intuición.
-Te cuesta decidir con quién abrirte.
-Decides no vivir el duelo.
-Eliges resolver todo por tu cuenta sin compartir lo que sientes.
-Decides sin hacer una pausa emocional.
-Tus decisiones cuidan a otros, pero no a tu corazón.
-Decides por cansancio, no por claridad.
-Eliges no expresar tu cariño.
-Decides tapar la tristeza con ocupaciones.
-Eliges lo que no duele, aunque tampoco te llene.
-#dexceso.fuego
-Decides desde la rabia o la urgencia: actúas antes de sentir y después te toca reparar.
-Decides rápido para no sentir la incomodidad de esperar.
-Eliges lo que te da adrenalina.
-Decides sin consultar a nadie y luego enfrentas las consecuencias.
-Tomas decisiones en medio de una discusión.
-Decides para ganar, no para estar en paz.
-Cambias todo de un día para otro cuando algo te molesta.
-Decides con orgullo.
-Renuncias en caliente.
-Gastas cuando la emoción te sube.
-Eliges el camino más rápido aunque no sea el mejor.
-Decides por impulso y luego buscas justificarlo.
-Tomas decisiones para demostrar algo.
-Decides sin escuchar a tu cuerpo cansado.
-Eliges pelear antes que negociar.
-Decides con la presión de tener resultados ya.
-Decides por competencia.
-Te lanzas sin plan.
-Decides controlar lo que no depende de ti.
-Eliges hacer todo tú para que salga rápido.
-Cortas relaciones en un mal momento.
-Decides con irritación y luego cambias de idea.
-Eliges el reto más grande aunque no tengas energía.
-Decides para no aburrirte.
-Tomas decisiones de dinero con el corazón acelerado.
-Decides hablar fuerte cuando tocaba escuchar.
-Eliges la acción para no sentir tristeza.
-Decides desde el ego herido.
-Te comprometes con demasiadas cosas a la vez.
-Decides sin medir el impacto en tu familia.
-Eliges avanzar aunque otros no estén listos.
-Decides de noche con el fuego encendido y en la mañana lo cuestionas.
-Tomas decisiones para recuperar el control.
-Decides romper antes de que te rompan.
-Eliges la confrontación como primera opción.
-Decides sobre la vida de otros.
-Por orgullo, no pides consejo.
-Eliges correr cuando tocaba hacer una pausa.
-Decides con la idea de "ahora o nunca".
-Decides según tu nivel de enojo.
-Te cuesta esperar a tener información.
-Decides para que te vean fuerte.
-Eliges trabajar más en vez de descansar.
-Decides sin pausa y te agotas.
-Tu impulso decide y tu cuerpo paga.
-#dfalta.fuego
-Sabes lo que quieres, pero el miedo a explotar o a fallar te frena y la decisión se queda congelada.
-Esperas a que otros decidan por ti.
-Postergas la decisión hasta que la vida decide sola.
-Decides no decir lo que piensas para evitar problemas.
-Eliges no moverte por miedo al error.
-Te cuesta dar el primer paso.
-Decides según lo que dirán.
-Eliges lo cómodo aunque te apague.
-Cuidas tu tranquilidad aunque te cueste tus sueños.
-Dices "sí" cuando quieres decir "no".
-Te cuesta decidir porque no confías en tu fuerza.
-Decides esperar el momento perfecto.
-Eliges no competir para no perder.
-Decides callar tu rabia.
-Te frena el miedo a equivocarte.
-Decides seguir en lo mismo aunque te aburra.
-Eliges no pedir lo que mereces.
-Abandonas cuando aparece la primera dificultad.
-Necesitas que alguien te motive para decidir.
-Decides no mostrar tu talento.
-Eliges no liderar aunque puedas.
-Te retiras antes de intentar.
-Te cuesta decidir cuando hay conflicto.
-Decides sin energía, desde el agotamiento.
-Eliges lo que otros esperan para no incomodar.
-Decides aplazar tus metas personales.
-Te cuesta decidir rápido en momentos importantes.
-Decides sin entusiasmo.
-Eliges no cobrar lo justo.
-Decides con miedo al rechazo.
-Te cuesta decidir comenzar algo nuevo.
-Eliges el silencio en vez de la acción.
-Decides no defenderte.
-La duda apaga tu impulso.
-Decides tarde y pierdes oportunidades.
-Eliges no confrontar lo que te molesta.
-Decides desde la inseguridad.
-Te quedas en "lo voy a pensar".
-Decides según tu cansancio.
-Eliges proyectos pequeños por miedo a los grandes.
-Decides no expresar tus deseos.
-Te cuesta elegirte.
-Decides esperar permiso.
-Eliges no hacer ruido.
-Te apagas para encajar.
-#dexceso.tierra
-Decides desde el miedo a perder la seguridad: eliges lo conocido aunque ya no te haga feliz.
-Decides solo cuando tienes todo planeado.
-Eliges lo que garantiza estabilidad, no lo que te ilusiona.
-Te cuesta decidir cambios.
-Decides según lo que siempre se ha hecho.
-Eliges ahorrar aunque necesites invertir en ti.
-Decides con la cabeza puesta en el dinero.
-Te tardas meses en decidir algo nuevo.
-Eliges el control antes que la confianza.
-Decides según la rutina.
-Decides por deber y no por deseo.
-Eliges cargar con todo antes que delegar.
-Decides con base en la experiencia pasada, sin abrirte a lo nuevo.
-Te cuesta decidir soltar.
-Eliges la seguridad aunque te quite libertad.
-Decides con prudencia excesiva.
-Eliges quedarte en el trabajo seguro.
-Decides no gastar en experiencias.
-Te cuesta decidir improvisar.
-Decides por tu familia y no por ti.
-Eliges lo práctico aunque no te emocione.
-Decides según lo que es "correcto".
-Tus decisiones lentas te hacen perder oportunidades.
-Decides resistir en vez de adaptarte.
-Eliges lo que te da estabilidad material.
-Decides con desconfianza hacia lo nuevo.
-Te cuesta decidir cuando faltan datos concretos.
-Decides por costumbre.
-Eliges trabajar más para sentir seguridad.
-Decides no arriesgar.
-Te aferras a decisiones viejas.
-Decides según el presupuesto, aunque se trate de tu salud.
-Eliges el orden antes que la alegría.
-Decides con rigidez.
-Te cuesta decidir descansar.
-Decides con miedo a la escasez.
-Postergas tus sueños por lo urgente.
-Decides sostener lo que ya no da frutos.
-Esperas a que todo esté perfecto para decidir.
-Eliges lo que otros consideran estable.
-Decides con el peso del deber familiar.
-Te cuesta decidir cambiar de casa o de ciudad.
-Decides controlando cada detalle.
-Eliges lo seguro aunque te aburra.
-Decides construir, pero olvidas disfrutar.
-#dfalta.tierra
-Sin una estructura, decides según cómo amaneciste y el desorden termina decidiendo por ti.
-Decides sin plan y luego no sabes cómo sostenerlo.
-Eliges lo urgente y olvidas lo importante.
-Decides gastar sin revisar tus cuentas.
-Te comprometes sin mirar tu agenda.
-Decides empezar rutinas que abandonas.
-Tomas decisiones sin pensar en el futuro.
-Decides según la presión del momento.
-Eliges lo fácil aunque no construya nada.
-Decides sin tener en cuenta tu cuerpo.
-Postergas las decisiones prácticas: papeles, salud y dinero.
-Decides con desorden y pierdes tiempo.
-Eliges improvisar siempre.
-Decides sin prioridades claras.
-Te cuesta decidir porque todo parece igual de importante.
-Decides sin medir tu energía.
-Eliges cosas que no puedes sostener.
-Decides comer o dormir según el día.
-Te cuesta decidir un horario.
-Decides gastar para sentirte mejor.
-Decides sin escribir ni planear.
-Eliges lo que otros te piden, aunque desordene tu vida.
-Decides empezar algo sin terminar lo anterior.
-Te cuesta decidir en qué invertir tu tiempo.
-Decides sin bases firmes.
-Eliges muchas cosas a la vez.
-Decides según tu cansancio del día.
-Te cuesta decidir y sostener una meta.
-Decides con la sensación de que nada es seguro.
-Eliges sin pensar en las consecuencias prácticas.
-Cambias de planes a cada rato.
-Te cuesta decidir qué soltar del desorden.
-Decides sin escuchar tus necesidades básicas.
-Eliges el caos porque es lo conocido.
-Decides aplazar tu salud.
-Decides sin estructura y luego te culpas.
-Te cuesta decidir rutinas para tu familia.
-Eliges sin presupuesto.
-Decides sin raíces, como si nada te sostuviera.
-Te cuesta decidir con constancia.
-Decides según el impulso de otros.
-Eliges sin un "para qué".
-Decides llenar tu agenda sin pausa.
-Te cuesta decidir cuidar tu espacio.
-Decides sin tierra bajo los pies.
-#dexceso.aire
-Decides desde la cabeza: analizas tanto cada opción que la ansiedad no te deja elegir.
-Haces listas de pros y contras que nunca terminan.
-Buscas una opinión más antes de decidir.
-Cambias de decisión varias veces en el mismo día.
-Decides en teoría, pero no lo llevas a la práctica.
-Te paraliza tener demasiadas opciones.
-Decides lo más lógico aunque tu corazón diga otra cosa.
-Investigas tanto que pierdes la oportunidad.
-Decides según lo último que leíste o escuchaste.
-Imaginas todos los escenarios posibles antes de elegir.
-Decides de noche, con la mente acelerada.
-Eliges una idea y saltas a otra.
-Te cuesta decidir por miedo a equivocarte.
-Decides con la mente y te olvidas del cuerpo.
-Te comprometes con muchas ideas a la vez.
-Decides después de hablarlo con muchas personas.
-Racionalizas tus decisiones para no sentirlas.
-Te cuesta elegir porque siempre ves otra posibilidad.
-Decides según lo que otros piensan de ti.
-Te enredas en el "¿y si...?".
-Decides tarde por exceso de análisis.
-Eliges lo interesante aunque no sea práctico.
-Decides con ansiedad.
-Planeas tanto que olvidas actuar.
-Decides lo que suena bien, no lo que se siente bien.
-Te cuesta sostener una decisión.
-Decides desde la comparación.
-Eliges proyectos nuevos antes de terminar los viejos.
-Decides cambiar para no aburrirte.
-Te cuesta decidir sin tener toda la información.
-Decides con la mente dispersa.
-Eliges escapar mentalmente de lo difícil.
-Decides con base en suposiciones.
-Hablas de tu decisión más de lo que la vives.
-Decides sin escuchar tu intuición.
-Te cuesta decidir porque todo tiene un "pero".
-Cambias de rumbo por una idea nueva.
-Eliges sin comprometerte.
-Decides y te arrepientes al pensarlo de nuevo.
-Te cuesta elegir en silencio.
-Decides con la mente cansada.
-Eliges pensar en vez de sentir.
-Decides según la última información que recibiste.
-Te pierdes entre opciones.
-Decides en tu cabeza mil veces antes de decidir en la vida.
-#dfalta.aire
-La confusión te lleva a preguntarle a todo el mundo y terminas decidiendo por lo que dicen otros.
-Decides sin entender bien qué quieres.
-Eliges lo primero que aparece para no pensar.
-Te cuesta ver opciones distintas.
-Decides según lo que te enseñaron, sin cuestionarlo.
-Te bloqueas cuando tienes que decidir rápido.
-Decides sin informarte.
-Te cuesta explicar por qué decides algo.
-Eliges lo que otros eligen.
-Decides con la mente nublada.
-Te cuesta imaginar las consecuencias.
-Decides sin un plan claro.
-Te quedas sin palabras para negociar.
-Decides lo mismo de siempre por falta de ideas.
-Eliges no preguntar.
-Decides sin visión de futuro.
-Te cuesta decidir porque no encuentras sentido.
-Decides cuando ya no puedes pensar más.
-Eliges no opinar.
-Decides sin escuchar otras perspectivas.
-Te cuesta tomar decisiones creativas.
-Decides desde el miedo, sin pensarlo.
-Eliges sin comunicar lo que decides.
-Te cuesta decidir con claridad.
-Decides lo que alguien más te sugiere.
-Te cuesta tomar distancia para decidir.
-Decides en blanco, sin inspiración.
-Eliges lo conocido porque no logras imaginar algo nuevo.
-Decides sin pedir la información que necesitas.
-Te cuesta decidir cuando hay que hablar.
-Decides sin aire, con el pecho apretado.
-Eliges no aprender algo nuevo.
-Decides sin sueños.
-Te cuesta decidir sobre tu crecimiento.
-Decides sin preguntarte "¿para qué?".
-Eliges por inercia.
-Decides sin poner en palabras lo que sientes.
-Te cuesta decidir en grupo.
-Dejas que el tiempo pase y decida por ti.
-No cambias de opinión aunque haya razones.
-Decides sin claridad sobre tus prioridades.
-Te cuesta decidir porque no confías en tu mente.
-Decides sin hacer las preguntas importantes.
-Eliges lo que menos te exige pensar.
-Decides con confusión y luego dudas.
-`);
-BANK_RAW.push(`
 #tip.agua
 Pregúntate: ¿esto que siento es mío o es del otro?
 Ponle nombre a una emoción hoy: lo que se nombra, se ordena.
@@ -2259,8 +1896,394 @@ Ordena tus ideas: primero, segundo, tercero.
 Cierra el día con una frase que te inspire.
 Repite: "pienso con claridad y actúo con calma".
 `);
+// ═════════════ BANCO 2 · elemento en casa, superpoder, cómo te afecta, transformación ═════════════
+BANK_RAW.push(`
+#casa.agua
+Cuando el Agua se activa en tu casa, todos sienten pero nadie habla: las emociones se guardan, se lloran a escondidas y se heredan en silencio.
+El Agua en casa es ese amor que cuida a todos… y esa culpa que aparece cuando alguien se pone triste.
+Cuando el Agua manda en una familia, se vive pendiente del ánimo de los demás: si uno está mal, todos están mal.
+El Agua en tu casa se nota en los silencios largos, en el "no pasa nada" y en el llanto que nadie vio.
+#casa.fuego
+Cuando el Fuego se activa en tu casa, se habla fuerte: se discute, se dan portazos y después viene el silencio.
+El Fuego en casa es la fuerza para salir adelante… y también la rabia que explota por cosas pequeñas.
+Cuando el Fuego manda en una familia, todo es urgente: se corre, se exige y nadie descansa.
+El Fuego en tu casa se nota en quién levanta la voz y en quién se guarda todo hasta que estalla.
+#casa.tierra
+Cuando la Tierra se activa en tu casa, todo gira alrededor del deber: el trabajo, las cuentas y lo que "toca hacer".
+La Tierra en casa es la seguridad que sostiene a todos… y el cansancio de quien carga sola con todo.
+Cuando a una familia le falta Tierra, hay desorden, horarios distintos y la sensación de que nada se sostiene.
+La Tierra en tu casa se nota en las rutinas que se repiten igual que hace 30 años, aunque ya nadie las disfrute.
+#casa.aire
+Cuando el Aire se activa en tu casa, se piensa más de lo que se siente: se analiza, se explica, se aconseja… pero nadie dice lo que le duele.
+El Aire en casa son las conversaciones que dan vueltas y nunca llegan al fondo.
+Cuando el Aire manda en una familia, se vive adelantando el futuro y preocupándose por lo que todavía no pasó.
+El Aire en tu casa se nota en las noches sin dormir pensando y en las palabras que se usan para no sentir.
+
+#power.agua.exceso
+Sientes a tu familia antes de que hable: eso, bien usado, te hace el puente que nadie más puede ser.
+Tu empatía detecta que algo no está bien en casa mucho antes que los demás.
+Sabes consolar sin decir una palabra: tu presencia ya calma.
+Tu sensibilidad puede romper el silencio de tu familia, porque tú sí te atreves a nombrar lo que se siente.
+Puedes amar a los tuyos sin cargarlos: cuando lo aprendes, te vuelves refugio y no esponja.
+Tu corazón recuerda los detalles que hacen sentir importante a la gente.
+Cuando pones tu sensibilidad al servicio y no al sacrificio, tu casa entera respira distinto.
+Lees la emoción del lugar donde entras: eso es un radar, no una debilidad.
+Tu ternura es la herramienta que puede sanar lo que en tu casa nadie supo hablar.
+Sabes acompañar el dolor ajeno sin juzgarlo, y eso es rarísimo.
+Tu intuición te avisa antes de que las cosas pasen: cuando la escuchas, acierta.
+Puedes convertir lo que lloraste en comprensión para otros.
+Tu forma de amar les enseña a los niños de tu familia que sí se puede sentir.
+Cuando sueltas lo que no es tuyo, tu sensibilidad se vuelve tu mayor fuerza.
+#power.agua.falta
+Aunque hoy sientas poco, tu capacidad de amar sigue intacta: solo está guardada.
+Sabes sostenerte en los momentos duros sin derrumbarte: eso también es un don.
+Cuando te permites sentir de nuevo, vuelven tus ganas y tu creatividad.
+Tienes la fuerza de haber seguido adelante aun cuando dolía.
+Tu claridad en medio del caos ayuda a tu familia a no hundirse.
+Cuando vuelves a abrir tu corazón, tus relaciones cambian en semanas.
+Sabes proteger a los tuyos: ahora toca aprender a dejarte proteger.
+Tu coraza se construyó para cuidarte; reconocerla ya es el primer paso.
+Puedes ser la primera de tu familia en hablar de lo que se siente.
+Tienes la capacidad de mirar tu historia sin romperte.
+Cuando lloras lo que guardaste, tu cuerpo entero te lo agradece.
+Tu lado suave no se perdió: está esperando un lugar seguro.
+Sabes cuidar con hechos, aunque te cuesten las palabras.
+Tu fortaleza es real; tu ternura va a hacerla completa.
+#power.fuego.exceso
+Tu energía mueve a toda tu familia cuando la pones a favor y no en contra.
+Cuando tu fuego tiene dirección, logras en un día lo que otros en una semana.
+Tienes el valor de decir en voz alta lo que en tu casa siempre se calló.
+Tu fuerza protege: bien usada, tus hijos aprenden a defenderse sin gritar.
+Sabes empezar de cero cuantas veces haga falta.
+Cuando hablas desde la calma, tu voz tiene un peso enorme.
+Tu pasión le da vida a tu casa y a tus proyectos.
+Eres quien rompe lo que ya no funciona, y eso una familia lo necesita.
+Tu determinación puede cortar un patrón de generaciones.
+Cuando usas tu fuego para construir, nadie te para.
+Tienes el carácter para poner los límites que en tu familia nunca existieron.
+Tu entusiasmo contagia y levanta a los que están caídos.
+Sabes defender lo justo aunque te cueste.
+Cuando tu rabia se vuelve decisión, pasan cosas buenas.
+#power.fuego.falta
+Tu fuego no se apagó: solo aprendió a esconderse para no molestar.
+Tienes mucha más fuerza de la que te dejaron usar.
+Cuando das el primer paso, descubres que sí podías.
+Sabes aguantar; ahora toca aprender a avanzar.
+Tu prudencia evita peleas: úsala para elegir el momento, no para callarte siempre.
+Puedes ser la primera de tu familia en ir por lo que quiere.
+Tienes sueños guardados que todavía están vivos.
+Cuando dices lo que piensas, la gente te escucha más de lo que crees.
+Tu calma es valiosa; con un poco de fuego se vuelve liderazgo.
+Sabes sostener sin explotar: eso ya es media batalla ganada.
+Cada vez que te eliges, tu fuego crece.
+Tienes la capacidad de empezar algo tuyo.
+Tu voz hace falta en tu casa, aunque te hayan enseñado a bajarla.
+El día que decidas, nadie va a poder detenerte.
+#power.tierra.exceso
+Tu constancia es la razón por la que tu familia tiene piso.
+Sabes convertir ideas en cosas reales: eso casi nadie lo hace.
+Tu palabra vale: cuando dices algo, se cumple.
+Cuando sueltas un poco el control, tu casa respira y tú también.
+Tienes la paciencia de construir lo que dura.
+Sabes cuidar los recursos y hacer mucho con poco.
+Tu presencia tranquiliza a los que están dispersos.
+Puedes enseñar hábitos que le cambien la vida a tus hijos.
+Eres la raíz que mantiene unida a tu familia.
+Tu orden es un don cuando sirve para vivir, no para controlar.
+Sabes sostener procesos largos sin rendirte.
+Tu esfuerzo deja huella en las generaciones que vienen.
+Cuando descansas, tu fuerza se multiplica.
+Tienes la capacidad de crear abundancia desde lo pequeño.
+#power.tierra.falta
+Tu flexibilidad te permite adaptarte a lo que sea.
+Cuando creas una rutina sencilla, tu vida cambia en dos semanas.
+Sabes resolver con lo que hay, y eso es inteligencia práctica.
+Tienes libertad: ahora necesitas una base que la sostenga.
+Tu capacidad de empezar de nuevo es enorme.
+Cuando ordenas un espacio, ordenas también tu cabeza.
+Puedes darle a tu casa la estructura que tú no tuviste.
+Tu cuerpo sabe lo que necesita: solo falta escucharlo.
+Sabes improvisar cuando todo se cae.
+Un solo hábito sostenido te va a demostrar de qué eres capaz.
+Tienes talento para crear hogar donde llegas.
+Tu desorden no es flojera: es falta de un sistema que te sirva.
+Cuando te das horarios, aparece una energía que no conocías.
+Puedes construir seguridad paso a paso, sin prisa.
+#power.aire.exceso
+Tu mente ve soluciones que nadie más ve: cuando aterrizas una, cambia todo.
+Sabes poner en palabras lo que en tu familia nunca se supo decir.
+Tu capacidad de cuestionar es justo lo que corta los patrones heredados.
+Cuando tu mente se calma, tu creatividad se vuelve imparable.
+Puedes explicarle a tus hijos lo que a ti nadie te explicó.
+Tienes una inteligencia que entiende a las personas.
+Tu curiosidad te mantiene viva y en movimiento.
+Sabes mediar y traducir entre quienes no se entienden.
+Cuando escribes lo que piensas, dejas de dar vueltas.
+Tu visión ve el futuro antes que los demás.
+Eres la que pregunta "¿por qué siempre hacemos esto?", y esa pregunta vale oro.
+Tu mente puede diseñar la vida que quieres, si le das un plan.
+Sabes aprender cualquier cosa que te propongas.
+Tu forma de pensar puede enseñarle a muchas personas.
+#power.aire.falta
+Tus ideas siguen ahí: están debajo del cansancio.
+Cuando descansas tu mente, la claridad vuelve en pocos días.
+Sabes escuchar, y eso hoy vale más que hablar.
+Tienes preguntas importantes que todavía no te has atrevido a hacer.
+Cuando pones en palabras lo que vives, todo se ordena.
+Tu mente no está vacía: está saturada de cargar.
+Puedes recuperar tu curiosidad con una sola cosa que te guste aprender.
+Sabes resolver lo práctico aunque no encuentres las palabras.
+Tu silencio guarda ideas que nadie ha escuchado.
+Cuando respiras profundo, tu cabeza vuelve a funcionar.
+Tienes criterio propio aunque te hayan enseñado a no usarlo.
+Puedes ser la que haga las preguntas que en tu casa nadie hizo.
+Tu mente se despierta cuando te das espacio para ti.
+Escribir una página al día te va a devolver tu claridad.
+
+#afecta.agua.exceso
+En el día: amaneces cansada de sentir. Con tu familia: te hieren con una frase y te dura toda la semana.
+En el día: haces todo pendiente del ánimo de los demás. Con tu familia: terminas cargando problemas que no son tuyos.
+En el día: te cuesta concentrarte si alguien está molesto contigo. Con tu familia: callas para no pelear y luego te duele.
+En el día: lloras a escondidas y sigues como si nada. Con tu familia: nadie sabe cómo estás de verdad.
+En el día: dices "sí" a todo. Con tu familia: te quedas sin tiempo ni energía para ti.
+En el día: la culpa te acompaña a todas partes. Con tu familia: te sientes responsable de la felicidad de todos.
+En el día: te desgastas cuidando. Con tu familia: no notan todo lo que haces y eso te duele más.
+En el día: tu ánimo depende de cómo despertaron los demás. Con tu familia: no sabes dónde terminas tú y dónde empiezan ellos.
+En el día: evitas las conversaciones difíciles. Con tu familia: los temas se acumulan y explotan después.
+En el día: comes o duermes mal cuando algo te duele. Con tu familia: lo disimulas para no preocupar.
+En el día: te cuesta decidir sin preguntar. Con tu familia: terminas haciendo lo que otros quieren.
+En el día: revives conversaciones de hace años. Con tu familia: reaccionas a heridas viejas, no a lo que pasó hoy.
+En el día: te agota el ruido y la gente. Con tu familia: te encierras y ellos lo leen como rechazo.
+En el día: das sin medir. Con tu familia: te quedas vacía y después llega el resentimiento.
+#afecta.agua.falta
+En el día: funcionas en automático. Con tu familia: estás presente pero no conectada.
+En el día: no sabes qué sientes. Con tu familia: te preguntan cómo estás y no tienes respuesta.
+En el día: te cuesta disfrutar. Con tu familia: los momentos lindos pasan y no los sientes.
+En el día: aguantas todo. Con tu familia: no pides ayuda aunque estés al límite.
+En el día: evitas pensar en lo que duele. Con tu familia: los temas importantes nunca se hablan.
+En el día: el cuerpo te pesa sin razón clara. Con tu familia: la irritación sale por cosas pequeñas.
+En el día: te distraes con pantallas. Con tu familia: están juntos pero cada uno en lo suyo.
+En el día: te muestras fuerte. Con tu familia: nadie se atreve a preguntarte cómo estás.
+En el día: resuelves todo sola. Con tu familia: ellos sienten que no los necesitas.
+En el día: te cuesta decir "te quiero". Con tu familia: el cariño se da por hecho, no se dice.
+En el día: no lloras aunque lo necesites. Con tu familia: tus hijos aprenden a guardarse también.
+En el día: haces sin sentir. Con tu familia: cumples pero no disfrutas.
+En el día: te cuesta recibir un elogio. Con tu familia: te incomoda que te cuiden.
+En el día: el duelo que no hiciste sigue ahí. Con tu familia: ciertas fechas te ponen rara y nadie entiende por qué.
+#afecta.fuego.exceso
+En el día: reaccionas rápido y después te arrepientes. Con tu familia: dices cosas que luego toca reparar.
+En el día: vives con prisa. Con tu familia: los apuras a todos y el ambiente se tensiona.
+En el día: te irritas por cosas pequeñas. Con tu familia: un plato sin lavar se vuelve una discusión.
+En el día: no paras de hacer. Con tu familia: estás presente de cuerpo pero no de alma.
+En el día: quieres controlar todo. Con tu familia: se cansan de que nada sea suficiente.
+En el día: terminas con dolor de cabeza y la mandíbula apretada. Con tu familia: la tensión se siente apenas llegas.
+En el día: te cuesta escuchar sin interrumpir. Con tu familia: las conversaciones se vuelven discusiones.
+En el día: haces todo tú. Con tu familia: dejan de intentarlo porque nunca está bien.
+En el día: no descansas sin culpa. Con tu familia: les enseñas que descansar está mal.
+En el día: la impaciencia te gana. Con tu familia: tus hijos te hablan con miedo a tu reacción.
+En el día: peleas con el tráfico, con el trabajo, con todo. Con tu familia: llegas ya cargada.
+En el día: te cuesta pedir perdón. Con tu familia: los silencios después de pelear duran días.
+En el día: empiezas muchas cosas. Con tu familia: prometes planes que luego no se cumplen.
+En el día: exiges mucho. Con tu familia: sienten que nunca te alcanza lo que dan.
+#afecta.fuego.falta
+En el día: pospones lo importante. Con tu familia: cargas con tareas que no quieres hacer.
+En el día: te falta energía desde que despiertas. Con tu familia: no tienes fuerzas para los planes.
+En el día: callas lo que te molesta. Con tu familia: la rabia sale después, por otro tema.
+En el día: dejas que otros decidan. Con tu familia: terminas haciendo lo que todos quieren menos tú.
+En el día: no te defiendes. Con tu familia: se acostumbran a que tú cedes siempre.
+En el día: te comparas y te sientes menos. Con tu familia: no cuentas tus logros.
+En el día: aplazas conversaciones. Con tu familia: los temas pendientes llevan años ahí.
+En el día: haces lo mínimo para no fallar. Con tu familia: tus sueños nunca entran en la agenda.
+En el día: te cuesta moverte y hacer ejercicio. Con tu familia: todos se acomodan a la misma inercia.
+En el día: dices "sí" sin ganas. Con tu familia: tu agenda la llenan otros.
+En el día: esperas el momento perfecto. Con tu familia: ven que hablas de cambios que no llegan.
+En el día: te apagas frente a quien tiene más carácter. Con tu familia: alguien decide por ti.
+En el día: te falta entusiasmo. Con tu familia: los planes los propone siempre otro.
+En el día: tragas rabia. Con tu familia: explotas una vez cada tanto y nadie entiende por qué.
+#afecta.tierra.exceso
+En el día: no paras hasta terminar la lista. Con tu familia: no hay espacio para improvisar ni disfrutar.
+En el día: te estresa el desorden. Con tu familia: peleas por cosas que en un mes no van a importar.
+En el día: cargas con todo. Con tu familia: no ayudan porque tú nunca dejas.
+En el día: te cuesta descansar. Con tu familia: ven que siempre estás ocupada.
+En el día: te preocupa el dinero todo el tiempo. Con tu familia: la conversación siempre termina en gastos.
+En el día: haces lo de siempre. Con tu familia: la rutina los tiene a todos aburridos.
+En el día: te cuesta improvisar. Con tu familia: un cambio de plan te descompone el ánimo.
+En el día: todo tiene que estar perfecto. Con tu familia: sienten que nada les queda bien.
+En el día: trabajas de más. Con tu familia: llegas sin energía para estar con ellos.
+En el día: pones el deber antes que lo que sientes. Con tu familia: las emociones no se hablan, se posponen.
+En el día: te duele la espalda y el cuello. Con tu familia: el cuerpo te cobra lo que cargas.
+En el día: te cuesta gastar en ti. Con tu familia: siempre primero ellos, nunca tú.
+En el día: controlas horarios y detalles. Con tu familia: tus hijos sienten presión en vez de apoyo.
+En el día: no sueltas el control. Con tu familia: nadie se siente capaz a tu lado.
+#afecta.tierra.falta
+En el día: se te va el tiempo y no sabes en qué. Con tu familia: las cosas importantes quedan para después.
+En el día: comes a deshoras y duermes mal. Con tu familia: todos tienen horarios distintos.
+En el día: el desorden te roba energía. Con tu familia: siempre falta algo o nadie encuentra nada.
+En el día: vives apagando incendios. Con tu familia: no hay un plan, solo urgencias.
+En el día: no sabes en qué se va el dinero. Con tu familia: la plata es un tema tenso.
+En el día: llegas tarde aunque no quieras. Con tu familia: ya lo asumen como normal.
+En el día: empiezas rutinas que abandonas. Con tu familia: no hay hábitos que los sostengan.
+En el día: olvidas compromisos. Con tu familia: sienten que no pueden contar contigo.
+En el día: tienes el cuerpo descuidado. Con tu familia: nadie cuida la salud de nadie.
+En el día: todo parece igual de urgente. Con tu familia: lo importante nunca llega.
+En el día: te sientes sin piso. Con tu familia: no hay un lugar ni un momento que sea de todos.
+En el día: acumulas pendientes. Con tu familia: la culpa se te vuelve mal humor.
+En el día: improvisas la comida. Con tu familia: comen mal y nadie se sienta junto.
+En el día: no planeas. Con tu familia: los proyectos se quedan en conversación.
+#afecta.aire.exceso
+En el día: tu mente no para y a las 3 a. m. sigue encendida. Con tu familia: estás ahí pero pensando en otra cosa.
+En el día: analizas tanto que no decides. Con tu familia: los planes se aplazan esperando que estés segura.
+En el día: te preocupa lo que todavía no pasó. Con tu familia: les transmites tu ansiedad sin querer.
+En el día: repasas conversaciones viejas. Con tu familia: reaccionas a lo que imaginas, no a lo que dijeron.
+En el día: empiezas mil cosas. Con tu familia: ven proyectos a medias por toda la casa.
+En el día: explicas lo que sientes en vez de sentirlo. Con tu familia: las conversaciones no llegan al fondo.
+En el día: te distraes y se te va el tiempo. Con tu familia: estás con el celular mientras te hablan.
+En el día: duermes poco. Con tu familia: el cansancio te pone irritable.
+En el día: necesitas más información para empezar. Con tu familia: nada avanza.
+En el día: te cuesta estar presente. Con tu familia: tus hijos repiten "mamá, mírame".
+En el día: la respiración se te queda arriba. Con tu familia: la tensión se nota aunque no hables.
+En el día: te comparas con otras. Con tu familia: nunca sientes que haces suficiente.
+En el día: hablas de tus problemas sin resolverlos. Con tu familia: ya no saben qué decirte.
+En el día: te adelantas al futuro. Con tu familia: te pierdes lo que está pasando hoy.
+#afecta.aire.falta
+En el día: la mente se te queda en blanco. Con tu familia: te cuesta decir lo que necesitas.
+En el día: no sabes qué quieres. Con tu familia: dejas que otros decidan por todos.
+En el día: haces lo mismo de siempre. Con tu familia: nadie propone nada nuevo.
+En el día: te cuesta concentrarte. Con tu familia: olvidas cosas que les prometiste.
+En el día: evitas conversaciones. Con tu familia: los malentendidos se quedan sin aclarar.
+En el día: sientes la cabeza saturada. Con tu familia: respondes cortante sin querer.
+En el día: no encuentras salidas. Con tu familia: los problemas se repiten igual cada mes.
+En el día: te falta curiosidad. Con tu familia: los días se sienten todos iguales.
+En el día: no opinas. Con tu familia: sienten que no te importa.
+En el día: repites lo que te enseñaron. Con tu familia: crías como te criaron, sin preguntarte si sirve.
+En el día: te cuesta explicarte. Con tu familia: entienden otra cosa y te frustra.
+En el día: no planeas. Con tu familia: viven al día sin dirección.
+En el día: te sientes sin rumbo. Con tu familia: ese vacío lo sienten también.
+En el día: no te das espacio para pensar. Con tu familia: estás disponible para todos menos para ti.
+
+#transf.agua.exceso
+🤔 Cuestiona: ¿quién me enseñó que cuidar es cargar? 🔄 Cambia: di "hoy no puedo" una vez esta semana, sin explicar.
+🤔 Cuestiona: ¿esta emoción es mía o la aprendí? 🔄 Cambia: antes de reaccionar, pregúntate de quién es ese dolor.
+🎨 Crea tu propia forma de poner límites, con cariño y sin culpa. En tu casa no te la enseñaron: te toca inventarla.
+🤔 Cuestiona: ¿por qué en mi casa nadie hablaba de lo que sentía? 🔄 Cambia: sé tú la primera que lo nombre.
+🔄 Cambia: escribe lo que sientes antes de hablarlo. Así dejas de tragar y dejas de explotar.
+🎨 Crea un ritual propio para soltar el día: agua, música o escritura. No heredes el silencio.
+🤔 Cuestiona: ¿a quién estoy tratando de salvar? 🔄 Cambia: deja que cada quien cargue lo suyo.
+🔄 Cambia la frase "no quiero que sufran" por "quiero que aprendan". Ahí empieza otra historia.
+🎨 Crea un espacio tuyo en la casa, aunque sea una silla. Lo que es tuyo te devuelve el centro.
+🤔 Cuestiona: ¿pedir ayuda es debilidad o es algo que nadie me enseñó? 🔄 Cambia: pide una cosa hoy.
+🔄 Cambia: cuando sientas culpa, pregúntate qué parte es realmente tuya. Casi siempre es menos de la mitad.
+🎨 Crea tus propias tradiciones familiares: las que tú sí disfrutas.
+🤔 Cuestiona: ¿necesito que me quieran o necesito quererme? 🔄 Cambia: dedícate 20 minutos hoy.
+🔄 Cambia: di lo que te dolió el mismo día. El resentimiento se alimenta de tiempo.
+#transf.agua.falta
+🤔 Cuestiona: ¿cuándo decidí que era más seguro no sentir? 🔄 Cambia: ponle nombre a una emoción hoy.
+🎨 Crea un espacio seguro para ti: música, un diario o una persona. Sentir necesita un lugar.
+🔄 Cambia: responde "cómo estás" con la verdad una vez al día.
+🤔 Cuestiona: ¿en mi casa se podía llorar? 🔄 Cambia: dale permiso a tu cuerpo de hacerlo.
+🎨 Crea momentos de cariño que en tu casa no existieron: un abrazo largo, un mensaje bonito.
+🔄 Cambia: antes de resolver, escucha. A veces no te piden solución, te piden presencia.
+🤔 Cuestiona: ¿qué me estoy perdiendo por estar siempre fuerte?
+🔄 Cambia: pide ayuda en algo pequeño esta semana. Recibir también se practica.
+🎨 Crea tiempo sin pantallas para estar con lo que sientes.
+🤔 Cuestiona: ¿de quién aprendí a tragarme todo? 🔄 Cambia: tú puedes cerrar esa cadena.
+🔄 Cambia: dile "te quiero" a alguien a quien nunca se lo dices.
+🎨 Crea un ritual de cierre del día que te conecte contigo, aunque sean 5 minutos.
+🤔 Cuestiona: ¿qué duelo no me permití? 🔄 Cambia: dale su espacio y su tiempo.
+🔄 Cambia: deja que te cuiden una vez. No se cae el mundo.
+#transf.fuego.exceso
+🤔 Cuestiona: ¿quién gritaba en mi casa? 🔄 Cambia: baja el volumen y verás cómo te escuchan más.
+🔄 Cambia: respira 10 segundos antes de responder. Ese espacio corta el patrón.
+🎨 Crea tu propia forma de discutir: una regla de casa que diga "hablamos sin gritar".
+🤔 Cuestiona: ¿la prisa es mía o la aprendí? 🔄 Cambia: haz una cosa lento hoy.
+🔄 Cambia: di "necesito un momento" en vez de estallar. Nadie en tu casa lo decía; tú sí puedes.
+🎨 Crea un lugar y una hora para hablar de lo que molesta, sin público y sin rabia.
+🤔 Cuestiona: ¿qué pasa si no controlo todo? 🔄 Cambia: delega una cosa esta semana.
+🔄 Cambia: pide perdón el mismo día. Rompes el silencio que en tu casa duraba semanas.
+🎨 Crea descansos en tu día como creas reuniones. El fuego sin pausa se consume.
+🤔 Cuestiona: ¿a quién le estoy demostrando algo todavía?
+🔄 Cambia: antes de exigir, pregunta. Cambia "¿por qué no lo hiciste?" por "¿qué pasó?".
+🎨 Crea una forma de celebrar en tu casa. Donde solo hubo exigencia, pon reconocimiento.
+🤔 Cuestiona: ¿esto importa de verdad o es mi rabia hablando?
+🔄 Cambia: escucha completo antes de responder. Una vez al día ya cambia el ambiente.
+#transf.fuego.falta
+🤔 Cuestiona: ¿quién me enseñó que no se puede molestar a nadie? 🔄 Cambia: di una opinión hoy.
+🔄 Cambia: haz hoy 10 minutos de eso que vienes aplazando. Empezar ya es el cambio.
+🎨 Crea una meta tuya, que no sea de nadie más, y ponle fecha.
+🤔 Cuestiona: ¿en mi casa alguien iba por lo que quería? 🔄 Cambia: sé tú la primera.
+🔄 Cambia: di "no" una vez esta semana. El primero cuesta; el segundo, no.
+🎨 Crea un espacio para mover el cuerpo. El fuego bloqueado se desbloquea moviéndose.
+🤔 Cuestiona: ¿de qué me protege no intentarlo?
+🔄 Cambia: cobra lo que vale tu trabajo. Tu valor no se hereda, se decide.
+🎨 Crea un plan de 3 pasos para algo que sueñas. Pequeño, pero tuyo.
+🤔 Cuestiona: ¿cuántas veces me he tragado la rabia esta semana?
+🔄 Cambia: habla antes de que se acumule. Lo que se dice a tiempo no explota.
+🎨 Crea una rutina de mañana que te ponga en marcha, aunque sean 15 minutos.
+🤔 Cuestiona: ¿estoy esperando permiso de alguien que ya ni está?
+🔄 Cambia: cuenta un logro tuyo en voz alta. En tu casa no se hacía: empieza tú.
+#transf.tierra.exceso
+🤔 Cuestiona: ¿el deber antes que todo lo elegí o lo heredé? 🔄 Cambia: haz algo solo porque te gusta.
+🔄 Cambia: suelta una tarea esta semana. Que la haga alguien más, aunque no quede igual.
+🎨 Crea un día distinto al mes: sin lista, sin plan, sin productividad.
+🤔 Cuestiona: ¿qué me da miedo si me detengo?
+🔄 Cambia: descansa sin culpa 30 minutos hoy. Tus hijos aprenden de lo que te ven hacer.
+🎨 Crea una tradición nueva en tu casa; no repitas solo las de siempre.
+🤔 Cuestiona: ¿esta rutina todavía me sirve o solo la repito?
+🔄 Cambia: gasta algo en ti esta semana, sin justificarlo.
+🎨 Crea un espacio donde el desorden esté permitido. El control también cansa.
+🤔 Cuestiona: ¿cuántas cosas cargo que no me tocan? 🔄 Cambia: devuelve una.
+🔄 Cambia: pregunta cómo se sienten en casa, no solo qué falta por hacer.
+🎨 Crea tu propio ritmo, no el que te enseñaron.
+🤔 Cuestiona: ¿qué pasaría si no quedara perfecto?
+🔄 Cambia: di "no sé" o "necesito ayuda". Es nuevo y es liberador.
+#transf.tierra.falta
+🤔 Cuestiona: ¿en mi casa había rutinas o cada quien hacía lo que podía? 🔄 Cambia: crea una tuya.
+🔄 Cambia: elige UN hábito y sostenlo 7 días. Uno solo.
+🎨 Crea un sistema simple: 3 prioridades del día escritas antes de abrir el celular.
+🤔 Cuestiona: ¿el desorden me protege de algo?
+🔄 Cambia: ordena un cajón hoy. Lo de afuera ordena lo de adentro.
+🎨 Crea un horario fijo para una sola cosa: la comida, el sueño o el dinero.
+🤔 Cuestiona: ¿qué aprendí sobre el dinero en mi casa? 🔄 Cambia: anota lo que gastas una semana.
+🔄 Cambia: deja tu ropa lista la noche anterior. El cambio empieza por lo pequeño.
+🎨 Crea un lugar fijo para lo que siempre pierdes.
+🤔 Cuestiona: ¿estoy improvisando o estoy evitando decidir?
+🔄 Cambia: ponte una hora para dormir y cúmplela 3 días.
+🎨 Crea una rutina familiar sencilla: una comida juntos a la misma hora.
+🤔 Cuestiona: ¿qué base me hubiera gustado tener de niña? 🔄 Cambia: dásela a tu casa de hoy.
+🔄 Cambia: termina una cosa antes de empezar otra. Solo esa regla.
+#transf.aire.exceso
+🤔 Cuestiona: ¿pensar tanto me protege de sentir? 🔄 Cambia: baja al cuerpo, respira 6 veces.
+🔄 Cambia: escribe tus pensamientos antes de dormir. Lo que queda en el papel deja de dar vueltas.
+🎨 Crea una regla propia: una idea a la vez, hasta terminarla.
+🤔 Cuestiona: ¿en mi casa se explicaba todo para no sentir nada?
+🔄 Cambia: decide algo pequeño en 2 minutos hoy, sin analizarlo.
+🎨 Crea un momento sin pantallas para estar presente con los tuyos.
+🤔 Cuestiona: ¿esto es un hecho o es algo que imaginé?
+🔄 Cambia: antes de analizar, pregúntate qué sientes. Una palabra basta.
+🎨 Crea tu propio plan en vez de buscar más información: ya sabes suficiente.
+🤔 Cuestiona: ¿a quién estoy tratando de convencer dentro de mi cabeza?
+🔄 Cambia: cuando te hablen, mira a los ojos y suelta el celular.
+🎨 Crea un espacio para aterrizar: camina, cocina, haz algo con las manos.
+🤔 Cuestiona: ¿esto me va a importar dentro de un año?
+🔄 Cambia: termina hoy una cosa que lleva meses pendiente.
+#transf.aire.falta
+🤔 Cuestiona: ¿cuándo dejé de preguntar? 🔄 Cambia: hazte una pregunta nueva hoy y escríbela.
+🎨 Crea espacio para ti: 20 minutos sin nadie, para que vuelvan tus ideas.
+🔄 Cambia: lee 10 páginas de algo que te guste. La mente se enciende con lo que la alimenta.
+🤔 Cuestiona: ¿en mi casa se podía opinar distinto?
+🔄 Cambia: di tu opinión una vez esta semana, aunque te tiemble la voz.
+🎨 Crea una libreta de ideas. Tus pensamientos merecen un lugar.
+🤔 Cuestiona: ¿esto lo creo yo o me lo enseñaron?
+🔄 Cambia: pregunta cuando no entiendas. No saber no es un defecto.
+🎨 Crea una conversación profunda con alguien esta semana.
+🤔 Cuestiona: ¿qué hago igual que mis padres sin haberlo elegido?
+🔄 Cambia: escribe lo que quieres decir antes de una conversación difícil.
+🎨 Crea un plan simple para algo tuyo: tres pasos y una fecha.
+🤔 Cuestiona: ¿qué me gustaría aprender si tuviera tiempo? 🔄 Cambia: empieza con 15 minutos.
+🔄 Cambia: respira profundo tres veces antes de responder. El aire vuelve con el aire.
+`);
 const BANK = {};
-BANK_RAW.join('\n').split('\n').forEach((l, _, a) => {
+BANK_RAW.join('\n').split('\n').forEach((l) => {
   l = l.trim(); if (!l) return;
   if (l[0] === '#') { BANK._cur = l.slice(1); BANK[BANK._cur] = BANK[BANK._cur] || []; return; }
   BANK[BANK._cur].push(l);
@@ -2507,79 +2530,21 @@ const CONFIG = {
 const ELKEYS = ['agua','fuego','tierra','aire'];
 const EL = {
   agua: {name:'Agua', emo:'💧', title:['Guardiana de la Marea','Guardián de la Marea'],
-    def:'El Agua es la emoción: sentir, intuir y conectar con lo que vive el otro. Es tu corazón sabiendo antes que la mente.',
-    power:['Sientes lo que el otro vive sin que te lo diga: eso es empatía pura.',
-           'Tu sensibilidad te permite amar, acompañar y sanar profundo.',
-           'Tu intuición casi nunca se equivoca: aprende a escucharla.'],
-    exceso:['Sientes de más: cargas el dolor de los demás como si fuera tuyo.',
-            'Te sientes vulnerable y una palabra puede afectarte por días.',
-            'Absorbes las emociones de tu casa y de noche aparecen el llanto o la culpa.'],
-    falta:['Para no sufrir, te endureces y dejas de sentir.',
-           'Guardas tanto lo que sientes que el agua se estanca: cansancio y tristeza sin nombre.'],
-    tips:['Pregúntate: ¿esto que siento es mío o es del otro?',
-          'Ponle nombre a una emoción hoy: lo que se nombra, se ordena.',
-          'Date una ducha consciente al final del día para soltar lo que cargaste.',
-          'Puedes acompañar sin cargar: escucha, pero no te lleves el peso.'],
-    decide:{exceso:'Decides desde lo que sientes en el momento: si estás triste todo se ve oscuro, y si alguien sufre, decides por esa persona y no por ti.',
-            falta:'Para no sentir, decides en automático y tapas la emoción; después llegan de golpe el cansancio o el llanto.'},
-    ally:'fuego', allyTxt:'Activa tu Fuego: pasa del sentir al hacer. Una acción pequeña hoy saca la emoción del pecho y la convierte en movimiento.',
-    react:['💧 Tu agua se movió','💧 Corazón abierto','💧 Sientes profundo','💧 La intuición habla','💧 Fluye la emoción']},
+    def:'El Agua es la emoción: sentir, intuir y conectar con lo que vive el otro.',
+    react:['💧 Tu agua se movió','💧 Corazón abierto','💧 Sientes profundo','💧 La intuición habla','💧 Fluye la emoción'],
+    ally:'tierra', allyTxt:'Baja la emoción al cuerpo. Una rutina simple y un espacio en orden le dan a tu sensibilidad el piso que necesita para no desbordarse.'},
   fuego:{name:'Fuego', emo:'🔥', title:['Guerrera de la Llama','Guerrero de la Llama'],
-    def:'El Fuego es la acción: hacer, decidir, comunicar y moverte hacia lo que quieres. Es la energía que te pone en marcha.',
-    power:['Cuando decides, lo haces: tu energía mueve a los demás.',
-           'Dices lo que piensas y abres caminos con tu voz.',
-           'Tienes el valor de empezar lo que otros solo imaginan.'],
-    exceso:['Tu fuego se vuelve explosión: reaccionas fuerte y luego te arrepientes.',
-            'La impaciencia te quema: quieres todo ya y te frustras cuando no sale.',
-            'Hablas desde el enojo y lo que querías comunicar se pierde.'],
-    falta:['Tu fuego se bloquea: sabes lo que tienes que hacer pero no arrancas.',
-           'Te guardas lo que quieres decir y la rabia se queda adentro.',
-           'Empiezas con fuerza y te apagas a mitad de camino.'],
-    tips:['Antes de responder, cuenta hasta 10 y respira: el fuego que espera, ilumina.',
-          'Haz hoy una acción pequeña de eso que vienes aplazando.',
-          'Mueve el cuerpo 10 minutos: el fuego bloqueado necesita salir.',
-          'Di lo que sientes empezando con "yo siento…" en lugar de "tú siempre…".'],
-    decide:{exceso:'Decides desde la rabia o la urgencia: actúas antes de sentir y después te toca reparar.',
-            falta:'Sabes lo que quieres, pero el miedo a explotar o a fallar te frena y la decisión se queda congelada.'},
-    ally:'agua', allyTxt:'Activa tu Agua: antes de actuar, siente. Pregúntate qué hay debajo de la rabia o del bloqueo.',
-    react:['🔥 Se encendió tu fuego','🔥 Pura acción','🔥 Energía en marcha','🔥 Tu voz se hace sentir','🔥 Chispa activada']},
+    def:'El Fuego es la acción: hacer, decidir, comunicar y moverte hacia lo que quieres.',
+    react:['🔥 Se encendió tu fuego','🔥 Pura acción','🔥 Energía en marcha','🔥 Tu voz se hace sentir','🔥 Chispa activada'],
+    ally:'aire', allyTxt:'Piensa antes de reaccionar. Una pausa y una pregunta cambian toda la conversación: ahí dejas de repetir lo que viviste.'},
   tierra:{name:'Tierra', emo:'🌱', title:['Protectora de la Raíz','Protector de la Raíz'],
     def:'La Tierra es la estructura: el orden, la rutina, el cuerpo y las bases que sostienen tu vida.',
-    power:['Pones orden donde hay caos: contigo las cosas funcionan.',
-           'Eres constante: construyes paso a paso y no te rindes.',
-           'Das seguridad: tu familia sabe que puede contar contigo.'],
-    exceso:['Tanto orden se vuelve rigidez: si algo cambia, te desestabilizas.',
-            'Controlas todo para sentir seguridad y terminas cargando con todo.',
-            'Te cuesta soltar una rutina aunque ya no te sirva.'],
-    falta:['Te falta estructura: hay mucho desorden en tu casa, tu agenda o tu dinero.',
-           'Empiezas rutinas que no sostienes y el desorden te roba energía.',
-           'Sin una base firme todo se siente pesado y no sabes por dónde empezar.'],
-    tips:['Ordena un solo espacio hoy: un cajón en orden ordena la mente.',
-          'Crea una rutina de 3 pasos para tu mañana y repítela 7 días.',
-          'Pon los pies en la tierra o el pasto 5 minutos: el cuerpo se centra.',
-          'Escribe tus 3 prioridades del día antes de abrir el celular.'],
-    decide:{exceso:'Decides desde el miedo a perder la seguridad: eliges lo conocido aunque ya no te haga feliz.',
-            falta:'Sin una estructura, decides según cómo amaneciste y el desorden termina decidiendo por ti.'},
-    ally:'aire', allyTxt:'Activa tu Aire: abre la ventana a ideas nuevas. Cambiar una pequeña rutina le da aire a tu estructura.',
-    react:['🌱 Tu tierra se afirma','🌱 Raíces firmes','🌱 Orden en marcha','🌱 Construyes paso a paso','🌱 Tu base se fortalece']},
-  aire:{name:'Aire', emo:'💨', title:['Viajera del Viento','Viajero del Viento'],
-    def:'El Aire es el pensamiento: las ideas, la mente que analiza, imagina y conecta. Es tu forma de entender la vida desde la cabeza.',
-    power:['Tu mente ve soluciones donde otros ven problemas.',
-           'Tienes ideas que pueden cambiar tu vida y la de tu familia.',
-           'Conectas, explicas y pones en palabras lo que otros no saben decir.'],
-    exceso:['Piensas tanto que no aterrizas: das vueltas a lo mismo y a las 3 a. m. tu mente sigue encendida.',
-            'Tu cabeza va más rápido que tu vida: muchas ideas empezadas y pocas terminadas.',
-            'Analizas cada detalle hasta cansarte; la duda te frena más que el miedo.'],
-    falta:['Cuando el Aire se apaga llega la confusión: no sabes qué quieres ni por dónde empezar.',
-           'Sientes la mente nublada, en blanco, como si las ideas no llegaran.'],
-    tips:['Escribe 3 pensamientos en papel antes de dormir: lo que sale de la cabeza deja de dar vueltas.',
-          'Elige UNA idea esta semana y llévala hasta el final.',
-          'Respira 4 segundos, sostén 4, suelta 6: el cuerpo calma a la mente.',
-          'Antes de analizar, pregúntate: ¿qué siento con esto?'],
-    decide:{exceso:'Decides desde la cabeza: analizas tanto cada opción que la ansiedad no te deja elegir.',
-            falta:'La confusión te lleva a preguntarle a todo el mundo y terminas decidiendo por lo que dicen otros.'},
-    ally:'tierra', allyTxt:'Activa tu Tierra: aterriza. Escribe, ordena y da un paso concreto; el cuerpo calma a la mente.',
-    react:['💨 Tu mente se activó','💨 Ideas en movimiento','💨 Pensamiento encendido','💨 La mente busca el camino','💨 Sopla el viento']}
+    react:['🌱 Tu tierra se afirma','🌱 Raíces firmes','🌱 Orden en marcha','🌱 Construyes paso a paso','🌱 Tu base se fortalece'],
+    ally:'agua', allyTxt:'Permítete sentir. Lo que no se llora se queda en el cuerpo como cansancio y como rigidez.'},
+  aire: {name:'Aire', emo:'💨', title:['Viajera del Viento','Viajero del Viento'],
+    def:'El Aire es el pensamiento: las ideas, la mente que analiza, imagina y conecta.',
+    react:['💨 Tu mente se activó','💨 Ideas en movimiento','💨 Pensamiento encendido','💨 La mente busca el camino','💨 Sopla el viento'],
+    ally:'fuego', allyTxt:'Deja de pensarlo y hazlo. Una acción pequeña hoy vale más que mil vueltas en tu cabeza.'}
 };
 const MOODS = [
   {k:'alegria',     emo:'😄', name:'Alegría',      el:'fuego',  pos:true, msg:'La alegría es Fuego en equilibrio: energía que se comparte y contagia.'},
@@ -2623,32 +2588,32 @@ const PATTERNS = {
         falta:['te quedas en blanco cuando tienes que hablar','dejas que otros piensen y decidan por ti','te confundes y no sabes qué quieres','callas tu opinión por miedo a equivocarte','repites lo que te enseñaron sin cuestionarlo']}
 };
 const QUADS = [
-  {k:'F', age:'0 – 18',  name:'Cuadrante del Impulso',     short:'IMPULSO',     color:'#7c6cff',
+  {k:'F', pos:2, age:'0 – 18',  fase:'Formación del Yo',  f2:['FORMACIÓN','DEL YO'],   name:'Cuadrante del Impulso',     color:'#7c6cff',
    lesson:'Aquí se graban tus primeras respuestas automáticas: lo que viste y viviste en casa se vuelve tu forma de reaccionar.'},
-  {k:'S', age:'18 – 36', name:'Cuadrante del Instinto',    short:'INSTINTO',    color:'#22c3ee',
+  {k:'S', pos:1, age:'18 – 36', fase:'Desarrollo Social', f2:['DESARROLLO','SOCIAL'],  name:'Cuadrante del Instinto',    color:'#22c3ee',
    lesson:'Etapa de construir tu propia vida: pareja, trabajo, hogar. Aquí repites, sin darte cuenta, lo que aprendiste en casa.'},
-  {k:'C', age:'36 – 54', name:'Cuadrante del Pensamiento', short:'PENSAMIENTO', color:'#ff8a3d',
+  {k:'C', pos:0, age:'36 – 54', fase:'Fase de Contacto',  f2:['FASE DE','CONTACTO'],   name:'Cuadrante del Pensamiento', color:'#ff8a3d',
    lesson:'Etapa de revisar: empiezas a ver en ti los gestos de tus padres. Es el momento de elegir qué conservas y qué sueltas.'},
-  {k:'Y', age:'54 – 72', name:'Cuadrante del Ser',         short:'SER',         color:'#ffcc4d',
+  {k:'Y', pos:3, age:'54 – 72', fase:'Ser uno mismo',     f2:['SER UNO','MISMO'],      name:'Cuadrante del Ser',         color:'#ffcc4d',
    lesson:'Etapa de cosechar: lo que sanes ahora es la herencia que dejas a tus hijos y nietos.'}
 ];
 const MISSION = {
-  agua:  {F:'Aprende a nombrar lo que sientes en vez de esconderlo. Lo que sientes no es exagerado: es información.',
-          S:'Pon límites a las emociones ajenas. Puedes acompañar sin cargar lo que no te toca.',
-          C:'Revisa qué lágrimas del pasado siguen sin cerrarse. Hoy tienes la madurez para soltarlas.',
-          Y:'Tu sensibilidad es medicina. Compártela: tu historia puede sanar a quien viene detrás.'},
-  fuego: {F:'Canaliza tu fuerza en algo que construya: un deporte, un arte, una meta. El fuego sin dirección quema.',
-          S:'Aprende a pausar antes de reaccionar. Tu poder crece cuando eliges el momento.',
-          C:'Deja de demostrar. Lidera desde la calma y verás cuánto más lejos llega tu luz.',
-          Y:'Tu fuego ahora es calor que guía. Inspira, enseña y enciende a otros.'},
-  tierra:{F:'No tienes que ser fuerte por todos. Pide ayuda: también mereces que te sostengan.',
-          S:'Construye bases para ti, no solo para los demás. Tu bienestar también es prioridad.',
-          C:'Atrévete a cambiar algo de tu rutina. Tener raíces firmes no significa no moverse.',
-          Y:'Tu constancia es tu legado. Ordena tu historia y entrégala como herencia.'},
-  aire:  {F:'Aterriza una idea a la vez. Tu mente es enorme; el enfoque la vuelve real.',
-          S:'Termina antes de empezar algo nuevo. Un paso completo vale más que diez proyectos.',
-          C:'Baja de la cabeza al cuerpo. Respira: la claridad que buscas llega en silencio.',
-          Y:'Tus ideas merecen quedarse: escribe, graba, enseña lo que entendiste de la vida.'}
+  agua:  {F:'Aprende a nombrar lo que sientes en vez de esconderlo: eso cambia tu vida entera y la de los que vienen detrás.',
+          S:'Ponle límites a las emociones ajenas: puedes acompañar sin cargar lo que no te toca.',
+          C:'Revisa qué lágrimas siguen sin cerrarse. Hoy tienes la madurez para soltar lo que de niña no pudiste.',
+          Y:'Tu sensibilidad es medicina: cuenta tu historia para que los que vienen no repitan el silencio.'},
+  fuego: {F:'Canaliza tu energía en algo que construya: un deporte, un arte, una meta. El fuego sin dirección quema.',
+          S:'Aprende a pausar antes de reaccionar: tu poder crece cuando eliges el momento.',
+          C:'Ya no tienes que demostrar nada. Lidera desde la calma y romperás el patrón de gritos que heredaste.',
+          Y:'Tu fuego ahora es calor que guía: enseña a los tuyos a ir por lo que quieren sin quemarse.'},
+  tierra:{F:'No tienes que ser fuerte por todos: pide ayuda, también mereces que te sostengan.',
+          S:'Construye bases también para ti, no solo para los demás: tu bienestar es parte del plan.',
+          C:'Cambia algo de tu rutina: tener raíces firmes no significa quedarse quieta.',
+          Y:'Tu constancia es tu herencia: ordena tu historia y entrégala como mapa, no como deber.'},
+  aire:  {F:'Aterriza una idea a la vez: el enfoque convierte tus sueños en realidad.',
+          S:'Termina una cosa antes de empezar otra: un paso completo vale más que diez proyectos.',
+          C:'Baja de la cabeza al cuerpo: la claridad que buscas llega en silencio, no en más análisis.',
+          Y:'Escribe, graba, enseña: lo que entendiste de la vida puede ahorrarle años a alguien de tu familia.'}
 };
 const COUNTRIES = [
   {c:'CO',f:'🇨🇴',n:'Colombia',       d:'57',  re:/^3\d{9}$/,          ex:'300 123 4567'},
@@ -2757,11 +2722,12 @@ function wheelSVG(mode){
   }
   for(let d=0; d<360; d+=10){ const [x1,y1]=pt(140,d), [x2,y2]=pt(d%90===0?131:136,d); s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#fff" stroke-opacity=".3" stroke-width="${d%90?1:2}"/>`; }
   QUADS.forEach((q,qi)=>{
-    s+=`<path class="quad" data-q="${qi}" d="${arc(qi*90+1,(qi+1)*90-1,130,38)}" fill="${q.color}" fill-opacity=".22" stroke="${q.color}" stroke-width="1.5"${mode==='age'?` onclick="pickQuad(${qi})"`:''}/>`;
+    s+=`<path class="quad" data-q="${qi}" d="${arc(q.pos*90+1,(q.pos+1)*90-1,130,38)}" fill="${q.color}" fill-opacity=".22" stroke="${q.color}" stroke-width="1.5"${mode==='age'?` onclick="pickQuad(${qi})"`:''}/>`;
     if(mode!=='title'){
-      const [x,y]=pt(84,qi*90+45);
-      s+=`<g class="ql" data-q="${qi}" pointer-events="none"><text x="${x}" y="${y-1}" text-anchor="middle" font-size="18" font-weight="700" font-family="Fredoka,sans-serif" fill="#fff">${q.age.replace(/ /g,'')}</text>`+
-         `<text x="${x}" y="${y+15}" text-anchor="middle" font-size="10" font-weight="600" letter-spacing="1" font-family="Fredoka,sans-serif" fill="${q.color}">${q.short}</text></g>`;
+      const [x,y]=pt(84,q.pos*90+45);
+      s+=`<g class="ql" data-q="${qi}" pointer-events="none"><text x="${x}" y="${y-8}" text-anchor="middle" font-size="17" font-weight="700" font-family="Fredoka,sans-serif" fill="#fff">${q.age.replace(/ /g,'')}</text>`+
+         `<text x="${x}" y="${y+6}" text-anchor="middle" font-size="9" font-weight="700" letter-spacing=".5" font-family="Fredoka,sans-serif" fill="${q.color}">${q.f2[0]}</text>`+
+         `<text x="${x}" y="${y+17}" text-anchor="middle" font-size="9" font-weight="700" letter-spacing=".5" font-family="Fredoka,sans-serif" fill="${q.color}">${q.f2[1]}</text></g>`;
     }
   });
   s+=`<circle cx="170" cy="170" r="34" fill="url(#wcg-${mode})" stroke="#ffd166" stroke-width="2"/>`;
@@ -2788,7 +2754,7 @@ function updateWheel(box,mode){
 function drawWheel(id,mode){ const box=$(id); box.innerHTML=wheelSVG(mode); updateWheel(box,mode); }
 // Cambia solo la cara del personaje, sin reiniciar su animación
 function setHero(h,html){ let f=h.querySelector('.face'); if(!f){ h.innerHTML='<div class="inner"><div class="face"></div></div>'; f=h.querySelector('.face'); } f.innerHTML=html; }
-function heroPos(qi){ const a=(qi*90+45)*Math.PI/180; return {left:(170+84*Math.sin(a))/3.4+'%', top:(170-84*Math.cos(a))/3.4+'%'}; }
+function heroPos(qi){ const a=(QUADS[qi].pos*90+45)*Math.PI/180; return {left:(170+84*Math.sin(a))/3.4+'%', top:(170-84*Math.cos(a))/3.4+'%'}; }
 function puffAt(box,pos){ const p=document.createElement('div'); p.className='puff'; p.style.left=pos.left; p.style.top=pos.top; box.appendChild(p); setTimeout(()=>p.remove(),650); }
 
 // ═════════════ 1. TÍTULO ═════════════
@@ -2930,7 +2896,7 @@ function pickQuad(qi){
   },120);
   $('age-sub').textContent='¿Otra etapa? Toca otro cuadrante.';
   const info=$('qinfo');
-  info.innerHTML=`<div class="age" style="color:${q.color}">${q.age} años</div><div class="qn pixel">${q.name.toUpperCase().replace('Á','A')}</div><p>${q.lesson}</p>`;
+  info.innerHTML=`<div class="age" style="color:${q.color}">${q.age} años</div><div class="fase" style="color:${q.color}">${q.fase.toUpperCase()}</div><div class="qn pixel">${q.name.toUpperCase().replace('Á','A')}</div><p>${q.lesson}</p>`;
   info.classList.remove('hidden'); info.style.animation='none'; void info.offsetWidth; info.style.animation='';
   $('age-go').classList.remove('hidden');
 }
@@ -3081,12 +3047,13 @@ function pickNR(key){
   used.push(i); seen[key]=used; try{ localStorage.setItem('c360_msgs',JSON.stringify(seen)); }catch(e){}
   return pool[i];
 }
-function acc(title,body){ return `<div class="acc"><button class="acc-h" onclick="toggleAcc(this)"><span>${title}</span><i>▾</i></button><div class="acc-b"><p>${body}</p></div></div>`; }
-function toggleAcc(b){ sfx.click(); const a=b.parentElement, open=a.classList.toggle('open'); const body=a.querySelector('.acc-b'); body.style.maxHeight = open ? body.scrollHeight+'px' : '0px'; }
+function acc(title,body){ return `<div class="acc"><button class="acc-h" onclick="toggleAcc(this)"><span>${title}</span><i>▾</i></button><div class="acc-b"><div class="acc-in"><p>${body}</p></div></div></div>`; }
+function toggleAcc(b){ sfx.click(); const a=b.parentElement, open=a.classList.toggle('open'); openAcc(a,open); }
+function openAcc(a,open){ const body=a.querySelector('.acc-b'); body.style.maxHeight = open ? a.querySelector('.acc-in').scrollHeight+'px' : '0px'; }
 function showCard(){
   const res=S.result, E=EL[res], q=QUADS[S.quad], gold=true, sc=S.scores[res]||0;
   if(!S.msg){ const pole = sc>=5 ? 'exceso' : sc<=3 ? 'falta' : pick(['exceso','falta']);
-    S.msg={pole, power:pickNR('power.'+res), shadow:pickNR(pole+'.'+res), decide:pickNR('d'+pole+'.'+res), tip:pickNR('tip.'+res), pattern:pick(PATTERNS[res][pole]), gift:pick(GIFTS[res])}; }
+    S.msg={pole, casa:pickNR('casa.'+res), power:pickNR(`power.${res}.${pole}`), afecta:pickNR(`afecta.${res}.${pole}`), transf:pickNR(`transf.${res}.${pole}`), tip:pickNR('tip.'+res), pattern:pick(PATTERNS[res][pole]), gift:pick(GIFTS[res])}; }
   const M=S.mood, A=EL[E.ally];
   const moodTxt = !M ? '' : M.pos
     ? (M.el===res
@@ -3106,22 +3073,24 @@ function showCard(){
     <div class="card-title">${E.emo} ${E.title[gi()]}</div>
     <div class="card-el pixel">ELEMENTO ${E.name.toUpperCase()}</div>
     ${gold?`<div class="gold-badge pixel" style="margin:-4px 0 12px">✦ EDICION DORADA · ${esc(S.ig||'SEGUIDOR OFICIAL')} ✦</div>`:''}
-    <div class="patron">
-      <div class="patron-h">Reaccionas desde el ${E.emo} ${E.name}</div>
-      <div class="patron-row"><span>🎁 Lo bueno que aprendiste${giftFrom()}</span><p>${firstUpper(S.msg.gift)}.</p></div>
-      <div class="patron-row"><span>🔁 El patrón que repites</span><p>${patternText()}</p></div>
-      ${(S.origin&&S.origin.k==='nose')?'<p class="patron-q">¿Ya sabes de quién lo aprendiste? Piénsalo: ahí empieza tu código.</p>':''}
+    <div class="acc patron-acc open" id="acc-patron">
+      <button class="acc-h" onclick="toggleAcc(this)"><span>🔁 Reaccionas desde el ${E.emo} ${E.name}</span><i>▾</i></button>
+      <div class="acc-b"><div class="acc-in">
+        <div class="patron-row"><span>🎁 Lo bueno que aprendiste${giftFrom()}</span><p>${firstUpper(S.msg.gift)}.</p></div>
+        <div class="patron-row"><span>🔁 El patrón que repites</span><p>${patternText()}</p></div>
+        ${(S.origin&&S.origin.k==='nose')?'<p class="patron-q">¿Ya sabes de quién lo aprendiste? Piénsalo: ahí empieza tu código.</p>':''}
+      </div></div>
     </div>
     <div class="mix-h">Todos reaccionamos desde los 4 elementos. Esta es tu mezcla:</div>
     <div class="stats">${stats}</div>
     ${mixText()}
     <div class="acc-hint">👇 Toca cada botón para descubrir tu información</div>
-    ${acc(`${E.emo} ¿Qué es el ${E.name}?`, E.def)}
+    ${acc(`${E.emo} ¿Qué es el ${E.name} cuando se activa en tu casa?`, S.msg.casa)}
     ${M?acc(`${M.emo} Hoy llegaste con ${M.name.toLowerCase()}`, moodTxt):''}
     ${acc('⚡ Tu superpoder', S.msg.power)}
-    ${acc('🧭 Cómo decides desde tus emociones', S.msg.decide)}
-    ${acc('⚠️ Tu desequilibrio', S.msg.shadow)}
-    ${acc(`🎯 Tu misión en el ${q.name}`, `${q.lesson} ${MISSION[res][q.k]}`)}
+    ${acc('⚠️ Cómo te afecta en el día y con tu familia', S.msg.afecta)}
+    ${acc('🔄 Tu transformación: deja de repetirlo', S.msg.transf)}
+    ${acc(`🎯 Tu misión en la ${q.fase} (${q.age} años)`, `${q.lesson} ${MISSION[res][q.k]}`)}
     <div class="bridge">
       <div class="bridge-h">🔓 Tu código ${S.deg}° en el ebook</div>
       <p>En el ebook <b>Código 360°</b>, tu grado tiene 4 partes para transformar el patrón que heredaste:</p>
@@ -3147,6 +3116,7 @@ function showCard(){
     $('cta-wa').classList.remove('hidden');
   }
   show('s-card');
+  const pa=$('acc-patron'); if(pa) openAcc(pa,true);
   setTimeout(()=>document.querySelectorAll('.bar i').forEach(i=>i.style.width=i.dataset.w+'%'),350);
 }
 function gameUrl(){
